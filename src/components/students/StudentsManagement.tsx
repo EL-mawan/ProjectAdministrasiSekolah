@@ -44,8 +44,10 @@ import {
   MapPin,
   TrendingUp,
   Users,
-  FileSpreadsheet
+  FileSpreadsheet,
+  FileDown
 } from 'lucide-react'
+import * as XLSX from 'xlsx'
 
 interface Student {
   id: string
@@ -423,7 +425,42 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
   }
 
   const handleDownloadTemplate = () => {
-    alert('Mengunduh template Excel... Pastikan format data sesuai dengan sistem.')
+    const headers = [
+      {
+        'NIS': '',
+        'NISN': '',
+        'Nama Lengkap': '',
+        'L/P (Laki-laki/Perempuan)': '',
+        'Tempat Lahir': '',
+        'Tanggal Lahir (YYYY-MM-DD)': '',
+        'Agama': '',
+        'Status dalam Keluarga': '',
+        'Anak Ke-': '',
+        'Alamat': '',
+        'Sekolah Asal': '',
+        'Nama Ayah': '',
+        'Pekerjaan Ayah': '',
+        'Nama Ibu': '',
+        'Pekerjaan Ibu': '',
+        'Alamat Orang Tua': '',
+        'No. Telepon HP': '',
+        'Telepon Rumah': ''
+      }
+    ]
+
+    const worksheet = XLSX.utils.json_to_sheet(headers)
+    const workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Template Siswa")
+    
+    // Set column widths
+    const wscols = [
+      {wch: 15}, {wch: 15}, {wch: 30}, {wch: 5}, {wch: 20}, {wch: 20},
+      {wch: 15}, {wch: 20}, {wch: 10}, {wch: 40}, {wch: 30}, {wch: 25},
+      {wch: 20}, {wch: 25}, {wch: 20}, {wch: 40}, {wch: 15}, {wch: 15}
+    ]
+    worksheet['!cols'] = wscols
+
+    XLSX.writeFile(workbook, "Template_Data_Siswa.xlsx")
   }
 
   const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -742,12 +779,14 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
           <Table>
           <TableHeader className="bg-gray-50/50">
             <TableRow className="hover:bg-transparent border-none">
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Identitas Siswa</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">NIS</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Gender</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Kelas Saat Ini</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Status</TableHead>
-              <TableHead className="text-right font-bold text-brand-deep px-8 py-5">Aksi Data</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5">Siswa</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5">NIS/NISN</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5">Tempat, Tgl Lahir</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5">Gender & Agama</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5">Orang Tua (Ibu)</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5">Alamat</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5 text-center">Status</TableHead>
+              <TableHead className="text-right font-bold text-brand-deep px-8 py-5">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -756,27 +795,52 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
             ) : students.map((student) => (
               <TableRow key={student.id} className="hover:bg-gray-50/50 transition-colors border-gray-50">
                 <TableCell className="px-8 py-5">
-                   <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-lg ${student.gender === 'MALE' ? 'bg-indigo-400 shadow-indigo-100' : 'bg-pink-400 shadow-pink-100'}`}>
+                   <div className="flex items-center space-x-4 min-w-[200px]">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-md ${student.gender === 'MALE' ? 'bg-indigo-400 shadow-indigo-100' : 'bg-pink-400 shadow-pink-100'}`}>
                          {student.name.substring(0, 1)}
                       </div>
                       <div>
-                         <p className="font-bold text-gray-900 leading-none mb-1 text-md">{student.name}</p>
-                         <p className="text-xs text-gray-400 font-bold uppercase tracking-tight">{student.nisn || 'Tanpa NISN'}</p>
+                         <p className="font-bold text-gray-900 leading-none mb-1 text-sm">{student.name}</p>
+                         <p className="text-[10px] text-brand-purple font-black uppercase tracking-tight">{student.class?.name || 'Tanpa Kelas'}</p>
                       </div>
                    </div>
                 </TableCell>
-                <TableCell className="px-8 py-5 font-bold text-gray-600">{student.nis}</TableCell>
-                <TableCell className="px-8 py-5">
-                   <Badge variant="outline" className={`rounded-lg border-none text-[10px] font-black uppercase tracking-tight px-3 py-1 ${student.gender === 'MALE' ? 'bg-indigo-50 text-indigo-600' : 'bg-pink-50 text-pink-600'}`}>
-                      {student.gender === 'MALE' ? 'Laki-laki' : 'Perempuan'}
-                   </Badge>
+                <TableCell className="px-8 py-5 min-w-[140px]">
+                   <p className="text-sm font-bold text-gray-700">{student.nis}</p>
+                   <p className="text-[10px] text-gray-400 font-medium">{student.nisn || '-'}</p>
                 </TableCell>
-                <TableCell className="px-8 py-5 font-black text-brand-purple">{student.class?.name || '-'}</TableCell>
-                <TableCell className="px-8 py-5">
-                   <div className="flex items-center">
-                      <div className={`w-2 h-2 rounded-full mr-3 ${student.status === 'ACTIVE' ? 'bg-emerald-500' : 'bg-gray-300'}`}></div>
-                      <span className="font-bold text-sm text-gray-700">{getStatusBadge(student.status)}</span>
+                <TableCell className="px-8 py-5 min-w-[200px]">
+                   <p className="text-sm font-bold text-gray-700">{student.birthPlace}</p>
+                   <p className="text-[10px] text-gray-400 font-medium">{new Date(student.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                </TableCell>
+                <TableCell className="px-8 py-5 min-w-[150px]">
+                   <div className="flex flex-col space-y-1">
+                      <Badge variant="outline" className={`w-fit rounded-lg border-none text-[9px] font-black uppercase px-2 py-0.5 ${student.gender === 'MALE' ? 'bg-indigo-50 text-indigo-600' : 'bg-pink-50 text-pink-600'}`}>
+                         {student.gender === 'MALE' ? 'Laki-laki' : 'Perempuan'}
+                      </Badge>
+                      <span className="text-[10px] font-bold text-gray-500 pl-1">{student.religion || '-'}</span>
+                   </div>
+                </TableCell>
+                <TableCell className="px-8 py-5 min-w-[150px]">
+                   <div className="flex items-center space-x-2">
+                       <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
+                          <Users className="w-4 h-4 text-gray-400" />
+                       </div>
+                       <div>
+                          <p className="text-xs font-bold text-gray-700 leading-none mb-1">{student.motherName || '-'}</p>
+                          <p className="text-[10px] text-gray-400 font-medium italic">Ibu Kandung</p>
+                       </div>
+                   </div>
+                </TableCell>
+                <TableCell className="px-8 py-5 min-w-[250px]">
+                   <div className="flex items-start space-x-2">
+                      <MapPin className="w-3.5 h-3.5 text-brand-purple mt-0.5" />
+                      <p className="text-[11px] font-medium text-gray-600 leading-relaxed line-clamp-2">{student.address}</p>
+                   </div>
+                </TableCell>
+                <TableCell className="px-8 py-5 text-center">
+                   <div className="flex flex-col items-center justify-center">
+                      {getStatusBadge(student.status)}
                    </div>
                 </TableCell>
                 <TableCell className="text-right px-8 py-5">
