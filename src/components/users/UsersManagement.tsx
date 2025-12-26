@@ -59,20 +59,45 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
     name: '',
     email: '',
     password: 'password123',
-    role: 'STAFF',
-    isActive: true
+    role: 'TEACHER',
+    isActive: true,
+    subjectId: '',
+    classId: ''
   })
   
   const [editFormData, setEditFormData] = useState({
     name: '',
     email: '',
-    role: 'STAFF',
-    isActive: true
+    role: 'TEACHER',
+    isActive: true,
+    subjectId: '',
+    classId: ''
   })
+
+  const [classes, setClasses] = useState<any[]>([])
+  const [subjects, setSubjects] = useState<any[]>([])
 
   useEffect(() => {
     fetchUsers()
+    fetchClasses()
+    fetchSubjects()
   }, [])
+
+  const fetchClasses = async () => {
+    try {
+      const res = await fetch('/api/classes')
+      const data = await res.json()
+      if (res.ok) setClasses(data.classes)
+    } catch (error) { console.error(error) }
+  }
+
+  const fetchSubjects = async () => {
+    try {
+      const res = await fetch('/api/subjects')
+      const data = await res.json()
+      if (res.ok) setSubjects(data.subjects)
+    } catch (error) { console.error(error) }
+  }
 
   const fetchUsers = async () => {
     try {
