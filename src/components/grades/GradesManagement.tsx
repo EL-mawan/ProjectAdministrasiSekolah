@@ -283,15 +283,6 @@ export default function GradesManagement({ user, onNavigate }: { user: any, onNa
           <p className="text-gray-500 font-medium max-w-md">Lengkapi nilai harian, UTS, dan UAS dengan teknologi deskripsi otomatis berbasis TP.</p>
         </div>
         <div className="flex gap-4">
-            <Button 
-                onClick={handleSave} 
-                disabled={isSaving || isLoadingStudents}
-                className="group relative overflow-hidden rounded-[1.5rem] bg-brand-deep hover:bg-brand-deep/90 shadow-2xl shadow-brand-deep/25 px-10 py-8 h-auto transform transition-all active:scale-95"
-            >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                {isSaving ? <Loader2 className="w-5 h-5 mr-3 animate-spin" /> : <Save className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />}
-                <span className="font-black text-lg">{isSaving ? 'Menyimpan...' : 'Simpan Nilai'}</span>
-            </Button>
         </div>
       </div>
 
@@ -609,6 +600,19 @@ export default function GradesManagement({ user, onNavigate }: { user: any, onNa
         </div>
       </Card>
       
+      {/* Footer Action */}
+      <div className="flex justify-end px-4">
+          <Button 
+              onClick={handleSave} 
+              disabled={isSaving || isLoadingStudents}
+              className="group relative overflow-hidden rounded-[2rem] bg-brand-deep hover:bg-brand-deep/90 shadow-2xl shadow-brand-deep/25 px-12 py-10 h-auto transform transition-all active:scale-95 min-w-[300px]"
+          >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              {isSaving ? <Loader2 className="w-6 h-6 mr-4 animate-spin" /> : <Save className="w-6 h-6 mr-4 group-hover:rotate-12 transition-transform" />}
+              <span className="font-black text-2xl">{isSaving ? 'Menyimpan...' : 'Simpan Semua Nilai'}</span>
+          </Button>
+      </div>
+
       {/* Footer Insight */}
       <div className="flex items-center p-10 rounded-[3rem] bg-indigo-950 text-white relative overflow-hidden shadow-2xl">
          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[60px] -mr-20 -mt-20 rotate-45"></div>
