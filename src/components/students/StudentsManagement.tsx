@@ -938,13 +938,23 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
                   <Label className="font-bold text-gray-700">Nama Lengkap *</Label>
                   <Input className="rounded-xl border-gray-100 py-6 px-4" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Nama Lengkap Siswa" />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="font-bold text-gray-700">NIS *</Label>
+                    <div className="flex items-center justify-between">
+                       <Label className="font-bold text-gray-700">NIS *</Label>
+                       <button onClick={generateNIS} type="button" className="text-[10px] flex items-center text-brand-purple font-black hover:opacity-70">
+                          <RotateCcw className="w-3 h-3 mr-1" /> GENERATE
+                       </button>
+                    </div>
                     <Input className="rounded-xl border-gray-100 py-6 px-4" value={formData.nis} onChange={e => setFormData({ ...formData, nis: e.target.value })} />
                   </div>
                   <div className="space-y-2">
-                    <Label className="font-bold text-gray-700">NISN</Label>
+                    <div className="flex items-center justify-between">
+                       <Label className="font-bold text-gray-700">NISN</Label>
+                       <button onClick={generateNISN} type="button" className="text-[10px] flex items-center text-brand-purple font-black hover:opacity-70">
+                          <RotateCcw className="w-3 h-3 mr-1" /> GENERATE
+                       </button>
+                    </div>
                     <Input className="rounded-xl border-gray-100 py-6 px-4" value={formData.nisn} onChange={e => setFormData({ ...formData, nisn: e.target.value })} />
                   </div>
                 </div>
