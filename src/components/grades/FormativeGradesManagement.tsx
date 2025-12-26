@@ -607,11 +607,6 @@ export default function FormativeGradesManagement({ user, onNavigate }: { user: 
                 Gunakan tab kompetensi (AI Smart Deskripsi) untuk menghasilkan narasi rapor yang berkualitas tinggi secara otomatis. Anda tetap dapat menyesuaikan deskripsi secara manual pada setiap kolom teks siswa. Pastikan semua perubahan disimpan sebelum berpindah halaman.
             </p>
          </div>
-         <div className="ml-auto hidden xl:block">
-            <Button variant="outline" className="rounded-2xl border-white/10 text-white hover:bg-white/10 px-8 py-6 h-auto font-black border-2" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                Kembali ke Atas
-            </Button>
-         </div>
       </div>
     </div>
   )
