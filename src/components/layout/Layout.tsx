@@ -246,7 +246,7 @@ const Header = ({ userName, user, onMenuChange }: { userName: string, user: any,
   const unreadCount = notifications.filter(n => !n.read).length
 
   return (
-    <div className="dark-gradient rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 mb-6 md:mb-8 text-white relative shadow-2xl">
+    <div className="dark-gradient rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 mb-6 md:mb-8 text-white relative shadow-2xl z-20">
       <div className="absolute inset-0 overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] pointer-events-none">
         <div className="absolute top-[-50%] right-[-10%] w-[300px] h-[300px] bg-brand-purple/20 rounded-full blur-[100px]"></div>
         <div className="absolute bottom-[-20%] left-[20%] w-[200px] h-[200px] bg-brand-pink/10 rounded-full blur-[80px]"></div>
@@ -463,7 +463,7 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
         </Sheet>
       </div>
       
-      <main className={`transition-all duration-300 min-h-screen px-4 md:px-6 py-4 md:py-6 overflow-x-hidden ${sidebarOpen ? 'md:pl-[340px]' : 'md:pl-[120px]'}`}>
+      <main className={`transition-all duration-300 min-h-screen px-4 md:px-6 py-4 md:py-6 ${sidebarOpen ? 'md:pl-[340px]' : 'md:pl-[120px]'}`}>
         <div className="max-w-[1400px] mx-auto">
           <Header userName={user.name} user={user} onMenuChange={onMenuChange} />
           <div className="min-h-[600px] pb-10">
