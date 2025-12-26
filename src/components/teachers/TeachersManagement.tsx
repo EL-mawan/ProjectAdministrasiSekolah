@@ -250,12 +250,12 @@ export default function TeachersManagement({ activeMenu }: TeachersManagementPro
   return (
     <Card className="rounded-[2.5rem] border-none shadow-2xl p-8 bg-white">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-        <div>
-          <h1 className="text-3xl font-extrabold text-brand-deep">Manajemen Guru & Staff</h1>
-          <p className="text-gray-400 font-medium">Kelola data tenaga pendidik dan staff administrasi sekolah</p>
+        <div className="text-center md:text-left">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-brand-deep">Manajemen Guru & Staff</h1>
+          <p className="text-gray-400 text-sm md:text-base font-medium">Kelola data tenaga pendidik dan staff administrasi sekolah</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="rounded-2xl border-gray-100 font-bold px-6 py-6 h-auto transition-all" onClick={handleImportExcel}>
+        <div className="flex flex-wrap gap-3">
+          <Button variant="outline" className="w-full md:w-auto rounded-2xl border-gray-100 font-bold px-6 py-6 h-auto transition-all" onClick={handleImportExcel}>
             <Upload className="w-5 h-5 mr-3 text-brand-purple" />
             Import Excel
           </Button>
@@ -287,13 +287,13 @@ export default function TeachersManagement({ activeMenu }: TeachersManagementPro
             <DialogTrigger asChild>
               <Button 
                 onClick={() => { resetForm(); setIsAddDialogOpen(true); }}
-                className="rounded-2xl bg-brand-deep hover:bg-brand-deep/90 shadow-lg shadow-brand-deep/20 px-8 py-6 h-auto transition-all duration-300"
+                className="w-full md:w-auto rounded-2xl bg-brand-deep hover:bg-brand-deep/90 shadow-lg shadow-brand-deep/20 px-8 py-6 h-auto transition-all duration-300"
               >
                 <Plus className="w-5 h-5 mr-3" />
                 <span className="font-bold">Tambah Guru</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl rounded-4xl">
+            <DialogContent className="max-w-2xl w-[95vw] rounded-3xl md:rounded-4xl">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold text-brand-deep">Tambah Guru Baru</DialogTitle>
                 <DialogDescription className="text-gray-400">
@@ -379,8 +379,9 @@ export default function TeachersManagement({ activeMenu }: TeachersManagementPro
         </div>
       </div>
 
-      <div className="rounded-4xl border border-gray-100 overflow-hidden shadow-sm">
-        <Table>
+      <div className="rounded-[1.5rem] md:rounded-4xl border border-gray-100 overflow-x-auto shadow-sm scrollbar-hide">
+        <div className="min-w-[900px]">
+          <Table>
           <TableHeader className="bg-gray-50/50">
             <TableRow className="hover:bg-transparent border-none">
               <TableHead className="font-bold text-brand-deep px-8 py-5">Identitas Guru</TableHead>
@@ -452,6 +453,7 @@ export default function TeachersManagement({ activeMenu }: TeachersManagementPro
           </TableBody>
         </Table>
       </div>
+    </div>
 
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-2xl rounded-4xl">

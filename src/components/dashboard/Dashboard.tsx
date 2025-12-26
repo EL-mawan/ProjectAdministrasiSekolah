@@ -225,30 +225,30 @@ export default function Dashboard({ activeMenu, onMenuChange, user }: DashboardP
         </Card>
 
         {/* Seksi Tugas */}
-        <Card className="rounded-[3rem] border-none shadow-xl p-8 bg-white">
-          <div className="flex justify-between items-center mb-6">
-             <h3 className="font-bold text-xl text-brand-deep flex items-center">
-               <FileText className="w-6 h-6 mr-3 text-brand-purple" />
+        <Card className="rounded-[1.5rem] md:rounded-[3rem] border-none shadow-xl p-6 md:p-8 bg-white">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+             <h3 className="font-bold text-lg md:text-xl text-brand-deep flex items-center">
+               <FileText className="w-5 h-5 md:w-6 md:h-6 mr-3 text-brand-purple" />
                Daftar Tugas
              </h3>
-             <Button variant="outline" className="rounded-2xl border-gray-100" onClick={handleAddTask}>
+             <Button variant="outline" className="w-full sm:w-auto rounded-xl md:rounded-2xl border-gray-100 py-4 md:py-2 h-auto" onClick={handleAddTask}>
                + Tambah Tugas Baru
              </Button>
           </div>
           <div className="space-y-4">
              {(statistics?.tasks || []).map((task: any, i: number) => (
-               <div key={i} className="group p-4 rounded-3xl border border-gray-50 bg-gray-50/50 hover:bg-white hover:shadow-lg transition-all duration-300">
+               <div key={i} className="group p-4 rounded-2xl md:rounded-3xl border border-gray-50 bg-gray-50/50 hover:bg-white hover:shadow-lg transition-all duration-300">
                   <div className="flex items-center justify-between">
-                     <div className="flex items-center space-x-4">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${task.status === 'Selesai' ? 'bg-emerald-50 text-emerald-500' : 'bg-brand-purple/10 text-brand-purple'}`}>
-                           {task.status === 'Selesai' ? <UserCheck className="w-6 h-6" /> : <Clock className="w-6 h-6" />}
+                     <div className="flex items-center space-x-3 md:space-x-4">
+                        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center ${task.status === 'Selesai' ? 'bg-emerald-50 text-emerald-500' : 'bg-brand-purple/10 text-brand-purple'}`}>
+                           {task.status === 'Selesai' ? <UserCheck className="w-5 h-5 md:w-6 md:h-6" /> : <Clock className="w-5 h-5 md:w-6 md:h-6" />}
                         </div>
                         <div>
-                           <p className="font-bold text-gray-900">{task.title}</p>
-                           <p className="text-sm text-gray-500">{task.desc}</p>
+                           <p className="font-bold text-sm md:text-base text-gray-900 line-clamp-1">{task.title}</p>
+                           <p className="text-[10px] md:text-sm text-gray-500 line-clamp-1">{task.desc}</p>
                         </div>
                      </div>
-                     <Badge className={`rounded-xl px-4 py-1 border-none ${
+                     <Badge className={`rounded-xl px-3 md:px-4 py-1 border-none text-[10px] md:text-xs ${
                        task.status === 'Selesai' ? 'bg-emerald-50 text-emerald-600' : 
                        task.status === 'Dalam Proses' ? 'bg-indigo-50 text-indigo-600' : 
                        'bg-orange-50 text-orange-600'

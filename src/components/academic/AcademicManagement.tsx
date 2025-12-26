@@ -321,56 +321,56 @@ export default function AcademicManagement({ activeMenu }: AcademicManagementPro
   return (
     <Card className="rounded-[2.5rem] border-none shadow-2xl p-8 bg-white">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-        <div>
-          <h1 className="text-3xl font-extrabold text-brand-deep">Manajemen Akademik</h1>
-          <p className="text-gray-400 font-medium">Kelola data kelas, mata pelajaran, dan struktur akademik</p>
+        <div className="text-center md:text-left">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-brand-deep">Manajemen Akademik</h1>
+          <p className="text-gray-400 text-sm md:text-base font-medium">Kelola data kelas, mata pelajaran, dan struktur akademik</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-        <Card className="rounded-3xl border-none bg-indigo-50/50 p-6 shadow-sm hover:shadow-md transition-all">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-10">
+        <Card className="rounded-[1.5rem] md:rounded-3xl border-none bg-indigo-50/50 p-6 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-1">Mata Pelajaran</p>
-              <div className="text-3xl font-black text-brand-deep">{subjects.length}</div>
+              <p className="text-xs md:text-sm font-bold text-indigo-600 uppercase tracking-wider mb-1">Mata Pelajaran</p>
+              <div className="text-2xl md:text-3xl font-black text-brand-deep">{subjects.length}</div>
             </div>
-            <div className="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600">
-              <BookOpen className="w-6 h-6" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-indigo-100 rounded-xl md:rounded-2xl flex items-center justify-center text-indigo-600">
+              <BookOpen className="w-5 h-5 md:w-6 md:h-6" />
             </div>
           </div>
         </Card>
 
-        <Card className="rounded-3xl border-none bg-emerald-50/50 p-6 shadow-sm hover:shadow-md transition-all">
+        <Card className="rounded-[1.5rem] md:rounded-3xl border-none bg-emerald-50/50 p-6 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-1">Total Kelas</p>
-              <div className="text-3xl font-black text-brand-deep">{classes.length}</div>
+              <p className="text-xs md:text-sm font-bold text-emerald-600 uppercase tracking-wider mb-1">Total Kelas</p>
+              <div className="text-2xl md:text-3xl font-black text-brand-deep">{classes.length}</div>
             </div>
-            <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600">
-              <Building className="w-6 h-6" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-emerald-100 rounded-xl md:rounded-2xl flex items-center justify-center text-emerald-600">
+              <Building className="w-5 h-5 md:w-6 md:h-6" />
             </div>
           </div>
         </Card>
 
-        <Card className="rounded-3xl border-none bg-orange-50/50 p-6 shadow-sm hover:shadow-md transition-all">
+        <Card className="rounded-[1.5rem] md:rounded-3xl border-none bg-orange-50/50 p-6 shadow-sm hover:shadow-md transition-all sm:col-span-2 lg:col-span-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold text-orange-600 uppercase tracking-wider mb-1">Semester Aktif</p>
-              <div className="text-3xl font-black text-brand-deep">
+              <p className="text-xs md:text-sm font-bold text-orange-600 uppercase tracking-wider mb-1">Semester Aktif</p>
+              <div className="text-2xl md:text-3xl font-black text-brand-deep">
                 {activeSemester.charAt(0) + activeSemester.slice(1).toLowerCase()}
               </div>
             </div>
-            <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600">
-              <Clock className="w-6 h-6" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-orange-100 rounded-xl md:rounded-2xl flex items-center justify-center text-orange-600">
+              <Clock className="w-5 h-5 md:w-6 md:h-6" />
             </div>
           </div>
         </Card>
       </div>
 
       <Tabs defaultValue="classes" className="w-full">
-        <TabsList className="bg-gray-50 p-1.5 rounded-2xl mb-6">
-          <TabsTrigger value="classes" className="rounded-xl px-8 font-bold data-[state=active]:bg-brand-deep data-[state=active]:text-white transition-all">Data Kelas</TabsTrigger>
-          <TabsTrigger value="subjects" className="rounded-xl px-8 font-bold data-[state=active]:bg-brand-deep data-[state=active]:text-white transition-all">Mata Pelajaran</TabsTrigger>
+        <TabsList className="bg-gray-50 p-1 rounded-xl md:rounded-2xl mb-6 overflow-x-auto w-full md:w-auto h-auto min-h-[50px] scrollbar-hide">
+          <TabsTrigger value="classes" className="flex-1 md:flex-none rounded-lg md:rounded-xl px-4 md:px-8 py-2 md:py-3 font-bold data-[state=active]:bg-brand-deep data-[state=active]:text-white transition-all text-xs md:text-sm">Data Kelas</TabsTrigger>
+          <TabsTrigger value="subjects" className="flex-1 md:flex-none rounded-lg md:rounded-xl px-4 md:px-8 py-2 md:py-3 font-bold data-[state=active]:bg-brand-deep data-[state=active]:text-white transition-all text-xs md:text-sm">Mata Pelajaran</TabsTrigger>
         </TabsList>
 
         <TabsContent value="classes" className="space-y-4 outline-none">
@@ -386,12 +386,12 @@ export default function AcademicManagement({ activeMenu }: AcademicManagementPro
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="rounded-2xl bg-brand-deep hover:bg-brand-deep/90 shadow-lg shadow-brand-deep/20 px-8 py-6 h-auto transition-all">
+                <Button className="w-full md:w-auto rounded-xl md:rounded-2xl bg-brand-deep hover:bg-brand-deep/90 shadow-lg shadow-brand-deep/20 px-8 py-6 h-auto transition-all">
                   <Plus className="w-5 h-5 mr-3" />
                   <span className="font-bold">Tambah Kelas</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-w-xl w-[95vw] rounded-[1.5rem] md:rounded-3xl">
                 <DialogHeader>
                   <DialogTitle>Tambah Kelas Baru</DialogTitle>
                 </DialogHeader>
@@ -442,7 +442,8 @@ export default function AcademicManagement({ activeMenu }: AcademicManagementPro
               </DialogContent>
             </Dialog>
           </div>
-            <div className="rounded-3xl border border-gray-100 overflow-hidden shadow-sm">
+          <div className="rounded-[1.25rem] md:rounded-3xl border border-gray-100 overflow-x-auto shadow-sm scrollbar-hide">
+            <div className="min-w-[700px]">
               <Table>
                 <TableHeader className="bg-gray-50/50">
                   <TableRow className="hover:bg-transparent border-none">
@@ -492,73 +493,73 @@ export default function AcademicManagement({ activeMenu }: AcademicManagementPro
                 </TableBody>
               </Table>
             </div>
+          </div>
 
-            {/* Dialog Edit Kelas */}
-            <Dialog open={isEditClassOpen} onOpenChange={setIsEditClassOpen}>
-              <DialogContent className="rounded-4xl max-w-xl">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-bold text-brand-deep">Edit Data Kelas</DialogTitle>
-                  <DialogDescription>Perbarui informasi kelas {editingClass?.name}</DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
+          <Dialog open={isEditClassOpen} onOpenChange={setIsEditClassOpen}>
+            <DialogContent className="rounded-[2rem] md:rounded-4xl max-w-xl w-[95vw]">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-brand-deep">Edit Data Kelas</DialogTitle>
+                <DialogDescription>Perbarui informasi kelas {editingClass?.name}</DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label className="font-bold text-gray-700">Nama Kelas (Contoh: X IPA 1)</Label>
+                  <Input 
+                    className="rounded-xl border-gray-100" 
+                    value={editClassForm.name} 
+                    onChange={e => setEditClassForm({...editClassForm, name: e.target.value})} 
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label className="font-bold text-gray-700">Nama Kelas (Contoh: X IPA 1)</Label>
-                    <Input 
-                      className="rounded-xl border-gray-100" 
-                      value={editClassForm.name} 
-                      onChange={e => setEditClassForm({...editClassForm, name: e.target.value})} 
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="grid gap-2">
-                      <Label className="font-bold text-gray-700">Tingkat</Label>
-                      <Select value={editClassForm.level} onValueChange={v => setEditClassForm({...editClassForm, level: v})}>
-                        <SelectTrigger className="rounded-xl"><SelectValue /></SelectTrigger>
-                        <SelectContent className="rounded-xl">
-                          <SelectItem value="1">Kelas 1 (SD)</SelectItem>
-                          <SelectItem value="2">Kelas 2 (SD)</SelectItem>
-                          <SelectItem value="3">Kelas 3 (SD)</SelectItem>
-                          <SelectItem value="4">Kelas 4 (SD)</SelectItem>
-                          <SelectItem value="5">Kelas 5 (SD)</SelectItem>
-                          <SelectItem value="6">Kelas 6 (SD)</SelectItem>
-                          <SelectItem value="7">Kelas 7 (SMP)</SelectItem>
-                          <SelectItem value="8">Kelas 8 (SMP)</SelectItem>
-                          <SelectItem value="9">Kelas 9 (SMP)</SelectItem>
-                          <SelectItem value="10">Kelas 10 (SMA/SMK)</SelectItem>
-                          <SelectItem value="11">Kelas 11 (SMA/SMK)</SelectItem>
-                          <SelectItem value="12">Kelas 12 (SMA/SMK)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="grid gap-2">
-                      <Label className="font-bold text-gray-700">Walikelas</Label>
-                      <Select value={editClassForm.homeroomId} onValueChange={v => setEditClassForm({...editClassForm, homeroomId: v})}>
-                        <SelectTrigger className="rounded-xl"><SelectValue placeholder="Pilih Guru" /></SelectTrigger>
-                        <SelectContent className="rounded-xl">
-                          {teachers.map(t => <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>)}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    <Label className="font-bold text-gray-700">Tingkat</Label>
+                    <Select value={editClassForm.level} onValueChange={v => setEditClassForm({...editClassForm, level: v})}>
+                      <SelectTrigger className="rounded-xl"><SelectValue /></SelectTrigger>
+                      <SelectContent className="rounded-xl">
+                        <SelectItem value="1">Kelas 1 (SD)</SelectItem>
+                        <SelectItem value="2">Kelas 2 (SD)</SelectItem>
+                        <SelectItem value="3">Kelas 3 (SD)</SelectItem>
+                        <SelectItem value="4">Kelas 4 (SD)</SelectItem>
+                        <SelectItem value="5">Kelas 5 (SD)</SelectItem>
+                        <SelectItem value="6">Kelas 6 (SD)</SelectItem>
+                        <SelectItem value="7">Kelas 7 (SMP)</SelectItem>
+                        <SelectItem value="8">Kelas 8 (SMP)</SelectItem>
+                        <SelectItem value="9">Kelas 9 (SMP)</SelectItem>
+                        <SelectItem value="10">Kelas 10 (SMA/SMK)</SelectItem>
+                        <SelectItem value="11">Kelas 11 (SMA/SMK)</SelectItem>
+                        <SelectItem value="12">Kelas 12 (SMA/SMK)</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="grid gap-2">
-                    <Label className="font-bold text-gray-700">Tahun Pelajaran</Label>
-                    <Input 
-                      className="rounded-xl border-gray-100" 
-                      value={editClassForm.schoolYear} 
-                      onChange={e => setEditClassForm({...editClassForm, schoolYear: e.target.value})} 
-                      placeholder="Contoh: 2024/2025" 
-                    />
+                    <Label className="font-bold text-gray-700">Walikelas</Label>
+                    <Select value={editClassForm.homeroomId} onValueChange={v => setEditClassForm({...editClassForm, homeroomId: v})}>
+                      <SelectTrigger className="rounded-xl"><SelectValue placeholder="Pilih Guru" /></SelectTrigger>
+                      <SelectContent className="rounded-xl">
+                        {teachers.map(t => <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-                <DialogFooter>
-                  <Button variant="ghost" onClick={() => setIsEditClassOpen(false)} className="rounded-xl font-bold" disabled={isSubmittingClass}>Batal</Button>
-                  <Button onClick={handleEditClass} className="rounded-xl bg-brand-deep px-8 font-bold" disabled={isSubmittingClass}>
-                    {isSubmittingClass && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                    {isSubmittingClass ? 'Menyimpan...' : 'Simpan Perubahan'}
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+                <div className="grid gap-2">
+                  <Label className="font-bold text-gray-700">Tahun Pelajaran</Label>
+                  <Input 
+                    className="rounded-xl border-gray-100" 
+                    value={editClassForm.schoolYear} 
+                    onChange={e => setEditClassForm({...editClassForm, schoolYear: e.target.value})} 
+                    placeholder="Contoh: 2024/2025" 
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="ghost" onClick={() => setIsEditClassOpen(false)} className="rounded-xl font-bold" disabled={isSubmittingClass}>Batal</Button>
+                <Button onClick={handleEditClass} className="rounded-xl bg-brand-deep px-8 font-bold" disabled={isSubmittingClass}>
+                  {isSubmittingClass && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                  {isSubmittingClass ? 'Menyimpan...' : 'Simpan Perubahan'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </TabsContent>
 
         <TabsContent value="subjects" className="space-y-4 outline-none">
@@ -574,12 +575,12 @@ export default function AcademicManagement({ activeMenu }: AcademicManagementPro
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="rounded-2xl bg-brand-deep hover:bg-brand-deep/90 shadow-lg shadow-brand-deep/20 px-8 py-6 h-auto transition-all">
+                <Button className="w-full md:w-auto rounded-xl md:rounded-2xl bg-brand-deep hover:bg-brand-deep/90 shadow-lg shadow-brand-deep/20 px-8 py-6 h-auto transition-all">
                   <Plus className="w-5 h-5 mr-3" />
                   <span className="font-bold">Tambah Mapel</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="rounded-4xl">
+              <DialogContent className="max-w-xl w-[95vw] rounded-[1.5rem] md:rounded-4xl">
                 <DialogHeader>
                   <DialogTitle className="text-2xl font-bold text-brand-deep">Tambah Mata Pelajaran</DialogTitle>
                 </DialogHeader>
@@ -626,57 +627,58 @@ export default function AcademicManagement({ activeMenu }: AcademicManagementPro
               </DialogContent>
             </Dialog>
           </div>
-          <div className="rounded-3xl border border-gray-100 overflow-hidden shadow-sm">
-            <Table>
-              <TableHeader className="bg-gray-50/50">
-                <TableRow className="hover:bg-transparent border-none">
-                  <TableHead className="font-bold text-brand-deep px-6 py-4">Kode</TableHead>
-                  <TableHead className="font-bold text-brand-deep px-6 py-4">Nama Mapel</TableHead>
-                  <TableHead className="font-bold text-brand-deep px-6 py-4">JP</TableHead>
-                  <TableHead className="font-bold text-brand-deep px-6 py-4">Kurikulum</TableHead>
-                  <TableHead className="font-bold text-brand-deep px-6 py-4">Koordinator</TableHead>
-                  <TableHead className="text-right font-bold text-brand-deep px-6 py-4">Aksi</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {subjects.map(s => (
-                  <TableRow key={s.id} className="hover:bg-gray-50/50 transition-colors border-gray-50">
-                    <TableCell className="font-bold px-6 py-4 text-gray-900">{s.code}</TableCell>
-                    <TableCell className="px-6 py-4 font-medium text-gray-600">{s.name}</TableCell>
-                    <TableCell className="px-6 py-4">
-                      <Badge variant="secondary" className="bg-brand-purple/5 text-brand-purple border-none rounded-lg px-3">{s.credits} JP</Badge>
-                    </TableCell>
-                    <TableCell className="px-6 py-4 font-bold text-brand-deep">{s.curriculum}</TableCell>
-                    <TableCell className="px-6 py-4 text-gray-600">{s.teacher?.name || '-'}</TableCell>
-                    <TableCell className="text-right px-6 py-4">
-                      <div className="flex justify-end space-x-2">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => openEditSubject(s)} 
-                          className="rounded-xl text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => handleDeleteSubject(s.id)} 
-                          className="rounded-xl text-red-400 hover:text-red-600 hover:bg-red-50 transition-all"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
+          <div className="rounded-[1.25rem] md:rounded-3xl border border-gray-100 overflow-x-auto shadow-sm scrollbar-hide">
+            <div className="min-w-[800px]">
+              <Table>
+                <TableHeader className="bg-gray-50/50">
+                  <TableRow className="hover:bg-transparent border-none">
+                    <TableHead className="font-bold text-brand-deep px-6 py-4">Kode</TableHead>
+                    <TableHead className="font-bold text-brand-deep px-6 py-4">Nama Mapel</TableHead>
+                    <TableHead className="font-bold text-brand-deep px-6 py-4">JP</TableHead>
+                    <TableHead className="font-bold text-brand-deep px-6 py-4">Kurikulum</TableHead>
+                    <TableHead className="font-bold text-brand-deep px-6 py-4">Koordinator</TableHead>
+                    <TableHead className="text-right font-bold text-brand-deep px-6 py-4">Aksi</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {subjects.map(s => (
+                    <TableRow key={s.id} className="hover:bg-gray-50/50 transition-colors border-gray-50">
+                      <TableCell className="font-bold px-6 py-4 text-gray-900">{s.code}</TableCell>
+                      <TableCell className="px-6 py-4 font-medium text-gray-600">{s.name}</TableCell>
+                      <TableCell className="px-6 py-4">
+                        <Badge variant="secondary" className="bg-brand-purple/5 text-brand-purple border-none rounded-lg px-3">{s.credits} JP</Badge>
+                      </TableCell>
+                      <TableCell className="px-6 py-4 font-bold text-brand-deep">{s.curriculum}</TableCell>
+                      <TableCell className="px-6 py-4 text-gray-600">{s.teacher?.name || '-'}</TableCell>
+                      <TableCell className="text-right px-6 py-4">
+                        <div className="flex justify-end space-x-2">
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            onClick={() => openEditSubject(s)} 
+                            className="rounded-xl text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            onClick={() => handleDeleteSubject(s.id)} 
+                            className="rounded-xl text-red-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
 
-          {/* Dialog Edit Mata Pelajaran */}
           <Dialog open={isEditSubjectOpen} onOpenChange={setIsEditSubjectOpen}>
-            <DialogContent className="rounded-4xl max-w-xl">
+            <DialogContent className="rounded-4xl max-w-xl w-[95vw]">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold text-brand-deep">Edit Mata Pelajaran</DialogTitle>
                 <DialogDescription>Perbarui informasi mata pelajaran {editingSubject?.name}</DialogDescription>

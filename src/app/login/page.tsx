@@ -73,12 +73,12 @@ export default function LoginPage() {
   }, [activeTab])
 
   return (
-    <div className="min-h-screen bg-[#f1f3f9] flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#f1f3f9] flex items-center justify-center p-4 md:p-6 relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-brand-deep/5 rounded-full blur-[120px]"></div>
       <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-brand-purple/5 rounded-full blur-[100px]"></div>
 
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white rounded-[3rem] shadow-2xl overflow-hidden relative z-10">
+      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white rounded-4xl md:rounded-[3rem] shadow-2xl overflow-hidden relative z-10">
         {/* Left Side: Illustration */}
         <div className="hidden lg:flex flex-col justify-between p-16 bg-brand-deep relative overflow-hidden">
           <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
@@ -112,36 +112,44 @@ export default function LoginPage() {
         </div>
 
         {/* Right Side: Login Form */}
-        <div className="p-12 lg:p-20 flex flex-col justify-center bg-white">
-          <div className="mb-10 text-center lg:text-left">
-            <h2 className="text-3xl font-black text-brand-deep mb-3">Selamat Datang</h2>
-            <p className="text-gray-400 font-bold">Silakan masuk untuk mengakses dashboard Anda</p>
+        <div className="p-8 md:p-12 lg:p-20 flex flex-col justify-center bg-white">
+          {/* Mobile Logo */}
+          <div className="lg:hidden flex items-center justify-center space-x-3 mb-10">
+            <div className="w-10 h-10 bg-brand-deep rounded-xl flex items-center justify-center shadow-lg">
+              <GraduationCap className="text-white w-6 h-6" />
+            </div>
+            <span className="text-2xl font-black text-brand-deep tracking-tight">Smart School</span>
           </div>
 
-          <div className="flex bg-gray-50 p-1.5 rounded-2xl mb-10">
+          <div className="mb-8 md:mb-10 text-center lg:text-left">
+            <h2 className="text-2xl md:text-3xl font-black text-brand-deep mb-2 md:mb-3">Selamat Datang</h2>
+            <p className="text-gray-400 text-sm md:text-base font-bold">Silakan masuk untuk mengakses dashboard</p>
+          </div>
+
+          <div className="flex bg-gray-50 p-1 rounded-xl md:rounded-2xl mb-8 md:mb-10 overflow-x-auto scrollbar-hide">
             <button 
               onClick={() => setActiveTab('ADMIN')}
-              className={`flex-1 flex items-center justify-center py-4 rounded-xl text-sm font-black transition-all ${activeTab === 'ADMIN' ? 'bg-white text-brand-deep shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+              className={`flex-1 min-w-fit flex items-center justify-center px-4 py-3 md:py-4 rounded-lg md:rounded-xl text-xs md:text-sm font-black transition-all ${activeTab === 'ADMIN' ? 'bg-white text-brand-deep shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
             >
-              <ShieldCheck className="w-4 h-4 mr-2" /> Admin
+              <ShieldCheck className="w-4 h-4 mr-2 hidden sm:block" /> Admin
             </button>
             <button 
               onClick={() => setActiveTab('HOMEROOM')}
-              className={`flex-1 flex items-center justify-center py-4 rounded-xl text-sm font-black transition-all ${activeTab === 'HOMEROOM' ? 'bg-white text-brand-deep shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+              className={`flex-1 min-w-fit flex items-center justify-center px-4 py-3 md:py-4 rounded-lg md:rounded-xl text-xs md:text-sm font-black transition-all ${activeTab === 'HOMEROOM' ? 'bg-white text-brand-deep shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
             >
-              <UserSquare2 className="w-4 h-4 mr-2" /> Wali Kelas
+              <UserSquare2 className="w-4 h-4 mr-2 hidden sm:block" /> Wali Kelas
             </button>
             <button 
               onClick={() => setActiveTab('TEACHER')}
-              className={`flex-1 flex items-center justify-center py-4 rounded-xl text-sm font-black transition-all ${activeTab === 'TEACHER' ? 'bg-white text-brand-deep shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+              className={`flex-1 min-w-fit flex items-center justify-center px-4 py-3 md:py-4 rounded-lg md:rounded-xl text-xs md:text-sm font-black transition-all ${activeTab === 'TEACHER' ? 'bg-white text-brand-deep shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
             >
-              <BookOpen className="w-4 h-4 mr-2" /> Guru
+              <BookOpen className="w-4 h-4 mr-2 hidden sm:block" /> Guru
             </button>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-4 md:space-y-6">
             <div className="space-y-2">
-              <Label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Email Address</Label>
+              <Label className="text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Email Address</Label>
               <div className="relative">
                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
                  <Input 
@@ -149,7 +157,7 @@ export default function LoginPage() {
                    placeholder="name@school.id" 
                    value={email}
                    onChange={(e) => setEmail(e.target.value)}
-                   className="pl-12 py-7 rounded-2xl border-gray-100 bg-gray-50/50 font-bold focus-visible:ring-brand-purple" 
+                   className="pl-12 py-6 md:py-7 rounded-2xl border-gray-100 bg-gray-50/50 font-bold focus-visible:ring-brand-purple" 
                    required
                  />
               </div>
@@ -157,8 +165,8 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <div className="flex justify-between items-center ml-1">
-                <Label className="text-xs font-black text-gray-400 uppercase tracking-widest">Password</Label>
-                <button type="button" className="text-xs font-bold text-brand-deep hover:underline">Forgot password?</button>
+                <Label className="text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest">Password</Label>
+                <button type="button" className="text-[10px] md:text-xs font-bold text-brand-deep hover:underline">Forgot password?</button>
               </div>
               <div className="relative">
                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
@@ -167,7 +175,7 @@ export default function LoginPage() {
                    placeholder="••••••••" 
                    value={password}
                    onChange={(e) => setPassword(e.target.value)}
-                   className="pl-12 py-7 rounded-2xl border-gray-100 bg-gray-50/50 font-bold focus-visible:ring-brand-purple" 
+                   className="pl-12 py-6 md:py-7 rounded-2xl border-gray-100 bg-gray-50/50 font-bold focus-visible:ring-brand-purple" 
                    required
                  />
               </div>
@@ -176,23 +184,23 @@ export default function LoginPage() {
             <Button 
               type="submit" 
               disabled={loading}
-              className="w-full py-8 rounded-3xl bg-brand-deep hover:bg-brand-deep/90 text-white font-bold text-lg shadow-2xl shadow-brand-deep/20 flex items-center justify-center space-x-3 transition-all transform hover:scale-[1.02] active:scale-95"
+              className="w-full py-6 md:py-8 rounded-2xl md:rounded-3xl bg-brand-deep hover:bg-brand-deep/90 text-white font-bold text-base md:text-lg shadow-xl md:shadow-2xl shadow-brand-deep/20 flex items-center justify-center space-x-3 transition-all transform hover:scale-[1.01] md:hover:scale-[1.02] active:scale-95"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-6 h-6 animate-spin" />
+                  <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" />
                   <span>Sedang Masuk...</span>
                 </>
               ) : (
                 <>
                   <span>Masuk ke Dashboard</span>
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
                 </>
               )}
             </Button>
           </form>
 
-          <p className="mt-12 text-center text-gray-400 font-medium text-sm">
+          <p className="mt-8 md:mt-12 text-center text-gray-400 font-medium text-xs md:text-sm">
             Butuh bantuan akses? <span className="text-brand-deep font-bold cursor-pointer hover:underline">Hubungi Tim IT Sekolah</span>
           </p>
         </div>
@@ -200,3 +208,4 @@ export default function LoginPage() {
     </div>
   )
 }
+

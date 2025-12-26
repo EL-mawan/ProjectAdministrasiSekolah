@@ -447,9 +447,9 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
     <Card className="rounded-[2.5rem] border-none shadow-2xl p-8 bg-white">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-        <div>
-          <h1 className="text-3xl font-extrabold text-brand-deep">Database Siswa</h1>
-          <p className="text-gray-400 font-medium">Kelola dan pantau data profil seluruh siswa secara terpusat</p>
+        <div className="text-center md:text-left">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-brand-deep">Database Siswa</h1>
+          <p className="text-gray-400 text-sm md:text-base font-medium">Kelola dan pantau data profil seluruh siswa secara terpusat</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <Button variant="outline" className="rounded-2xl border-gray-100 hover:bg-gray-50 font-bold px-6 py-6 h-auto transition-all" onClick={handleImportExcel}>
@@ -506,12 +506,12 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
           </Button>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
-              <Button onClick={resetForm} className="rounded-2xl bg-brand-deep hover:bg-brand-deep/90 shadow-lg shadow-brand-deep/20 px-8 py-6 h-auto transition-all transform hover:scale-105 active:scale-95">
+              <Button onClick={resetForm} className="w-full md:w-auto rounded-2xl bg-brand-deep hover:bg-brand-deep/90 shadow-lg shadow-brand-deep/20 px-8 py-6 h-auto transition-all transform hover:scale-105 active:scale-95">
                 <Plus className="w-5 h-5 mr-3" />
                 <span className="font-bold">Tambah Siswa</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-3xl rounded-4xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-3xl w-[95vw] rounded-4xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold text-brand-deep">Pendaftaran Siswa Baru</DialogTitle>
                 <DialogDescription className="font-medium text-gray-400">Pastikan data yang dimasukkan sudah sesuai dengan dokumen resmi siswa</DialogDescription>
@@ -737,8 +737,9 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
       </div>
 
       {/* Main Table Content */}
-      <div className="rounded-4xl border border-gray-100 overflow-hidden shadow-sm bg-white">
-        <Table>
+      <div className="rounded-3xl md:rounded-4xl border border-gray-100 overflow-x-auto shadow-sm bg-white scrollbar-hide">
+        <div className="min-w-[800px]">
+          <Table>
           <TableHeader className="bg-gray-50/50">
             <TableRow className="hover:bg-transparent border-none">
               <TableHead className="font-bold text-brand-deep px-8 py-5">Identitas Siswa</TableHead>
@@ -796,6 +797,7 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
           </TableBody>
         </Table>
       </div>
+    </div>
 
       {/* Edit Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
@@ -991,7 +993,7 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
           <div className="bg-brand-deep p-8 text-white relative overflow-hidden">
              <div className="absolute top-[-20%] right-[-10%] w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
              <div className="relative z-10 flex gap-6 items-center">
-                <div className="w-24 h-32 bg-white rounded-xl overflow-hidden shadow-lg flex-shrink-0">
+                <div className="w-24 h-32 bg-white rounded-xl overflow-hidden shadow-lg shrink-0">
                   {viewStudent?.photo ? (
                     <img src={viewStudent.photo} alt={viewStudent.name} className="w-full h-full object-cover" />
                   ) : (
