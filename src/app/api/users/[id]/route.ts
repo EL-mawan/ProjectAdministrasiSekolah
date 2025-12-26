@@ -42,15 +42,60 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
     const user = await db.user.update({
       where: { id: params.id },
-      data: updateData,
+      data: {
+        ...updateData,
+        ...( (data.role === 'TEACHER' || data.role === 'HOMEROOM') && {
+          teacherProfile: {
+            upsert: {
+              create: {
+                name: data.name || '',
+                email: data.email || '',
+                gender: 'MALE',
+                birthDate: new Date(),
+                birthPlace: '-',
+                address: '-',
+                hireDate: new Date(),
+                schoolId: (await db.school.findFirst())?.id || '',
+                subjects: data.subjectId ? { connect: { id: data.subjectId } } : undefined,
+                classes: data.classId ? { connect: { id: data.classId } } : undefined
+              },
+              update: {
+                ...(data.name && { name: data.name }),
+                ...(data.email && { email: data.email }),
+                subjects: data.subjectId ? { set: [{ id: data.subjectId }] } : undefined,
+                classes: data.classId ? { set: [{ id: data.classId }] } : undefined
+              }
+            }
+          }
+        })
+      },
       select: {
         id: true,
         email: true,
         name: true,
         role: true,
-        isActive: true
+        isActive: true,
+        teacherProfile: {
+          select: { id: true }
+        }
       }
     })
+
+    // Sync Class homeroomId if role is HOMEROOM
+    if (data.role === 'HOMEROOM' && data.classId && user.teacherProfile) {
+      await db.class.update({
+        where: { id: data.classId },
+        data: { homeroomId: user.teacherProfile.id }
+      })
+    }
+
+    // Sync Subject teacherId if role is TEACHER
+    if (data.role === 'TEACHER' && data.subjectId && user.teacherProfile) {
+      await db.subject.update({
+        where: { id: data.subjectId },
+        data: { teacherId: user.teacherProfile.id }
+      })
+    }
 
     return NextResponse.json({ message: 'User berhasil diperbarui', user })
   } catch (error) {

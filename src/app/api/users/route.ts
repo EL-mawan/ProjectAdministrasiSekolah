@@ -53,7 +53,23 @@ export async function POST(request: NextRequest) {
         name: data.name,
         password: hashedPassword,
         role: data.role,
-        isActive: data.isActive !== false
+        isActive: data.isActive !== false,
+        ...( (data.role === 'TEACHER' || data.role === 'HOMEROOM') && {
+          teacherProfile: {
+            create: {
+              name: data.name,
+              email: data.email,
+              gender: 'MALE', // Default
+              birthDate: new Date(),
+              birthPlace: '-',
+              address: '-',
+              hireDate: new Date(),
+              schoolId: (await db.school.findFirst())?.id || '',
+              subjects: data.subjectId ? { connect: { id: data.subjectId } } : undefined,
+              classes: data.classId ? { connect: { id: data.classId } } : undefined
+            }
+          }
+        })
       },
       select: {
         id: true,
@@ -63,6 +79,28 @@ export async function POST(request: NextRequest) {
         isActive: true
       }
     })
+
+    // If role is HOMEROOM, also update the Class to set this teacher as homeroomId
+    if (data.role === 'HOMEROOM' && data.classId) {
+      const teacher = await db.teacher.findUnique({ where: { userId: user.id } })
+      if (teacher) {
+        await db.class.update({
+          where: { id: data.classId },
+          data: { homeroomId: teacher.id }
+        })
+      }
+    }
+
+    // If role is TEACHER, also update the Subject to set this teacher as teacherId
+    if (data.role === 'TEACHER' && data.subjectId) {
+      const teacher = await db.teacher.findUnique({ where: { userId: user.id } })
+      if (teacher) {
+        await db.subject.update({
+          where: { id: data.subjectId },
+          data: { teacherId: teacher.id }
+        })
+      }
+    }
 
     return NextResponse.json({ message: 'User berhasil ditambahkan', user }, { status: 201 })
   } catch (error) {
