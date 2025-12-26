@@ -392,6 +392,8 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
             <TableRow className="hover:bg-transparent border-none">
               <TableHead className="font-bold text-brand-deep px-8 py-5">Identitas Pengguna</TableHead>
               <TableHead className="font-bold text-brand-deep px-8 py-5">Level Izin</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5">Mata Pelajaran</TableHead>
+              <TableHead className="font-bold text-brand-deep px-8 py-5">Kelas</TableHead>
               <TableHead className="font-bold text-brand-deep px-8 py-5">Status Akun</TableHead>
               <TableHead className="font-bold text-brand-deep px-8 py-5">Tanggal Dibuat</TableHead>
               <TableHead className="text-right font-bold text-brand-deep px-8 py-5">Baris Aksi</TableHead>
@@ -415,6 +417,32 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
                   <Badge variant="outline" className="rounded-lg border-gray-100 text-[10px] font-black uppercase tracking-tight text-gray-400 px-3 py-1">
                     {u.role === 'TEACHER' ? 'Guru (Mapel)' : u.role === 'HOMEROOM' ? 'Walikelas' : u.role.replace('_', ' ')}
                   </Badge>
+                </TableCell>
+                <TableCell className="px-8 py-5">
+                  {(u as any).teacherProfile?.subjects?.length > 0 ? (
+                    <div className="flex flex-wrap gap-1">
+                      {(u as any).teacherProfile.subjects.map((s: any) => (
+                        <Badge key={s.id} className="rounded-lg bg-indigo-50 text-indigo-600 text-[10px] font-bold px-2 py-0.5 border-none">
+                          {s.name}
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-xs text-gray-300">-</span>
+                  )}
+                </TableCell>
+                <TableCell className="px-8 py-5">
+                  {(u as any).teacherProfile?.classes?.length > 0 ? (
+                    <div className="flex flex-wrap gap-1">
+                      {(u as any).teacherProfile.classes.map((c: any) => (
+                        <Badge key={c.id} className="rounded-lg bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2 py-0.5 border-none">
+                          {c.name}
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-xs text-gray-300">-</span>
+                  )}
                 </TableCell>
                 <TableCell className="px-8 py-5">
                   <Badge 
