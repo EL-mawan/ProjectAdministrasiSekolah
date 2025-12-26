@@ -213,7 +213,7 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
         <div>
           <h1 className="text-3xl font-extrabold text-brand-deep">Manajemen Akses</h1>
-          <p className="text-gray-400 font-medium">Kelola hak akses dan akun pengguna sistem secara terpusat</p>
+          <p className="text-gray-400 font-medium">Kelola hak akses dan akun pengguna sistem secara terpusat <span className="text-[10px] text-gray-300 ml-2">v1.0.2-sync</span></p>
         </div>
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogTrigger asChild>
