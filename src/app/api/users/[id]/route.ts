@@ -82,18 +82,22 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         teacherProfileId = newTeacher.id
       }
 
-      // Update Subject teacherId if role is TEACHER
-      if (data.role === 'TEACHER' && data.subjectId) {
-        // First, remove this teacher from any other subjects
-        await db.subject.updateMany({
-          where: { teacherId: teacherProfileId },
-          data: { teacherId: null }
+      // Update Subject if role is TEACHER (many-to-many relationship)
+      if (data.role === 'TEACHER' && data.subjectId && teacherProfileId) {
+        // First, disconnect this teacher from any other subjects (one teacher = one subject)
+        await db.teacher.update({
+          where: { id: teacherProfileId },
+          data: {
+            subjects: { set: [] }  // Clear all existing subjects
+          }
         })
         
-        // Then assign to the selected subject
-        await db.subject.update({
-          where: { id: data.subjectId },
-          data: { teacherId: teacherProfileId }
+        // Then connect to the selected subject
+        await db.teacher.update({
+          where: { id: teacherProfileId },
+          data: {
+            subjects: { connect: { id: data.subjectId } }
+          }
         })
       }
 
