@@ -225,3 +225,5 @@ MIT License - Silakan digunakan untuk keperluan pendidikan dan pengembangan.
 ---
 
 Dibuat dengan ❤️ untuk pendidikan Indonesia 🇮🇩
+
+password DB Supabase : project_arwansekolah
