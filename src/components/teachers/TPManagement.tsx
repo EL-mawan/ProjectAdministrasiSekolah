@@ -416,20 +416,40 @@ export default function TPManagement({ user }: { user: any }) {
                  <div className="grid gap-4">
                      {cps.length === 0 ? <p className="text-center py-10 text-gray-400 italic">Belum ada data CP</p> : 
                       cps.map(cp => (
-                        <Card key={cp.id} className="p-6 rounded-3xl border-none shadow-md bg-white">
-                             <div className="flex justify-between items-start">
-                                 <div>
-                                     <div className="flex gap-2 mb-2">
-                                         <Badge className="bg-blue-50 text-blue-600 border-none">Fase {cp.phase}</Badge>
-                                         <Badge className="bg-orange-50 text-orange-600 border-none">{cp.element}</Badge>
+                        <Card key={cp.id} className="p-8 rounded-[2rem] border-none shadow-xl bg-white hover:shadow-2xl transition-all group relative overflow-hidden">
+                             <div className="flex justify-between items-start gap-6 relative z-10">
+                                 <div className="flex gap-6">
+                                     <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center text-brand-purple shrink-0 group-hover:bg-brand-deep group-hover:text-white transition-all shadow-inner">
+                                        <Target className="w-8 h-8" />
                                      </div>
-                                     <p className="text-gray-800 font-medium leading-relaxed">{cp.description}</p>
+                                     <div>
+                                         <div className="flex flex-wrap gap-2 mb-3">
+                                             <Badge className="bg-blue-50 text-blue-600 border-none px-3 py-1 rounded-lg font-black text-[10px] uppercase tracking-wider">Fase {cp.phase}</Badge>
+                                             <Badge className="bg-orange-50 text-orange-600 border-none px-3 py-1 rounded-lg font-black text-[10px] uppercase tracking-wider">{cp.element}</Badge>
+                                         </div>
+                                         <p className="text-gray-900 font-bold leading-relaxed text-lg group-hover:text-brand-deep transition-colors">{cp.description}</p>
+                                     </div>
                                  </div>
-                                 <div className="flex gap-1">
-                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(cp, 'cp')}><Edit2 className="w-4 h-4 text-gray-400 hover:text-brand-purple" /></Button>
-                                    <Button variant="ghost" size="icon" onClick={() => handleDelete(cp.id)}><Trash2 className="w-4 h-4 text-gray-400 hover:text-red-500" /></Button>
+                                 <div className="flex gap-2">
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        onClick={() => handleEdit(cp, 'cp')} 
+                                        className="h-10 w-10 rounded-xl hover:bg-brand-purple/5 transition-all"
+                                    >
+                                        <Edit2 className="w-5 h-5 text-gray-400 group-hover:text-brand-purple" />
+                                    </Button>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        onClick={() => handleDelete(cp.id)} 
+                                        className="h-10 w-10 rounded-xl hover:bg-red-50 transition-all"
+                                    >
+                                        <Trash2 className="w-5 h-5 text-gray-400 group-hover:text-red-500" />
+                                    </Button>
                                  </div>
                              </div>
+                             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/30 rounded-full blur-3xl -mr-16 -mt-16 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         </Card>
                       ))}
                  </div>
@@ -439,23 +459,40 @@ export default function TPManagement({ user }: { user: any }) {
                  <div className="grid gap-4">
                      {currentSubjectTps.length === 0 ? <p className="text-center py-10 text-gray-400 italic">Belum ada data TP</p> : 
                       currentSubjectTps.map(tp => (
-                        <Card key={tp.id} className="p-6 rounded-3xl border-none shadow-md bg-white">
-                             <div className="flex justify-between items-start">
-                                 <div className="flex gap-4">
-                                     <div className="w-12 h-12 bg-brand-deep rounded-xl flex items-center justify-center text-white font-bold">{tp.code.split(' ')[1] || tp.code}</div>
+                        <Card key={tp.id} className="p-8 rounded-[2rem] border-none shadow-xl bg-white hover:shadow-2xl transition-all group relative overflow-hidden">
+                             <div className="flex justify-between items-start gap-6 relative z-10">
+                                 <div className="flex gap-6">
+                                     <div className="w-16 h-16 bg-brand-deep rounded-2xl flex items-center justify-center text-white font-black text-xl shrink-0 transition-transform group-hover:scale-110 shadow-lg shadow-brand-deep/20">
+                                         {tp.code.split(' ')[1] || tp.code}
+                                     </div>
                                      <div>
-                                         <div className="flex gap-2 mb-1">
-                                             <Badge className="bg-indigo-50 text-indigo-600 border-none">{tp.grade}</Badge>
-                                             {tp.atp && <Badge className="bg-green-50 text-green-600 border-none">ATP: {tp.atp}</Badge>}
+                                         <div className="flex flex-wrap gap-2 mb-2">
+                                             <Badge className="bg-indigo-50 text-indigo-600 border-none px-3 py-1 rounded-lg font-black text-[10px] uppercase tracking-wider">Kelas {tp.grade}</Badge>
+                                             {tp.atp && <Badge className="bg-emerald-50 text-emerald-600 border-none px-3 py-1 rounded-lg font-black text-[10px] uppercase tracking-wider">ATP: {tp.atp}</Badge>}
                                          </div>
-                                         <p className="text-gray-900 font-bold">{tp.description}</p>
+                                         <p className="text-gray-900 font-bold leading-relaxed text-lg group-hover:text-brand-deep transition-colors">{tp.description}</p>
                                      </div>
                                  </div>
-                                 <div className="flex gap-1">
-                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(tp, 'tp')}><Edit2 className="w-4 h-4 text-gray-400 hover:text-brand-purple" /></Button>
-                                    <Button variant="ghost" size="icon" onClick={() => handleDelete(tp.id)}><Trash2 className="w-4 h-4 text-gray-400 hover:text-red-500" /></Button>
+                                 <div className="flex gap-2">
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        onClick={() => handleEdit(tp, 'tp')} 
+                                        className="h-10 w-10 rounded-xl hover:bg-brand-purple/5 transition-all"
+                                    >
+                                        <Edit2 className="w-5 h-5 text-gray-400 group-hover:text-brand-purple" />
+                                    </Button>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        onClick={() => handleDelete(tp.id)} 
+                                        className="h-10 w-10 rounded-xl hover:bg-red-50 transition-all"
+                                    >
+                                        <Trash2 className="w-5 h-5 text-gray-400 group-hover:text-red-500" />
+                                    </Button>
                                  </div>
                              </div>
+                             <div className="absolute bottom-0 right-0 w-40 h-40 bg-brand-deep/5 rounded-full blur-3xl -mr-20 -mb-20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         </Card>
                       ))}
                  </div>
