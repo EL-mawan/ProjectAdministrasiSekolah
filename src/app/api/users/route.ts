@@ -21,7 +21,15 @@ export async function GET(request: NextRequest) {
         role: true,
         isActive: true,
         createdAt: true,
-        teacherProfile: { select: { id: true, nip: true, position: true } },
+        teacherProfile: { 
+          select: { 
+            id: true, 
+            nip: true, 
+            position: true,
+            subjects: { select: { id: true, name: true } },
+            classes: { select: { id: true, name: true } }
+          } 
+        },
         staffProfile: { select: { id: true, nip: true, department: true } }
       },
       orderBy: { createdAt: 'desc' }
