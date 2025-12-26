@@ -102,7 +102,7 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
   const fetchUsers = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/users', { cache: 'no-store' })
+      const res = await fetch(`/api/users?t=\${Date.now()}`, { cache: 'no-store' })
       const data = await res.json()
       if (res.ok) {
         setUsers(data.users)
