@@ -214,7 +214,7 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
               <span className="font-bold">Tambah Pengguna</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-xl rounded-4xl">
+          <DialogContent className="max-w-4xl rounded-4xl">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold text-brand-deep">Daftarkan User Baru</DialogTitle>
               <DialogDescription>Input data pengguna untuk memberikan akses ke dashboard</DialogDescription>
@@ -282,7 +282,7 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
 
         {/* Dialog Edit User */}
         <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-          <DialogContent className="max-w-xl rounded-4xl">
+          <DialogContent className="max-w-4xl rounded-4xl">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold text-brand-deep">Edit Data Pengguna</DialogTitle>
               <DialogDescription>Perbarui informasi akun {editingUser?.name}</DialogDescription>
