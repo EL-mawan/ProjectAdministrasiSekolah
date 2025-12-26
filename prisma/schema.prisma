@@ -1,0 +1,740 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      UserRole @default(TEACHER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  teacherProfile   Teacher?
+  staffProfile     Staff?
+  createdDocuments Document[]
+  attendanceRecords Attendance[]
+  activityLogs     ActivityLog[]
+  p5CoordinatorProjects P5Project[] @relation("P5Coordinator")
+  extraCoachActivities  Extracurricular[] @relation("ExtraCoach")
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  HOMEROOM
+  TEACHER
+  P5_COORDINATOR
+  EXTRA_COACH
+  STUDENT
+}
+
+// School Information
+model School {
+  id          String @id @default(cuid())
+  name        String
+  address     String
+  phone       String?
+  email       String?
+  website     String?
+  npsn        String? @unique
+  nss         String? @unique
+  postalCode  String?
+  principalName String?
+  principalNip  String?
+  logoUrl     String?
+  accreditation String?
+  level         String? // SD, SMP, SMA, SMK
+  established Int?
+  activeSemester  String? @default("GANJIL") // GANJIL atau GENAP
+  activeSchoolYear String? @default("2024/2025")
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  students  Student[]
+  teachers  Teacher[]
+  staff     Staff[]
+  classes   Class[]
+  subjects Subject[]
+  facilities Facility[]
+  p5Projects P5Project[]
+  extracurriculars Extracurricular[]
+
+  @@map("schools")
+}
+
+// Student Management
+model Student {
+  id           String   @id @default(cuid())
+  nis          String   @unique
+  nisn         String?  @unique
+  name         String
+  gender       Gender
+  birthDate    DateTime
+  birthPlace   String
+  religion      String?
+  familyStatus  String?  // Status dalam keluarga
+  childNumber   Int?     // Anak ke-
+  address       String
+  phone         String?
+  homePhone     String?  // Telepon rumah
+  email         String?
+  previousSchool String? // Sekolah Asal
+  
+  // Parent Info
+  parentName    String?  // Deprecated, use specific names
+  fatherName    String?
+  motherName    String?
+  parentPhone   String?
+  parentAddress String?
+  parentJob     String?  // Deprecated, use specific jobs
+  fatherJob     String?
+  motherJob     String?
+  
+  photo         String?  // Upload foto 3x4
+
+  classId       String?
+  schoolId     String
+  status       StudentStatus @default(ACTIVE)
+  enrollmentDate DateTime @default(now())
+  graduationDate DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  class        Class? @relation(fields: [classId], references: [id])
+  school       School @relation(fields: [schoolId], references: [id])
+  attendance   Attendance[]
+  grades       Grade[]
+  violations   Violation[]
+  achievements Achievement[]
+  documents    Document[]
+  p5Members    P5Member[]
+  extraMembers ExtraMember[]
+  homeroomNotes HomeroomNote[]
+
+  @@map("students")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum StudentStatus {
+  ACTIVE
+  GRADUATED
+  TRANSFERRED
+  DROPOUT
+}
+
+// Teacher & Staff Management
+model Teacher {
+  id          String   @id @default(cuid())
+  nip         String?  @unique
+  nuptk       String?  @unique
+  userId      String   @unique
+  name        String
+  gender      Gender
+  birthDate   DateTime
+  birthPlace  String
+  religion    String?
+  address     String
+  phone       String?
+  email       String?
+  education   String?
+  major       String?
+  hireDate    DateTime
+  status      TeacherStatus @default(ACTIVE)
+  position    String?
+  rank        String?
+  salary      Float?
+  schoolId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user         User @relation(fields: [userId], references: [id])
+  school       School @relation(fields: [schoolId], references: [id])
+  subjects     Subject[]
+  classes      Class[]
+  attendance   Attendance[]
+  schedules    Schedule[]
+  learningObjectives LearningObjective[]
+  homeroomNotes      HomeroomNote[]
+
+  @@map("teachers")
+}
+
+model Staff {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  nip         String?  @unique
+  name        String
+  gender      Gender
+  birthDate   DateTime
+  birthPlace  String
+  religion    String?
+  address     String
+  phone       String?
+  email       String?
+  education   String?
+  department  String?
+  position    String?
+  hireDate    DateTime
+  status      StaffStatus @default(ACTIVE)
+  salary      Float?
+  schoolId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user       User @relation(fields: [userId], references: [id])
+  school     School @relation(fields: [schoolId], references: [id])
+  attendance Attendance[]
+
+  @@map("staff")
+}
+
+enum TeacherStatus {
+  ACTIVE
+  INACTIVE
+  RETIRED
+}
+
+enum StaffStatus {
+  ACTIVE
+  INACTIVE
+  RESIGNED
+  RETIRED
+}
+
+// Academic Management
+model Class {
+  id          String   @id @default(cuid())
+  name        String
+  level       String
+  grade       String
+  schoolYear  String
+  homeroomId  String?
+  schoolId    String
+  capacity    Int      @default(36)
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  homeroom   Teacher? @relation(fields: [homeroomId], references: [id])
+  school     School @relation(fields: [schoolId], references: [id])
+  students   Student[]
+  schedules  Schedule[]
+  homeroomNotes HomeroomNote[]
+
+  @@unique([name, schoolYear])
+  @@map("classes")
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  description String?
+  credits     Int      @default(1)
+  curriculum  String
+  teacherId   String?
+  schoolId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  school    School @relation(fields: [schoolId], references: [id])
+  schedules Schedule[]
+  grades    Grade[]
+  learningObjectives LearningObjective[]
+  cps       CapaianPembelajaran[]
+
+  @@map("subjects")
+}
+
+model Schedule {
+  id         String   @id @default(cuid())
+  classId    String
+  subjectId  String
+  teacherId  String
+  day        Day
+  startTime  String
+  endTime    String
+  room       String?
+  semester   String
+  schoolYear String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  class   Class   @relation(fields: [classId], references: [id])
+  subject Subject @relation(fields: [subjectId], references: [id])
+  teacher Teacher @relation(fields: [teacherId], references: [id])
+
+  @@map("schedules")
+}
+
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+// Attendance Management
+model Attendance {
+  id         String   @id @default(cuid())
+  userId     String
+  studentId  String?
+  teacherId  String?
+  staffId    String?
+  date       DateTime
+  status     AttendanceStatus
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id])
+  student Student? @relation(fields: [studentId], references: [id])
+  teacher Teacher? @relation(fields: [teacherId], references: [id])
+  staff   Staff? @relation(fields: [staffId], references: [id])
+
+  @@unique([userId, date])
+  @@unique([studentId, date])
+  @@unique([teacherId, date])
+  @@unique([staffId, date])
+  @@map("attendances")
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  SICK
+  PERMISSION
+}
+
+// Grade Management
+model Grade {
+  id         String   @id @default(cuid())
+  studentId  String
+  subjectId  String
+  type       GradeType
+  score      Float
+  maxScore   Float
+  semester   String
+  schoolYear String
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  student Student @relation(fields: [studentId], references: [id])
+  subject Subject @relation(fields: [subjectId], references: [id])
+
+  @@unique([studentId, subjectId, type, semester, schoolYear])
+  @@map("grades")
+}
+
+enum GradeType {
+  DAILY
+  MIDTERM
+  FINAL
+  ASSIGNMENT
+  PRACTICAL
+  FORMATIVE
+  SUMMATIVE
+}
+
+// Student Affairs
+model Violation {
+  id          String   @id @default(cuid())
+  studentId   String
+  type        ViolationType
+  description String
+  severity    ViolationSeverity
+  action      String?
+  date        DateTime
+  reportedBy  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@map("violations")
+}
+
+enum ViolationType {
+  DISCIPLINE
+  ACADEMIC
+  BEHAVIOR
+  ATTENDANCE
+  UNIFORM
+}
+
+enum ViolationSeverity {
+  MINOR
+  MODERATE
+  MAJOR
+  SEVERE
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  studentId   String
+  type        AchievementType
+  title       String
+  description String
+  level       String?
+  date        DateTime
+  certificate String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@map("achievements")
+}
+
+enum AchievementType {
+  ACADEMIC
+  SPORTS
+  ARTS
+  LEADERSHIP
+  SOCIAL
+}
+
+// Facility Management
+model Facility {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  type        FacilityType
+  description String?
+  condition   FacilityCondition @default(GOOD)
+  location    String?
+  quantity    Int      @default(1)
+  purchaseDate DateTime?
+  purchasePrice Float?
+  status      FacilityStatus @default(AVAILABLE)
+  schoolId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  school     School @relation(fields: [schoolId], references: [id])
+  borrowings Borrowing[]
+
+  @@map("facilities")
+}
+
+enum FacilityType {
+  CLASSROOM
+  LABORATORY
+  LIBRARY
+  SPORTS
+  OFFICE
+  EQUIPMENT
+  VEHICLE
+  OTHER
+}
+
+enum FacilityCondition {
+  EXCELLENT
+  GOOD
+  FAIR
+  POOR
+  DAMAGED
+}
+
+enum FacilityStatus {
+  AVAILABLE
+  IN_USE
+  MAINTENANCE
+  DAMAGED
+  DISPOSED
+}
+
+model Borrowing {
+  id         String   @id @default(cuid())
+  facilityId String
+  borrowerId String
+  purpose    String
+  borrowDate DateTime
+  returnDate DateTime?
+  status     BorrowingStatus @default(BORROWED)
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  facility Facility @relation(fields: [facilityId], references: [id])
+
+  @@map("borrowings")
+}
+
+enum BorrowingStatus {
+  BORROWED
+  RETURNED
+  OVERDUE
+}
+
+// Document Management
+model Document {
+  id          String   @id @default(cuid())
+  type        DocumentType
+  title       String
+  content     String?
+  number      String?
+  date        DateTime
+  sender      String?
+  recipient   String?
+  attachments String?
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  creator User @relation(fields: [createdBy], references: [id])
+  students Student[]
+
+  @@map("documents")
+}
+
+enum DocumentType {
+  INCOMING
+  OUTGOING
+  MEMO
+  CERTIFICATE
+  REPORT
+  OTHER
+}
+
+// Activity Log
+model ActivityLog {
+  id          String   @id @default(cuid())
+  userId      String
+  action      String
+  module      String
+  description String?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("activity_logs")
+}
+
+// Academic Calendar
+model AcademicCalendar {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  type        CalendarType
+  schoolYear  String
+  semester    String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("academic_calendars")
+}
+
+enum CalendarType {
+  SEMESTER_START
+  SEMESTER_END
+  EXAM
+  HOLIDAY
+  EVENT
+  OTHER
+}
+
+// P5 Management
+model P5Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  phase       P5Phase
+  schoolId    String
+  coordinatorId String?
+  schoolYear  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  school      School @relation(fields: [schoolId], references: [id])
+  coordinator User?   @relation("P5Coordinator", fields: [coordinatorId], references: [id])
+  targets     P5Target[]
+  members     P5Member[]
+
+  @@map("p5_projects")
+}
+
+model P5Target {
+  id          String   @id @default(cuid())
+  projectId   String
+  dimension   String
+  element     String
+  subElement  String
+  target      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  project     P5Project @relation(fields: [projectId], references: [id])
+
+  @@map("p5_targets")
+}
+
+model P5Member {
+  id        String @id @default(cuid())
+  projectId String
+  studentId String
+  notes     String?
+
+  // Relations
+  project P5Project @relation(fields: [projectId], references: [id])
+  student Student   @relation(fields: [studentId], references: [id])
+
+  @@unique([projectId, studentId])
+  @@map("p5_members")
+}
+
+enum P5Phase {
+  A
+  B
+  C
+  D
+  E
+  F
+}
+
+// Extracurricular Management
+model Extracurricular {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  coachId     String?
+  schoolId    String
+  schedule    String?
+  location    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  school    School @relation(fields: [schoolId], references: [id])
+  coach     User?   @relation("ExtraCoach", fields: [coachId], references: [id])
+  members   ExtraMember[]
+
+  @@map("extracurriculars")
+}
+
+model ExtraMember {
+  id                String @id @default(cuid())
+  extracurricularId String
+  studentId         String
+  joinedAt          DateTime @default(now())
+  notes             String?
+
+  // Relations
+  extracurricular Extracurricular @relation(fields: [extracurricularId], references: [id])
+  student         Student         @relation(fields: [studentId], references: [id])
+
+  @@unique([extracurricularId, studentId])
+  @@map("extra_members")
+}
+
+// Capaian Pembelajaran (CP)
+model CapaianPembelajaran {
+  id          String   @id @default(cuid())
+  subjectId   String
+  code        String?
+  element     String?  // e.g. "Bilangan", "Aljabar"
+  description String
+  phase       String?  // e.g. "E", "F"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  subject Subject @relation(fields: [subjectId], references: [id])
+  tps     LearningObjective[]
+
+  @@map("capaian_pembelajaran")
+}
+
+// Learning Objectives (TP)
+model LearningObjective {
+  id          String   @id @default(cuid())
+  subjectId   String
+  teacherId   String
+  cpId        String?  // Link to CP
+  code        String
+  description String
+  grade       String
+  semester    String
+  schoolYear  String
+  atp         String?  // Alur Tujuan Pembelajaran notes/sequence
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  subject Subject @relation(fields: [subjectId], references: [id])
+  teacher Teacher @relation(fields: [teacherId], references: [id])
+  cp      CapaianPembelajaran? @relation(fields: [cpId], references: [id])
+
+  @@map("learning_objectives")
+}
+
+// Homeroom Notes
+model HomeroomNote {
+  id          String   @id @default(cuid())
+  studentId   String
+  classId     String
+  teacherId   String
+  notes       String
+  attendance_s Int      @default(0)
+  attendance_i Int      @default(0)
+  attendance_a Int      @default(0)
+  semester    String
+  schoolYear  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  student Student @relation(fields: [studentId], references: [id])
+  class   Class   @relation(fields: [classId], references: [id])
+  teacher Teacher @relation(fields: [teacherId], references: [id])
+
+  @@unique([studentId, semester, schoolYear])
+  @@map("homeroom_notes")
+}
