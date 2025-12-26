@@ -272,7 +272,7 @@ const Header = ({ userName, user, onMenuChange }: { userName: string, user: any,
             />
             
             {showResults && searchQuery && (
-              <div className="absolute top-[calc(100%+12px)] left-0 w-full md:w-80 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-100 border border-gray-100">
+              <div className="absolute top-[calc(100%+12px)] left-0 w-full md:w-80 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-50 border border-gray-100">
                 <div className="p-3 bg-gray-50/50 border-b border-gray-50">
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2">Hasil Pencarian Menu</p>
                 </div>
@@ -340,11 +340,15 @@ const Header = ({ userName, user, onMenuChange }: { userName: string, user: any,
             </button>
 
             {showNotifications && (
-              <div className="absolute top-[calc(100%+12px)] right-0 w-80 md:w-96 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-100 border border-gray-100">
+              <div className="absolute top-[calc(100%+12px)] right-0 w-80 md:w-96 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-50 border border-gray-100">
                 <div className="p-4 bg-gray-50/50 border-b border-gray-100 flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-black text-brand-deep">Pemberitahuan</span>
-                    {unreadCount > 0 && <Badge className="bg-brand-pink text-white border-none rounded-full px-2 py-0.5 text-[10px] font-black">{unreadCount}</Badge>}
+                    {unreadCount > 0 && (
+                      <span className="bg-brand-pink text-white rounded-full px-2 py-0.5 text-[10px] font-black">
+                        {unreadCount}
+                      </span>
+                    )}
                   </div>
                   <button 
                     onClick={() => {
