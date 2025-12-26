@@ -504,7 +504,7 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
           </Button>
 
           <Dialog open={isImportOpen} onOpenChange={setIsImportOpen}>
-            <DialogContent className="max-w-md rounded-[2.5rem] p-8 border-none overflow-hidden text-center">
+            <DialogContent className="max-w-md w-[95vw] sm:w-full rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 border-none overflow-hidden text-center duration-500">
               <DialogHeader className="flex flex-col items-center">
                 <div className="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center text-brand-purple mb-6 shadow-sm">
                   <FileSpreadsheet className="w-10 h-10" />
@@ -557,7 +557,7 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
                 <span className="font-bold">Tambah Siswa</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-3xl w-[95vw] rounded-4xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-3xl w-full sm:w-[95vw] rounded-t-[2rem] sm:rounded-4xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto p-6 sm:p-10 duration-500">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold text-brand-deep">Pendaftaran Siswa Baru</DialogTitle>
                 <DialogDescription className="font-medium text-gray-400">Pastikan data yang dimasukkan sudah sesuai dengan dokumen resmi siswa</DialogDescription>
@@ -885,7 +885,7 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
 
       {/* Edit Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-3xl rounded-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl w-full sm:w-[95vw] rounded-t-[2rem] sm:rounded-4xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto p-6 sm:p-10 duration-500">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-brand-deep">Edit Profil Siswa</DialogTitle>
             <DialogDescription className="font-medium text-gray-400">Pembaruan data akademis dan data diri siswa</DialogDescription>
@@ -1069,7 +1069,7 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
       )}
       {/* View Details Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-xl rounded-4xl p-0 overflow-hidden border-none shadow-3xl">
+        <DialogContent className="max-w-xl w-full sm:w-[95vw] rounded-t-[2rem] sm:rounded-4xl p-0 overflow-hidden border-none shadow-3xl duration-500">
           <DialogHeader className="hidden">
              <DialogTitle>{viewStudent?.name || 'Detail Siswa'}</DialogTitle>
              <DialogDescription>Detail informasi profil siswa</DialogDescription>
