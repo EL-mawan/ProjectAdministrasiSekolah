@@ -122,24 +122,26 @@ const SidebarContent = ({ activeMenu, onMenuChange, user, isOpen, onToggle, isMo
 
   return (
     <div className="flex flex-col h-full bg-white md:bg-transparent">
-      <div className="p-8 flex items-center justify-between">
+      <div className="p-8 flex items-center">
         <div className={`flex items-center space-x-3 transition-opacity duration-300 ${(isOpen || isMobile) ? 'opacity-100' : 'opacity-0 invisible'}`}>
           <div className="w-10 h-10 bg-brand-deep rounded-2xl flex items-center justify-center shadow-lg shadow-brand-deep/20">
             <GraduationCap className="text-white w-6 h-6" />
           </div>
           <span className="text-2xl font-black tracking-tight text-brand-deep">Smart School</span>
         </div>
-        {!isMobile && (
-          <button 
-            onClick={onToggle}
-            className="p-2 hover:bg-white/50 rounded-xl transition-all"
-          >
-            {isOpen ? <X className="w-5 h-5 text-gray-500" /> : <Menu className="w-5 h-5 text-gray-500 mx-auto" />}
-          </button>
-        )}
       </div>
 
       <nav className="flex-1 px-4 space-y-2 overflow-y-auto overflow-x-hidden scrollbar-hide py-4">
+        {!isMobile && (
+          <button 
+            onClick={onToggle}
+            className={`w-full flex items-center py-4 rounded-3xl transition-all duration-300 group hover:bg-white/50 mb-4
+              ${isOpen ? 'px-4' : 'justify-center'}`}
+          >
+            {isOpen ? <X className="w-6 h-6 text-gray-400 group-hover:text-brand-deep" /> : <Menu className="w-6 h-6 text-gray-400 group-hover:text-brand-deep" />}
+            {isOpen && <span className="ml-4 font-bold text-sm tracking-wide text-gray-500 group-hover:text-brand-deep">Tutup Menu</span>}
+          </button>
+        )}
         {menuItems.map((item) => (
           <button
             key={item.id}
