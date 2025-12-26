@@ -313,14 +313,39 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
                   <Select value={editFormData.role} onValueChange={v => setEditFormData({...editFormData, role: v})}>
                     <SelectTrigger className="rounded-xl border-gray-100 py-6 px-4"><SelectValue /></SelectTrigger>
                     <SelectContent className="rounded-xl">
-                      <SelectItem value="SUPER_ADMIN">Super Admin</SelectItem>
                       <SelectItem value="ADMIN">Administrator</SelectItem>
-                      <SelectItem value="TEACHER">Guru Pendidik</SelectItem>
+                      <SelectItem value="TEACHER">Guru (Mata Pelajaran)</SelectItem>
+                      <SelectItem value="HOMEROOM">Walikelas (Kelas)</SelectItem>
                       <SelectItem value="STAFF">Staff TU</SelectItem>
-                      <SelectItem value="OPERATOR">Operator Sistem</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+                {editFormData.role === 'TEACHER' && (
+                  <div className="grid gap-2">
+                    <Label className="text-gray-700 font-bold">Pilih Mata Pelajaran</Label>
+                    <Select value={editFormData.subjectId} onValueChange={v => setEditFormData({...editFormData, subjectId: v})}>
+                      <SelectTrigger className="rounded-xl border-gray-100 py-6 px-4"><SelectValue placeholder="Pilih Mapel" /></SelectTrigger>
+                      <SelectContent className="rounded-xl">
+                        {subjects.map(s => (
+                          <SelectItem key={s.id} value={s.id}>{s.name} ({s.code})</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+                {editFormData.role === 'HOMEROOM' && (
+                  <div className="grid gap-2">
+                    <Label className="text-gray-700 font-bold">Pilih Kelas</Label>
+                    <Select value={editFormData.classId} onValueChange={v => setEditFormData({...editFormData, classId: v})}>
+                      <SelectTrigger className="rounded-xl border-gray-100 py-6 px-4"><SelectValue placeholder="Pilih Kelas" /></SelectTrigger>
+                      <SelectContent className="rounded-xl">
+                        {classes.map(c => (
+                          <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
                 <div className="grid gap-2">
                   <Label className="text-gray-700 font-bold">Status Akun</Label>
                   <Select value={editFormData.isActive ? "true" : "false"} onValueChange={v => setEditFormData({...editFormData, isActive: v === "true"})}>
