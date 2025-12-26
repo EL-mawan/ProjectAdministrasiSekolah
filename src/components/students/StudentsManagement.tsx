@@ -31,6 +31,14 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
   Plus,
   Search,
   Edit,
@@ -45,7 +53,8 @@ import {
   TrendingUp,
   Users,
   FileSpreadsheet,
-  FileDown
+  FileDown,
+  MoreVertical
 } from 'lucide-react'
 import * as XLSX from 'xlsx'
 
@@ -844,17 +853,38 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
                    </div>
                 </TableCell>
                 <TableCell className="text-right px-8 py-5">
-                   <div className="flex justify-end space-x-3">
-                      <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100 text-gray-400 hover:text-brand-deep" onClick={() => { setViewStudent(student); setIsViewDialogOpen(true); }}>
-                        <Eye className="w-5 h-5" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="rounded-xl hover:bg-indigo-50 text-gray-400 hover:text-indigo-600" onClick={() => openEditDialog(student)}>
-                        <Edit className="w-5 h-5" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="rounded-xl hover:bg-red-50 text-gray-400 hover:text-red-500" onClick={() => handleDeleteStudent(student.id)}>
-                        <Trash2 className="w-5 h-5" />
-                      </Button>
-                   </div>
+                   <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                         <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100 text-gray-400">
+                           <MoreVertical className="w-5 h-5" />
+                         </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48 rounded-[1.5rem] p-2 border-gray-100 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300">
+                         <DropdownMenuLabel className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-3 py-2">Opsi Siswa</DropdownMenuLabel>
+                         <DropdownMenuItem 
+                           onClick={() => { setViewStudent(student); setIsViewDialogOpen(true); }}
+                           className="rounded-xl focus:bg-indigo-50 cursor-pointer py-3 px-3 transition-colors"
+                         >
+                            <Eye className="w-4 h-4 mr-3 text-brand-purple" />
+                            <span className="font-bold text-gray-700">Lihat Detail</span>
+                         </DropdownMenuItem>
+                         <DropdownMenuItem 
+                           onClick={() => openEditDialog(student)}
+                           className="rounded-xl focus:bg-indigo-50 cursor-pointer py-3 px-3 transition-colors"
+                         >
+                            <Edit className="w-4 h-4 mr-3 text-brand-purple" />
+                            <span className="font-bold text-gray-700">Edit Data</span>
+                         </DropdownMenuItem>
+                         <DropdownMenuSeparator className="my-1 bg-gray-50" />
+                         <DropdownMenuItem 
+                           onClick={() => handleDeleteStudent(student.id)}
+                           className="rounded-xl focus:bg-red-50 text-red-600 cursor-pointer py-3 px-3 transition-colors"
+                         >
+                            <Trash2 className="w-4 h-4 mr-3" />
+                            <span className="font-bold">Hapus Data</span>
+                         </DropdownMenuItem>
+                      </DropdownMenuContent>
+                   </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}
