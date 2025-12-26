@@ -11,7 +11,8 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset",
-    "db:seed": "npx -y tsx prisma/seed.ts"
+    "db:seed": "npx -y tsx prisma/seed.ts",
+    "sync": "./sync.sh"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
