@@ -413,7 +413,7 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
                 </TableCell>
                 <TableCell className="px-8 py-5">
                   <Badge variant="outline" className="rounded-lg border-gray-100 text-[10px] font-black uppercase tracking-tight text-gray-400 px-3 py-1">
-                    {u.role.replace('_', ' ')}
+                    {u.role === 'TEACHER' ? 'Guru (Mapel)' : u.role === 'HOMEROOM' ? 'Walikelas' : u.role.replace('_', ' ')}
                   </Badge>
                 </TableCell>
                 <TableCell className="px-8 py-5">
