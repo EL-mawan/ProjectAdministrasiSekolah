@@ -64,55 +64,55 @@ interface LayoutProps {
   }
 }
 
-const SidebarContent = ({ activeMenu, onMenuChange, user, isOpen, onToggle, isMobile, onClose }: SidebarProps) => {
-  const getMenuItems = (role: string) => {
-    const baseMenus = [
-      { id: 'dashboard', icon: Home, label: 'Dashboard' },
-    ]
+const getMenuItems = (role: string) => {
+  const baseMenus = [
+    { id: 'dashboard', icon: Home, label: 'Dashboard' },
+  ]
 
-    const adminMenus = [
-      { id: 'school', icon: Building, label: 'Data Sekolah' },
-      { id: 'students', icon: Users, label: 'Data Siswa' },
-      { id: 'teachers', icon: GraduationCap, label: 'Data Guru' },
-      { id: 'users', icon: User, label: 'Data Admin' },
-      { id: 'academic', icon: BookOpen, label: 'Akademik' },
-      { id: 'extracurricular', icon: MapPin, label: 'Ekstrakurikuler' },
-      { id: 'p5', icon: GraduationCap, label: 'Target P5' },
-      { id: 'reports', icon: FileText, label: 'Leger & Rapor' },
-    ]
+  const adminMenus = [
+    { id: 'school', icon: Building, label: 'Data Sekolah' },
+    { id: 'students', icon: Users, label: 'Data Siswa' },
+    { id: 'teachers', icon: GraduationCap, label: 'Data Guru' },
+    { id: 'users', icon: User, label: 'Data Admin' },
+    { id: 'academic', icon: BookOpen, label: 'Akademik' },
+    { id: 'extracurricular', icon: MapPin, label: 'Ekstrakurikuler' },
+    { id: 'p5', icon: GraduationCap, label: 'Target P5' },
+    { id: 'reports', icon: FileText, label: 'Leger & Rapor' },
+  ]
 
-    const homeroomMenus = [
-      { id: 'classes', icon: Building, label: 'Data Kelas' },
-      { id: 'academic', icon: BookOpen, label: 'Mata Pelajaran' },
-      { id: 'tp', icon: Target, label: 'Kompetensi (CP/TP)' },
-      { id: 'formative-grades', icon: FileText, label: 'Penilaian Formatif' },
-      { id: 'summative-grades', icon: Layers, label: 'Penilaian Sumatif' },
-      { id: 'grades', icon: GraduationCap, label: 'Input Nilai (PTS/PAS)' },
-      { id: 'attendance', icon: UserCheck, label: 'Ketidakhadiran' },
-      { id: 'homeroom-notes', icon: FileText, label: 'Catatan Wali' },
-      { id: 'reports', icon: FileText, label: 'Leger & Rapor' },
-    ]
+  const homeroomMenus = [
+    { id: 'classes', icon: Building, label: 'Data Kelas' },
+    { id: 'academic', icon: BookOpen, label: 'Mata Pelajaran' },
+    { id: 'tp', icon: Target, label: 'Kompetensi (CP/TP)' },
+    { id: 'formative-grades', icon: FileText, label: 'Penilaian Formatif' },
+    { id: 'summative-grades', icon: Layers, label: 'Penilaian Sumatif' },
+    { id: 'grades', icon: GraduationCap, label: 'Input Nilai (PTS/PAS)' },
+    { id: 'attendance', icon: UserCheck, label: 'Ketidakhadiran' },
+    { id: 'homeroom-notes', icon: FileText, label: 'Catatan Wali' },
+    { id: 'reports', icon: FileText, label: 'Leger & Rapor' },
+  ]
 
-    const teacherMenus = [
-      { id: 'tp', icon: Target, label: 'Kompetensi (CP/TP)' },
-      { id: 'formative-grades', icon: FileText, label: 'Penilaian Formatif' },
-      { id: 'summative-grades', icon: Layers, label: 'Penilaian Sumatif' },
-      { id: 'grades', icon: GraduationCap, label: 'Input Nilai (PTS/PAS)' },
-    ]
+  const teacherMenus = [
+    { id: 'tp', icon: Target, label: 'Kompetensi (CP/TP)' },
+    { id: 'formative-grades', icon: FileText, label: 'Penilaian Formatif' },
+    { id: 'summative-grades', icon: Layers, label: 'Penilaian Sumatif' },
+    { id: 'grades', icon: GraduationCap, label: 'Input Nilai (PTS/PAS)' },
+  ]
 
-    const profileMenu = { id: 'profile', icon: User, label: 'Profil Akun' }
+  const profileMenu = { id: 'profile', icon: User, label: 'Profil Akun' }
 
-    let roleMenus: { id: string, icon: any, label: string }[] = []
-    switch (role) {
-      case 'ADMIN': roleMenus = adminMenus; break;
-      case 'HOMEROOM': roleMenus = homeroomMenus; break;
-      case 'TEACHER': roleMenus = teacherMenus; break;
-      default: roleMenus = adminMenus;
-    }
-
-    return [...baseMenus, ...roleMenus, profileMenu]
+  let roleMenus: { id: string, icon: any, label: string }[] = []
+  switch (role) {
+    case 'ADMIN': roleMenus = adminMenus; break;
+    case 'HOMEROOM': roleMenus = homeroomMenus; break;
+    case 'TEACHER': roleMenus = teacherMenus; break;
+    default: roleMenus = adminMenus;
   }
 
+  return [...baseMenus, ...roleMenus, profileMenu]
+}
+
+const SidebarContent = ({ activeMenu, onMenuChange, user, isOpen, onToggle, isMobile, onClose }: SidebarProps) => {
   const menuItems = getMenuItems(user.role)
 
   const handleLogout = () => {
@@ -216,7 +216,10 @@ const SidebarContent = ({ activeMenu, onMenuChange, user, isOpen, onToggle, isMo
   )
 }
 
-const Header = ({ userName }: { userName: string }) => {
+const Header = ({ userName, user, onMenuChange }: { userName: string, user: any, onMenuChange: (menu: string) => void }) => {
+  const [searchQuery, setSearchQuery] = useState('')
+  const [showResults, setShowResults] = useState(false)
+  
   const today = new Date().toLocaleDateString('id-ID', { 
     weekday: 'long', 
     day: 'numeric', 
@@ -228,12 +231,17 @@ const Header = ({ userName }: { userName: string }) => {
     minute: '2-digit' 
   })
 
+  const menuItems = getMenuItems(user.role)
+  const filteredItems = menuItems.filter(item => 
+    item.label.toLowerCase().includes(searchQuery.toLowerCase())
+  ).slice(0, 5)
+
   return (
     <div className="dark-gradient rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 mb-6 md:mb-8 text-white relative overflow-hidden shadow-2xl">
       <div className="absolute top-[-50%] right-[-10%] w-[300px] h-[300px] bg-brand-purple/20 rounded-full blur-[100px]"></div>
       <div className="absolute bottom-[-20%] left-[20%] w-[200px] h-[200px] bg-brand-pink/10 rounded-full blur-[80px]"></div>
 
-      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="relative z-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h2 className="text-2xl md:text-3xl font-bold mb-2 text-white">Halo! {userName}</h2>
           <p className="text-gray-300 text-sm">Pantau dan berikan pengalaman terbaik bagi para siswa.</p>
@@ -244,9 +252,61 @@ const Header = ({ userName }: { userName: string }) => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input 
               type="text" 
-              placeholder="Cari..." 
-              className="bg-white/10 border-white/10 rounded-2xl pl-10 pr-4 py-2 text-sm w-full md:w-48 focus:outline-none focus:ring-1 focus:ring-white/30 transition-all placeholder:text-gray-400"
+              placeholder="Cari menu..." 
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value)
+                setShowResults(true)
+              }}
+              onFocus={() => setShowResults(true)}
+              className="bg-white/10 border-white/10 rounded-2xl pl-10 pr-4 py-3 text-sm w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-brand-purple/50 bg-blur-md transition-all placeholder:text-gray-400 border border-white/5 shadow-inner"
             />
+            
+            {showResults && searchQuery && (
+              <div className="absolute top-[calc(100%+12px)] left-0 w-full md:w-80 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-[100] border border-gray-100">
+                <div className="p-3 bg-gray-50/50 border-b border-gray-50">
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2">Hasil Pencarian Menu</p>
+                </div>
+                <div className="max-h-[300px] overflow-y-auto p-2">
+                  {filteredItems.length > 0 ? (
+                    filteredItems.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          onMenuChange(item.id)
+                          setSearchQuery('')
+                          setShowResults(false)
+                        }}
+                        className="w-full flex items-center space-x-3 p-3 rounded-2xl hover:bg-brand-deep/5 transition-all group text-left"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-brand-deep/5 flex items-center justify-center text-brand-deep group-hover:bg-brand-deep group-hover:text-white transition-all">
+                          <item.icon className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-gray-800 group-hover:text-brand-deep">{item.label}</p>
+                          <p className="text-[10px] text-gray-400 font-medium">Navigasi ke halaman {item.label}</p>
+                        </div>
+                        <ChevronRight className="w-4 h-4 ml-auto text-gray-300 group-hover:text-brand-deep group-hover:translate-x-1 transition-all" />
+                      </button>
+                    ))
+                  ) : (
+                    <div className="p-8 text-center">
+                      <Search className="w-8 h-8 text-gray-200 mx-auto mb-2" />
+                      <p className="text-sm font-bold text-gray-400">Menu tidak ditemukan</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            {showResults && searchQuery && (
+              <button 
+                onClick={() => {
+                  setSearchQuery('')
+                  setShowResults(false)
+                }}
+                className="fixed inset-0 z-[-1] cursor-default"
+              />
+            )}
           </div>
           
           <div className="flex items-center space-x-4 bg-black/20 px-4 py-2 rounded-2xl text-[10px] md:text-xs font-medium">
@@ -321,7 +381,7 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
       
       <main className={`transition-all duration-300 min-h-screen px-4 md:px-6 py-4 md:py-6 overflow-x-hidden ${sidebarOpen ? 'md:pl-[340px]' : 'md:pl-[120px]'}`}>
         <div className="max-w-[1400px] mx-auto">
-          <Header userName={user.name} />
+          <Header userName={user.name} user={user} onMenuChange={onMenuChange} />
           <div className="min-h-[600px] pb-10">
             {children}
           </div>
