@@ -316,7 +316,7 @@ async function main() {
               credits: 1,
               curriculum: 'Kurikulum Merdeka',
               schoolId: school.id,
-              teacherId: teacher.id // Teacher profile ID
+              teachers: { connect: { id: teacher.id } } // Many-to-many relationship
           }
       })
       createdSubjects.push(subject)
