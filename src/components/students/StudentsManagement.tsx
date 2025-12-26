@@ -56,7 +56,9 @@ import {
   FileDown,
   MoreVertical,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Sparkles,
+  RotateCcw
 } from 'lucide-react'
 import * as XLSX from 'xlsx'
 
@@ -219,6 +221,17 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
     } finally {
       setLoading(false)
     }
+  }
+
+  const generateNIS = () => {
+    const year = new Date().getFullYear().toString().substring(2)
+    const random = Math.floor(1000 + Math.random() * 9000)
+    setFormData(prev => ({ ...prev, nis: `${year}${random}` }))
+  }
+
+  const generateNISN = () => {
+    const random = Math.floor(1000000000 + Math.random() * 9000000000)
+    setFormData(prev => ({ ...prev, nisn: random.toString() }))
   }
 
   const handleAddStudent = async () => {
