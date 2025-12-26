@@ -35,6 +35,8 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' }
     })
 
+    console.log(`[DEBUG] /api/users found ${users.length} users with where:`, JSON.stringify(where))
+
     return NextResponse.json({ users })
   } catch (error) {
     return NextResponse.json({ error: 'Terjadi kesalahan server' }, { status: 500 })
