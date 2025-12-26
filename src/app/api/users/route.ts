@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     console.error('[API_USERS_GET_ERROR]', error)
     return NextResponse.json({ 
-      error: 'Terjadi kesalahan server', 
+      error: 'Terjadi kesalahan server (V3)', 
       details: error.message,
       stack: error.stack
     }, { status: 500 })
