@@ -788,14 +788,14 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
           <Table>
           <TableHeader className="bg-gray-50/50">
             <TableRow className="hover:bg-transparent border-none">
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Siswa</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">NIS/NISN</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Tempat, Tgl Lahir</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Gender & Agama</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Orang Tua (Ibu)</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5">Alamat</TableHead>
-              <TableHead className="font-bold text-brand-deep px-8 py-5 text-center">Status</TableHead>
-              <TableHead className="text-right font-bold text-brand-deep px-8 py-5">Aksi</TableHead>
+              <TableHead className="w-[50px] font-bold text-brand-deep px-4 py-3 text-center">Aksi</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3">Siswa</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3">NIS/NISN</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3">Tempat, Tgl Lahir</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-center">Gender</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3">Orang Tua (Ibu)</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3">Alamat</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-center">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -803,88 +803,74 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
                <TableRow><TableCell colSpan={6} className="text-center py-20 font-bold text-gray-400">Tidak ada data siswa ditemukan</TableCell></TableRow>
             ) : students.map((student) => (
               <TableRow key={student.id} className="hover:bg-gray-50/50 transition-colors border-gray-50">
-                <TableCell className="px-8 py-5">
-                   <div className="flex items-center space-x-4 min-w-[200px]">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-md ${student.gender === 'MALE' ? 'bg-indigo-400 shadow-indigo-100' : 'bg-pink-400 shadow-pink-100'}`}>
-                         {student.name.substring(0, 1)}
-                      </div>
-                      <div>
-                         <p className="font-bold text-gray-900 leading-none mb-1 text-sm">{student.name}</p>
-                         <p className="text-[10px] text-brand-purple font-black uppercase tracking-tight">{student.class?.name || 'Tanpa Kelas'}</p>
-                      </div>
-                   </div>
-                </TableCell>
-                <TableCell className="px-8 py-5 min-w-[140px]">
-                   <p className="text-sm font-bold text-gray-700">{student.nis}</p>
-                   <p className="text-[10px] text-gray-400 font-medium">{student.nisn || '-'}</p>
-                </TableCell>
-                <TableCell className="px-8 py-5 min-w-[200px]">
-                   <p className="text-sm font-bold text-gray-700">{student.birthPlace}</p>
-                   <p className="text-[10px] text-gray-400 font-medium">{new Date(student.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                </TableCell>
-                <TableCell className="px-8 py-5 min-w-[150px]">
-                   <div className="flex flex-col space-y-1">
-                      <Badge variant="outline" className={`w-fit rounded-lg border-none text-[9px] font-black uppercase px-2 py-0.5 ${student.gender === 'MALE' ? 'bg-indigo-50 text-indigo-600' : 'bg-pink-50 text-pink-600'}`}>
-                         {student.gender === 'MALE' ? 'Laki-laki' : 'Perempuan'}
-                      </Badge>
-                      <span className="text-[10px] font-bold text-gray-500 pl-1">{student.religion || '-'}</span>
-                   </div>
-                </TableCell>
-                <TableCell className="px-8 py-5 min-w-[150px]">
-                   <div className="flex items-center space-x-2">
-                       <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
-                          <Users className="w-4 h-4 text-gray-400" />
-                       </div>
-                       <div>
-                          <p className="text-xs font-bold text-gray-700 leading-none mb-1">{student.motherName || '-'}</p>
-                          <p className="text-[10px] text-gray-400 font-medium italic">Ibu Kandung</p>
-                       </div>
-                   </div>
-                </TableCell>
-                <TableCell className="px-8 py-5 min-w-[250px]">
-                   <div className="flex items-start space-x-2">
-                      <MapPin className="w-3.5 h-3.5 text-brand-purple mt-0.5" />
-                      <p className="text-[11px] font-medium text-gray-600 leading-relaxed line-clamp-2">{student.address}</p>
-                   </div>
-                </TableCell>
-                <TableCell className="px-8 py-5 text-center">
-                   <div className="flex flex-col items-center justify-center">
-                      {getStatusBadge(student.status)}
-                   </div>
-                </TableCell>
-                <TableCell className="text-right px-8 py-5">
+                <TableCell className="px-4 py-3 text-center">
                    <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                         <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100 text-gray-400">
-                           <MoreVertical className="w-5 h-5" />
+                         <Button variant="ghost" size="icon" className="w-8 h-8 rounded-lg hover:bg-gray-100 text-gray-400">
+                           <MoreVertical className="w-4 h-4" />
                          </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-48 rounded-[1.5rem] p-2 border-gray-100 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300">
-                         <DropdownMenuLabel className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-3 py-2">Opsi Siswa</DropdownMenuLabel>
+                      <DropdownMenuContent align="start" className="w-48 rounded-2xl p-2 border-gray-100 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300">
+                         <DropdownMenuLabel className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-3 py-2 text-center">Opsi Siswa</DropdownMenuLabel>
                          <DropdownMenuItem 
                            onClick={() => { setViewStudent(student); setIsViewDialogOpen(true); }}
-                           className="rounded-xl focus:bg-indigo-50 cursor-pointer py-3 px-3 transition-colors"
+                           className="rounded-xl focus:bg-indigo-50 cursor-pointer py-2.5 px-3 transition-colors"
                          >
                             <Eye className="w-4 h-4 mr-3 text-brand-purple" />
-                            <span className="font-bold text-gray-700">Lihat Detail</span>
+                            <span className="font-bold text-gray-700 text-xs">Lihat Detail</span>
                          </DropdownMenuItem>
                          <DropdownMenuItem 
                            onClick={() => openEditDialog(student)}
-                           className="rounded-xl focus:bg-indigo-50 cursor-pointer py-3 px-3 transition-colors"
+                           className="rounded-xl focus:bg-indigo-50 cursor-pointer py-2.5 px-3 transition-colors"
                          >
                             <Edit className="w-4 h-4 mr-3 text-brand-purple" />
-                            <span className="font-bold text-gray-700">Edit Data</span>
+                            <span className="font-bold text-gray-700 text-xs">Edit Data</span>
                          </DropdownMenuItem>
                          <DropdownMenuSeparator className="my-1 bg-gray-50" />
                          <DropdownMenuItem 
                            onClick={() => handleDeleteStudent(student.id)}
-                           className="rounded-xl focus:bg-red-50 text-red-600 cursor-pointer py-3 px-3 transition-colors"
+                           className="rounded-xl focus:bg-red-50 text-red-600 cursor-pointer py-2.5 px-3 transition-colors"
                          >
                             <Trash2 className="w-4 h-4 mr-3" />
-                            <span className="font-bold">Hapus Data</span>
+                            <span className="font-bold text-xs">Hapus Data</span>
                          </DropdownMenuItem>
                       </DropdownMenuContent>
                    </DropdownMenu>
+                </TableCell>
+                <TableCell className="px-4 py-3">
+                   <div className="flex items-center space-x-3">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-[10px] shadow-sm ${student.gender === 'MALE' ? 'bg-indigo-400' : 'bg-pink-400'}`}>
+                         {student.name.substring(0, 1)}
+                      </div>
+                      <div>
+                         <p className="font-bold text-gray-900 leading-none mb-1 text-[13px]">{student.name}</p>
+                         <p className="text-[9px] text-brand-purple font-black uppercase tracking-tight">{student.class?.name || 'Tanpa Kelas'}</p>
+                      </div>
+                   </div>
+                </TableCell>
+                <TableCell className="px-4 py-3">
+                   <p className="text-[12px] font-bold text-gray-700 leading-none">{student.nis}</p>
+                   <p className="text-[9px] text-gray-400 font-medium">{student.nisn || '-'}</p>
+                </TableCell>
+                <TableCell className="px-4 py-3">
+                   <p className="text-[12px] font-bold text-gray-700 leading-none">{student.birthPlace}</p>
+                   <p className="text-[9px] text-gray-400 font-medium">{new Date(student.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                </TableCell>
+                <TableCell className="px-4 py-3 text-center">
+                   <Badge variant="outline" className={`w-fit rounded-lg border-none text-[8px] font-black uppercase px-2 py-0.5 ${student.gender === 'MALE' ? 'bg-indigo-50 text-indigo-600' : 'bg-pink-50 text-pink-600'}`}>
+                      {student.gender === 'MALE' ? 'L' : 'P'}
+                   </Badge>
+                </TableCell>
+                <TableCell className="px-4 py-3">
+                   <div className="flex items-center space-x-2">
+                       <p className="text-[12px] font-bold text-gray-700 leading-none">{student.motherName || '-'}</p>
+                   </div>
+                </TableCell>
+                <TableCell className="px-4 py-3 max-w-[150px]">
+                   <p className="text-[11px] font-medium text-gray-600 leading-tight line-clamp-1">{student.address}</p>
+                </TableCell>
+                <TableCell className="px-4 py-3 text-center">
+                   {getStatusBadge(student.status)}
                 </TableCell>
               </TableRow>
             ))}
