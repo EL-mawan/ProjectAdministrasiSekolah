@@ -48,6 +48,7 @@ export async function PUT(request: Request) {
                 phone: body.phone,
                 principalName: body.principalName,
                 principalNip: body.principalNip,
+                established: body.foundedYear ? parseInt(body.foundedYear) : undefined,
                 ...(body.activeSemester !== undefined && { activeSemester: body.activeSemester }),
                 ...(body.activeSchoolYear !== undefined && { activeSchoolYear: body.activeSchoolYear }),
                 // logoUrl: body.logoUrl // To be implemented with upload
@@ -65,7 +66,8 @@ export async function PUT(request: Request) {
                 website: body.website,
                 phone: body.phone,
                 principalName: body.principalName,
-                principalNip: body.principalNip
+                principalNip: body.principalNip,
+                established: body.foundedYear ? parseInt(body.foundedYear) : undefined
             }
         })
     }
