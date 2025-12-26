@@ -744,27 +744,27 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
       </div>
 
       {/* Filter Section */}
-      <div className="bg-gray-50/50 rounded-4xl p-6 mb-8 border border-gray-100 flex flex-col lg:flex-row gap-4 items-center">
+      <div className="bg-gray-50/50 rounded-3xl md:rounded-4xl p-4 md:p-6 mb-8 border border-gray-100 flex flex-col lg:flex-row gap-3 md:gap-4 items-center">
         <div className="flex-1 w-full relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
             placeholder="Cari siswa berdasarkan nama atau nomor induk..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="pl-12 rounded-2xl border-none bg-white shadow-sm font-medium py-6 h-auto"
+            className="pl-12 rounded-2xl border-none bg-white shadow-sm font-medium py-4 md:py-6 h-auto text-xs md:text-sm"
           />
         </div>
-        <div className="flex gap-4 w-full lg:w-auto">
+        <div className="flex gap-2 md:gap-4 w-full lg:w-auto">
           <Select value={filterClass} onValueChange={setFilterClass}>
-            <SelectTrigger className="w-[180px] rounded-2xl border-none bg-white shadow-sm py-6 h-auto font-bold text-gray-500">
-               <div className="flex items-center"><Filter className="w-4 h-4 mr-2" /><SelectValue placeholder="Pilih Kelas" /></div>
+            <SelectTrigger className="flex-1 lg:w-[160px] rounded-2xl border-none bg-white shadow-sm py-4 md:py-6 h-auto font-bold text-gray-500 text-[10px] md:text-xs">
+               <div className="flex items-center"><Filter className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" /><SelectValue placeholder="Pilih Kelas" /></div>
             </SelectTrigger>
             <SelectContent className="rounded-xl">
               {classes.map(c => (<SelectItem key={c.id} value={c.id!}>{c.name}</SelectItem>))}
             </SelectContent>
           </Select>
           <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-[180px] rounded-2xl border-none bg-white shadow-sm py-6 h-auto font-bold text-gray-500">
+            <SelectTrigger className="flex-1 lg:w-[160px] rounded-2xl border-none bg-white shadow-sm py-4 md:py-6 h-auto font-bold text-gray-500 text-[10px] md:text-xs">
                <SelectValue placeholder="Status Siswa" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
@@ -775,7 +775,7 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
             </SelectContent>
           </Select>
           {(search || filterClass || filterStatus) && (
-            <Button variant="ghost" onClick={() => { setSearch(''); setFilterClass(''); setFilterStatus(''); }} className="rounded-2xl text-red-500 font-bold px-6">
+            <Button variant="ghost" onClick={() => { setSearch(''); setFilterClass(''); setFilterStatus(''); }} className="h-auto py-2 px-3 text-red-500 font-bold text-[10px] md:text-xs">
               Reset
             </Button>
           )}
@@ -788,14 +788,15 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
           <Table>
           <TableHeader className="bg-gray-50/50">
             <TableRow className="hover:bg-transparent border-none">
-              <TableHead className="w-[50px] font-bold text-brand-deep px-4 py-3 text-center">Aksi</TableHead>
-              <TableHead className="font-bold text-brand-deep px-4 py-3">Siswa</TableHead>
-              <TableHead className="font-bold text-brand-deep px-4 py-3">NIS/NISN</TableHead>
-              <TableHead className="font-bold text-brand-deep px-4 py-3">Tempat, Tgl Lahir</TableHead>
-              <TableHead className="font-bold text-brand-deep px-4 py-3 text-center">Gender</TableHead>
-              <TableHead className="font-bold text-brand-deep px-4 py-3">Orang Tua (Ibu)</TableHead>
-              <TableHead className="font-bold text-brand-deep px-4 py-3">Alamat</TableHead>
-              <TableHead className="font-bold text-brand-deep px-4 py-3 text-center">Status</TableHead>
+              <TableHead className="w-[50px] px-4 py-3 text-center"></TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-xs md:text-sm">Siswa</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-xs md:text-sm">NIS/NISN</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-xs md:text-sm">Tempat, Tgl Lahir</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-center text-xs md:text-sm">Gender</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-center text-xs md:text-sm">Agama</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-xs md:text-sm">Orang Tua (Ibu)</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-xs md:text-sm">Alamat</TableHead>
+              <TableHead className="font-bold text-brand-deep px-4 py-3 text-center text-xs md:text-sm">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -861,9 +862,12 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
                       {student.gender === 'MALE' ? 'L' : 'P'}
                    </Badge>
                 </TableCell>
+                <TableCell className="px-4 py-3 text-center">
+                   <span className="text-[10px] md:text-[12px] font-bold text-gray-700">{student.religion || '-'}</span>
+                </TableCell>
                 <TableCell className="px-4 py-3">
                    <div className="flex items-center space-x-2">
-                       <p className="text-[12px] font-bold text-gray-700 leading-none">{student.motherName || '-'}</p>
+                       <p className="text-[10px] md:text-[12px] font-bold text-gray-700 leading-none">{student.motherName || '-'}</p>
                    </div>
                 </TableCell>
                 <TableCell className="px-4 py-3 max-w-[150px]">
