@@ -135,10 +135,11 @@ const SidebarContent = ({ activeMenu, onMenuChange, user, isOpen, onToggle, isMo
         {!isMobile && (
           <button 
             onClick={onToggle}
-            className={`w-full flex items-center py-4 rounded-3xl transition-all duration-300 group hover:bg-white/50 mb-4
-              ${isOpen ? 'px-4' : 'justify-center'}`}
+            className={`w-full flex items-center px-4 py-4 rounded-3xl transition-all duration-300 group hover:bg-white/50 mb-4`}
           >
-            {isOpen ? <X className="w-6 h-6 text-gray-400 group-hover:text-brand-deep" /> : <Menu className="w-6 h-6 text-gray-400 group-hover:text-brand-deep" />}
+            <div className="min-w-[24px] flex items-center justify-center">
+              {isOpen ? <X className="w-6 h-6 text-gray-400 group-hover:text-brand-deep" /> : <Menu className="w-6 h-6 text-gray-400 group-hover:text-brand-deep" />}
+            </div>
             {isOpen && <span className="ml-4 font-bold text-sm tracking-wide text-gray-500 group-hover:text-brand-deep">Tutup Menu</span>}
           </button>
         )}
