@@ -54,7 +54,9 @@ import {
   Users,
   FileSpreadsheet,
   FileDown,
-  MoreVertical
+  MoreVertical,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 import * as XLSX from 'xlsx'
 
@@ -1039,31 +1041,33 @@ export default function StudentsManagement({ activeMenu }: StudentsManagementPro
 
       {/* Pagination Container */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center space-x-6 mt-12 bg-white p-4 rounded-3xl shadow-sm border border-gray-50 w-fit mx-auto">
+        <div className="flex justify-center items-center space-x-2 md:space-x-6 mt-12 bg-white p-2 md:p-4 rounded-full md:rounded-3xl shadow-sm border border-gray-50 w-fit mx-auto">
           <Button
             variant="ghost"
             onClick={() => setCurrentPage(currentPage - 1)}
             disabled={currentPage === 1}
-            className="rounded-2xl font-bold text-brand-deep disabled:opacity-30"
+            className="rounded-full md:rounded-2xl font-bold text-brand-deep disabled:opacity-30 h-auto py-2 px-3 md:px-6 flex items-center gap-1 text-xs md:text-sm"
           >
-            Kembali
+            <ChevronLeft className="w-4 h-4" />
+            <span className="hidden md:inline">Kembali</span>
           </Button>
-          <div className="flex items-center font-black text-brand-deep">
+          <div className="flex items-center font-black text-brand-deep text-[10px] md:text-sm px-2">
              <span className="text-brand-purple">
                 {!filterClass && classes[currentPage - 1] 
                   ? classes[currentPage - 1].name 
                   : `Halaman ${currentPage}`}
              </span>
-             <span className="mx-2 text-gray-300">/</span>
-             <span className="text-gray-400">{totalPages} Kelas</span>
+             <span className="mx-1 md:mx-2 text-gray-300">/</span>
+             <span className="text-gray-400">{totalPages} {filterClass ? 'Hlm' : 'Kelas'}</span>
           </div>
           <Button
             variant="ghost"
             onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="rounded-2xl font-bold text-brand-deep disabled:opacity-30"
+            className="rounded-full md:rounded-2xl font-bold text-brand-deep disabled:opacity-30 h-auto py-2 px-3 md:px-6 flex items-center gap-1 text-xs md:text-sm"
           >
-            Lanjut
+            <span className="hidden md:inline">Lanjut</span>
+            <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
       )}
