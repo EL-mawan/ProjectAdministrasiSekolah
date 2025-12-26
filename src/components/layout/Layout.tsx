@@ -219,6 +219,12 @@ const SidebarContent = ({ activeMenu, onMenuChange, user, isOpen, onToggle, isMo
 const Header = ({ userName, user, onMenuChange }: { userName: string, user: any, onMenuChange: (menu: string) => void }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [showResults, setShowResults] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [notifications, setNotifications] = useState([
+    { id: 1, title: 'Laporan Siap', message: 'Leger semester ganjil sudah dapat diunduh.', time: '2 menit yang lalu', read: false },
+    { id: 2, title: 'Update Sistem', message: 'Fitur baru Input Nilai Otomatis telah aktif.', time: '1 jam yang lalu', read: false },
+    { id: 3, title: 'Jadwal Rapat', message: 'Rapat guru diadakan besok pukul 08:00 WIB.', time: '3 jam yang lalu', read: true },
+  ])
   
   const today = new Date().toLocaleDateString('id-ID', { 
     weekday: 'long', 
@@ -235,6 +241,8 @@ const Header = ({ userName, user, onMenuChange }: { userName: string, user: any,
   const filteredItems = menuItems.filter(item => 
     item.label.toLowerCase().includes(searchQuery.toLowerCase())
   ).slice(0, 5)
+
+  const unreadCount = notifications.filter(n => !n.read).length
 
   return (
     <div className="dark-gradient rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 mb-6 md:mb-8 text-white relative overflow-hidden shadow-2xl">
@@ -319,10 +327,79 @@ const Header = ({ userName, user, onMenuChange }: { userName: string, user: any,
             </div>
           </div>
 
-          <button className="relative p-2 bg-white/10 rounded-2xl hover:bg-white/20 transition-colors">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-2 right-2 w-2 h-2 bg-brand-pink rounded-full border-2 border-brand-deep"></span>
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="relative p-2 bg-white/10 rounded-2xl hover:bg-white/20 transition-colors"
+            >
+              <Bell className="w-5 h-5" />
+              {unreadCount > 0 && (
+                <span className="absolute top-2 right-2 w-2 h-2 bg-brand-pink rounded-full border-2 border-brand-deep animate-pulse"></span>
+              )}
+            </button>
+
+            {showNotifications && (
+              <div className="absolute top-[calc(100%+12px)] right-0 w-80 md:w-96 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-[100] border border-gray-100">
+                <div className="p-4 bg-gray-50/50 border-b border-gray-100 flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-black text-brand-deep">Pemberitahuan</span>
+                    {unreadCount > 0 && <Badge className="bg-brand-pink text-white border-none rounded-full px-2 py-0.5 text-[10px] font-black">{unreadCount}</Badge>}
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setNotifications(notifications.map(n => ({ ...n, read: true })))
+                    }}
+                    className="text-[10px] font-black text-brand-purple hover:text-brand-deep uppercase tracking-widest transition-colors"
+                  >
+                    Tandai Semua Dibaca
+                  </button>
+                </div>
+                <div className="max-h-[400px] overflow-y-auto p-2">
+                  {notifications.length > 0 ? (
+                    notifications.map((n) => (
+                      <div 
+                        key={n.id} 
+                        className={`p-4 rounded-2xl mb-1 transition-all relative group cursor-pointer ${n.read ? 'hover:bg-gray-50' : 'bg-indigo-50/30 hover:bg-indigo-50/50'}`}
+                        onClick={() => {
+                          setNotifications(notifications.map(notif => notif.id === n.id ? { ...notif, read: true } : notif))
+                        }}
+                      >
+                        <div className="flex items-start justify-between mb-1">
+                          <h4 className={`text-sm font-bold ${n.read ? 'text-gray-700' : 'text-brand-deep'}`}>{n.title}</h4>
+                          <span className="text-[9px] font-medium text-gray-400">{n.time}</span>
+                        </div>
+                        <p className="text-xs text-gray-500 leading-relaxed font-medium">{n.message}</p>
+                        {!n.read && (
+                          <div className="absolute left-1 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-purple rounded-full opacity-50"></div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-12 text-center text-gray-400">
+                       <Bell className="w-10 h-10 mx-auto mb-4 opacity-20" />
+                       <p className="font-bold">Tidak ada pemberitahuan baru</p>
+                    </div>
+                  )}
+                </div>
+                {notifications.length > 0 && (
+                  <div className="p-3 border-t border-gray-50 bg-gray-50/30">
+                    <button 
+                      onClick={() => setNotifications([])}
+                      className="w-full text-center text-[10px] font-black text-gray-400 hover:text-red-500 uppercase tracking-widest transition-colors"
+                    >
+                      Bersihkan Semua
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+            {showNotifications && (
+              <button 
+                onClick={() => setShowNotifications(false)}
+                className="fixed inset-0 z-[-1] cursor-default"
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
