@@ -81,8 +81,11 @@ export default function TPManagement({ user }: { user: any }) {
   const fetchTPs = async () => {
       setLoading(true)
       try {
-          // Fetch all TPs to populate cards for any subject
-          const res = await fetch(`/api/learning-objectives`) 
+          let url = `/api/learning-objectives`
+          if (user.role === 'TEACHER' && user.teacherProfile?.id) {
+              url += `?teacherId=${user.teacherProfile.id}`
+          }
+          const res = await fetch(url) 
           const data = await res.json()
           setTps(data.learningObjectives || [])
       } catch (e) { console.error(e) }
