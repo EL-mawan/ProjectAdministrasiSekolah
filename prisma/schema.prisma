@@ -170,7 +170,7 @@ model Teacher {
   // Relations
   user         User @relation(fields: [userId], references: [id])
   school       School @relation(fields: [schoolId], references: [id])
-  subjects     Subject[]
+  subjects     Subject[] @relation("TeacherSubjects")
   classes      Class[]
   attendance   Attendance[]
   schedules    Schedule[]
@@ -255,13 +255,12 @@ model Subject {
   description String?
   credits     Int      @default(1)
   curriculum  String
-  teacherId   String?
   schoolId    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  // Relations
-  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  // Relations (many-to-many with Teacher)
+  teachers  Teacher[] @relation("TeacherSubjects")
   school    School @relation(fields: [schoolId], references: [id])
   schedules Schedule[]
   grades    Grade[]
