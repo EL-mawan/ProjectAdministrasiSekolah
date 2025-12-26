@@ -65,7 +65,11 @@ export default function GradesManagement({ user, onNavigate }: { user: any, onNa
     const fetchData = async () => {
       setIsLoadingMetadata(true)
       try {
-        const resClasses = await fetch('/api/classes')
+        let urlClasses = '/api/classes'
+        if (user.role === 'HOMEROOM' && user.teacherProfile?.id) {
+            urlClasses += `?homeroomId=${user.teacherProfile.id}`
+        }
+        const resClasses = await fetch(urlClasses)
         const dataClasses = await resClasses.json()
         setClasses(dataClasses.classes || [])
         if (dataClasses.classes?.length > 0) setSelectedClassId(dataClasses.classes[0].id)

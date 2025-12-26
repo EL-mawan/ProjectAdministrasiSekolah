@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
     const schoolYear = searchParams.get('schoolYear')
     const search = searchParams.get('search') || ''
     const homeroomEmail = searchParams.get('homeroomEmail')
+    const homeroomId = searchParams.get('homeroomId')
     
     const where: any = {}
     if (schoolYear) {
@@ -17,6 +18,10 @@ export async function GET(request: NextRequest) {
         where.homeroom = {
             email: homeroomEmail
         }
+    }
+
+    if (homeroomId) {
+        where.homeroomId = homeroomId
     }
 
     if (search) {
