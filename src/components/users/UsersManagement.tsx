@@ -183,7 +183,11 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
       name: user.name,
       email: user.email,
       role: user.role,
-      isActive: user.isActive
+      isActive: user.isActive,
+      // @ts-ignore
+      subjectId: (user as any).teacherProfile?.subjects?.[0]?.id || '',
+      // @ts-ignore
+      classId: (user as any).teacherProfile?.classes?.[0]?.id || ''
     })
     setIsEditOpen(true)
   }
