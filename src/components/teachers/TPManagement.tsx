@@ -406,10 +406,10 @@ export default function TPManagement({ user }: { user: any }) {
 
         {/* Tabs for CP, TP, ATP */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="mb-6 bg-white p-1 rounded-2xl border items-start justify-start h-auto w-full md:w-auto inline-flex">
-                <TabsTrigger value="cp" className="rounded-xl px-6 py-3 data-[state=active]:bg-brand-deep data-[state=active]:text-white">Capaian Pembelajaran (CP)</TabsTrigger>
-                <TabsTrigger value="tp" className="rounded-xl px-6 py-3 data-[state=active]:bg-brand-deep data-[state=active]:text-white">Tujuan Pembelajaran (TP)</TabsTrigger>
-                <TabsTrigger value="atp" className="rounded-xl px-6 py-3 data-[state=active]:bg-brand-deep data-[state=active]:text-white">Alur Tujuan Pembelajaran (ATP)</TabsTrigger>
+            <TabsList className="mb-6 bg-white p-1 rounded-2xl border flex items-center justify-start h-auto w-full md:w-auto overflow-x-auto no-scrollbar scroll-smooth gap-1">
+                <TabsTrigger value="cp" className="rounded-xl px-4 md:px-6 py-3 whitespace-nowrap data-[state=active]:bg-brand-deep data-[state=active]:text-white flex-1 md:flex-none transition-all">Capaian Pembelajaran (CP)</TabsTrigger>
+                <TabsTrigger value="tp" className="rounded-xl px-4 md:px-6 py-3 whitespace-nowrap data-[state=active]:bg-brand-deep data-[state=active]:text-white flex-1 md:flex-none transition-all">Tujuan Pembelajaran (TP)</TabsTrigger>
+                <TabsTrigger value="atp" className="rounded-xl px-4 md:px-6 py-3 whitespace-nowrap data-[state=active]:bg-brand-deep data-[state=active]:text-white flex-1 md:flex-none transition-all">Alur Tujuan Pembelajaran (ATP)</TabsTrigger>
             </TabsList>
 
             <TabsContent value="cp" className="w-full">
