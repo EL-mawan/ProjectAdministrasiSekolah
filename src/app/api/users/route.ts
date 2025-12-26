@@ -40,8 +40,13 @@ export async function GET(request: NextRequest) {
     console.log(`[DEBUG] /api/users found ${users.length} users with where:`, JSON.stringify(where))
 
     return NextResponse.json({ users })
-  } catch (error) {
-    return NextResponse.json({ error: 'Terjadi kesalahan server' }, { status: 500 })
+  } catch (error: any) {
+    console.error('[API_USERS_GET_ERROR]', error)
+    return NextResponse.json({ 
+      error: 'Terjadi kesalahan server', 
+      details: error.message,
+      stack: error.stack
+    }, { status: 500 })
   }
 }
 
