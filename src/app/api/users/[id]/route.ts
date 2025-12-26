@@ -40,35 +40,83 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       updateData.password = await bcrypt.hash(data.password, 10)
     }
 
-    const user = await db.user.update({
-      where: { id: params.id },
-      data: {
-        ...updateData,
-        ...( (data.role === 'TEACHER' || data.role === 'HOMEROOM') && {
-          teacherProfile: {
-            upsert: {
-              create: {
-                name: data.name || '',
-                email: data.email || '',
-                gender: 'MALE',
-                birthDate: new Date(),
-                birthPlace: '-',
-                address: '-',
-                hireDate: new Date(),
-                schoolId: (await db.school.findFirst())?.id || '',
-                subjects: data.subjectId ? { connect: { id: data.subjectId } } : undefined,
-                classes: data.classId ? { connect: { id: data.classId } } : undefined
-              },
-              update: {
-                ...(data.name && { name: data.name }),
-                ...(data.email && { email: data.email }),
-                subjects: data.subjectId ? { set: [{ id: data.subjectId }] } : undefined,
-                classes: data.classId ? { set: [{ id: data.classId }] } : undefined
-              }
-            }
+    // First, get or create teacher profile if needed
+    let teacherProfileId: string | null = null
+    
+    if (data.role === 'TEACHER' || data.role === 'HOMEROOM') {
+      const school = await db.school.findFirst()
+      if (!school) {
+        return NextResponse.json({ error: 'Sekolah tidak ditemukan' }, { status: 400 })
+      }
+
+      const existingUser = await db.user.findUnique({
+        where: { id: params.id },
+        include: { teacherProfile: true }
+      })
+
+      if (existingUser?.teacherProfile) {
+        // Update existing teacher profile
+        await db.teacher.update({
+          where: { id: existingUser.teacherProfile.id },
+          data: {
+            ...(data.name && { name: data.name }),
+            ...(data.email && { email: data.email })
           }
         })
-      },
+        teacherProfileId = existingUser.teacherProfile.id
+      } else {
+        // Create new teacher profile
+        const newTeacher = await db.teacher.create({
+          data: {
+            userId: params.id,
+            name: data.name || '',
+            email: data.email || '',
+            gender: 'MALE',
+            birthDate: new Date(),
+            birthPlace: '-',
+            address: '-',
+            hireDate: new Date(),
+            schoolId: school.id
+          }
+        })
+        teacherProfileId = newTeacher.id
+      }
+
+      // Update Subject teacherId if role is TEACHER
+      if (data.role === 'TEACHER' && data.subjectId) {
+        // First, remove this teacher from any other subjects
+        await db.subject.updateMany({
+          where: { teacherId: teacherProfileId },
+          data: { teacherId: null }
+        })
+        
+        // Then assign to the selected subject
+        await db.subject.update({
+          where: { id: data.subjectId },
+          data: { teacherId: teacherProfileId }
+        })
+      }
+
+      // Update Class homeroomId if role is HOMEROOM
+      if (data.role === 'HOMEROOM' && data.classId) {
+        // First, remove this teacher from any other classes
+        await db.class.updateMany({
+          where: { homeroomId: teacherProfileId },
+          data: { homeroomId: null }
+        })
+        
+        // Then assign to the selected class
+        await db.class.update({
+          where: { id: data.classId },
+          data: { homeroomId: teacherProfileId }
+        })
+      }
+    }
+
+    // Now update the user
+    const user = await db.user.update({
+      where: { id: params.id },
+      data: updateData,
       select: {
         id: true,
         email: true,
@@ -80,22 +128,6 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         }
       }
     })
-
-    // Sync Class homeroomId if role is HOMEROOM
-    if (data.role === 'HOMEROOM' && data.classId && user.teacherProfile) {
-      await db.class.update({
-        where: { id: data.classId },
-        data: { homeroomId: user.teacherProfile.id }
-      })
-    }
-
-    // Sync Subject teacherId if role is TEACHER
-    if (data.role === 'TEACHER' && data.subjectId && user.teacherProfile) {
-      await db.subject.update({
-        where: { id: data.subjectId },
-        data: { teacherId: user.teacherProfile.id }
-      })
-    }
 
     return NextResponse.json({ message: 'User berhasil diperbarui', user })
   } catch (error) {
