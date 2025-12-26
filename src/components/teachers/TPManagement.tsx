@@ -419,7 +419,7 @@ export default function TPManagement({ user }: { user: any }) {
                         <Card key={cp.id} className="p-8 rounded-[2rem] border-none shadow-xl bg-white hover:shadow-2xl transition-all group relative overflow-hidden">
                              <div className="flex justify-between items-start gap-6 relative z-10">
                                  <div className="flex gap-6">
-                                     <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center text-brand-purple shrink-0 group-hover:bg-brand-deep group-hover:text-white transition-all shadow-inner">
+                                     <div className="hidden md:flex w-16 h-16 bg-indigo-50 rounded-2xl items-center justify-center text-brand-purple shrink-0 group-hover:bg-brand-deep group-hover:text-white transition-all shadow-inner">
                                         <Target className="w-8 h-8" />
                                      </div>
                                      <div>
@@ -462,7 +462,7 @@ export default function TPManagement({ user }: { user: any }) {
                         <Card key={tp.id} className="p-8 rounded-[2rem] border-none shadow-xl bg-white hover:shadow-2xl transition-all group relative overflow-hidden">
                              <div className="flex justify-between items-start gap-6 relative z-10">
                                  <div className="flex gap-6">
-                                     <div className="w-16 h-16 bg-brand-deep rounded-2xl flex items-center justify-center text-white font-black text-xl shrink-0 transition-transform group-hover:scale-110 shadow-lg shadow-brand-deep/20">
+                                     <div className="hidden md:flex w-16 h-16 bg-brand-deep rounded-2xl items-center justify-center text-white font-black text-xl shrink-0 transition-transform group-hover:scale-110 shadow-lg shadow-brand-deep/20">
                                          {tp.code.split(' ')[1] || tp.code}
                                      </div>
                                      <div>
