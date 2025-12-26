@@ -239,8 +239,15 @@ export default function SchoolManagement() {
                           <Input value={formData.postalCode} onChange={e => handleChange('postalCode', e.target.value)} className="pl-12 py-7 rounded-2xl border-gray-100 bg-gray-50/50 font-bold focus-visible:ring-brand-purple" />
                        </div>
                     </div>
+                    <div className="space-y-3">
+                       <Label className="text-sm font-bold text-gray-700 ml-1">Berdiri Sejak</Label>
+                       <div className="relative">
+                          <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-purple/50" />
+                          <Input value={formData.foundedYear} onChange={e => handleChange('foundedYear', e.target.value)} className="pl-12 py-7 rounded-2xl border-gray-100 bg-gray-50/50 font-bold focus-visible:ring-brand-purple" placeholder="Contoh: 1985" />
+                       </div>
+                    </div>
                     <div className="md:col-span-2 space-y-3">
-                       <Label className="text-sm font-bold text-gray-700 ml-1">Alamat Lengkap</Label>
+                       <Label className="text-sm font-bold text-gray-700 ml-1">Alamat</Label>
                        <div className="relative">
                           <MapPin className="absolute left-4 top-6 w-4 h-4 text-brand-purple/50" />
                           <Textarea 
