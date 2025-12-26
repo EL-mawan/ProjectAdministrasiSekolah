@@ -104,7 +104,15 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
       setLoading(true)
       const res = await fetch('/api/users', { cache: 'no-store' })
       const data = await res.json()
-      if (res.ok) setUsers(data.users)
+      if (res.ok) {
+        setUsers(data.users)
+      } else {
+        toast({
+          title: 'Gagal memuat data user',
+          description: data.error || 'Terjadi kesalahan saat mengambil data dari server.',
+          variant: 'destructive',
+        })
+      }
     } finally { setLoading(false) }
   }
 
