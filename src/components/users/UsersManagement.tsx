@@ -319,28 +319,40 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
                 </div>
                 {formData.role === 'TEACHER' && (
                   <div className="grid gap-2">
-                    <Label className="text-gray-700 font-bold">Pilih Mata Pelajaran</Label>
+                    <Label className="text-gray-700 font-bold flex items-center">
+                      Pilih Mata Pelajaran
+                      {formData.subjectId && <Shield className="w-3 h-3 ml-2 text-brand-purple" />}
+                    </Label>
                     <Select value={formData.subjectId} onValueChange={v => setFormData({...formData, subjectId: v})}>
-                      <SelectTrigger className="rounded-xl border-gray-100 py-6 px-4"><SelectValue placeholder="Pilih Mapel" /></SelectTrigger>
+                      <SelectTrigger disabled={!!formData.subjectId} className={`rounded-xl border-gray-100 py-6 px-4 ${formData.subjectId ? 'bg-gray-50 opacity-80 cursor-not-allowed' : ''}`}>
+                        <SelectValue placeholder="Pilih Mapel" />
+                      </SelectTrigger>
                       <SelectContent className="rounded-xl">
                         {subjects.map(s => (
                           <SelectItem key={s.id} value={s.id}>{s.name} ({s.code})</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                    {formData.subjectId && <p className="text-[10px] text-gray-400 italic">* Terkunci otomatis sesuai data Akademik</p>}
                   </div>
                 )}
                 {formData.role === 'HOMEROOM' && (
                   <div className="grid gap-2">
-                    <Label className="text-gray-700 font-bold">Pilih Kelas</Label>
+                    <Label className="text-gray-700 font-bold flex items-center">
+                      Pilih Kelas
+                      {formData.classId && <Shield className="w-3 h-3 ml-2 text-brand-purple" />}
+                    </Label>
                     <Select value={formData.classId} onValueChange={v => setFormData({...formData, classId: v})}>
-                      <SelectTrigger className="rounded-xl border-gray-100 py-6 px-4"><SelectValue placeholder="Pilih Kelas" /></SelectTrigger>
+                      <SelectTrigger disabled={!!formData.classId} className={`rounded-xl border-gray-100 py-6 px-4 ${formData.classId ? 'bg-gray-50 opacity-80 cursor-not-allowed' : ''}`}>
+                        <SelectValue placeholder="Pilih Kelas" />
+                      </SelectTrigger>
                       <SelectContent className="rounded-xl">
                         {classes.map(c => (
                           <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                    {formData.classId && <p className="text-[10px] text-gray-400 italic">* Terkunci otomatis sesuai data Akademik</p>}
                   </div>
                 )}
                 <div className="grid gap-2">
@@ -398,28 +410,40 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
                 </div>
                 {editFormData.role === 'TEACHER' && (
                   <div className="grid gap-2">
-                    <Label className="text-gray-700 font-bold">Pilih Mata Pelajaran</Label>
+                    <Label className="text-gray-700 font-bold flex items-center">
+                      Pilih Mata Pelajaran
+                      {editFormData.subjectId && <Shield className="w-3 h-3 ml-2 text-brand-purple" />}
+                    </Label>
                     <Select value={editFormData.subjectId} onValueChange={v => setEditFormData({...editFormData, subjectId: v})}>
-                      <SelectTrigger className="rounded-xl border-gray-100 py-6 px-4"><SelectValue placeholder="Pilih Mapel" /></SelectTrigger>
+                      <SelectTrigger disabled={!!editFormData.subjectId} className={`rounded-xl border-gray-100 py-6 px-4 ${editFormData.subjectId ? 'bg-gray-50 opacity-80 cursor-not-allowed' : ''}`}>
+                        <SelectValue placeholder="Pilih Mapel" />
+                      </SelectTrigger>
                       <SelectContent className="rounded-xl">
                         {subjects.map(s => (
                           <SelectItem key={s.id} value={s.id}>{s.name} ({s.code})</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                    {editFormData.subjectId && <p className="text-[10px] text-gray-400 italic">* Terkunci otomatis sesuai data Akademik</p>}
                   </div>
                 )}
                 {editFormData.role === 'HOMEROOM' && (
                   <div className="grid gap-2">
-                    <Label className="text-gray-700 font-bold">Pilih Kelas</Label>
+                    <Label className="text-gray-700 font-bold flex items-center">
+                      Pilih Kelas
+                      {editFormData.classId && <Shield className="w-3 h-3 ml-2 text-brand-purple" />}
+                    </Label>
                     <Select value={editFormData.classId} onValueChange={v => setEditFormData({...editFormData, classId: v})}>
-                      <SelectTrigger className="rounded-xl border-gray-100 py-6 px-4"><SelectValue placeholder="Pilih Kelas" /></SelectTrigger>
+                      <SelectTrigger disabled={!!editFormData.classId} className={`rounded-xl border-gray-100 py-6 px-4 ${editFormData.classId ? 'bg-gray-50 opacity-80 cursor-not-allowed' : ''}`}>
+                        <SelectValue placeholder="Pilih Kelas" />
+                      </SelectTrigger>
                       <SelectContent className="rounded-xl">
                         {classes.map(c => (
                           <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                    {editFormData.classId && <p className="text-[10px] text-gray-400 italic">* Terkunci otomatis sesuai data Akademik</p>}
                   </div>
                 )}
                 <div className="grid gap-2">
