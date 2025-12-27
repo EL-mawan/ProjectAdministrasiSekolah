@@ -43,6 +43,12 @@ export async function GET(request: NextRequest) {
               id: true,
               name: true
             }
+          },
+          subjects: {
+            select: {
+              id: true,
+              name: true
+            }
           }
         },
         orderBy: {

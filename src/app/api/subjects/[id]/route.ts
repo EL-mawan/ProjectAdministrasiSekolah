@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const p = await params
     const subjectRaw = await db.subject.findUnique({
-      where: { id: params.id },
+      where: { id: p.id },
       include: { 
         teachers: true, 
         school: true, 
@@ -26,11 +27,12 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const p = await params
     const data = await request.json()
     const subject = await db.subject.update({
-      where: { id: params.id },
+      where: { id: p.id },
       data: {
         ...(data.code && { code: data.code }),
         ...(data.name && { name: data.name }),
@@ -50,9 +52,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await db.subject.delete({ where: { id: params.id } })
+    const p = await params
+    await db.subject.delete({ where: { id: p.id } })
     return NextResponse.json({ message: 'Mata pelajaran berhasil dihapus' })
   } catch (error) {
     return NextResponse.json({ error: 'Terjadi kesalahan server' }, { status: 500 })

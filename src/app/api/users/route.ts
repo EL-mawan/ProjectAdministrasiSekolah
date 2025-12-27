@@ -114,7 +114,11 @@ export async function POST(request: NextRequest) {
       if (teacher) {
         await db.subject.update({
           where: { id: data.subjectId },
-          data: { teacherId: teacher.id }
+          data: { 
+            teachers: {
+              connect: { id: teacher.id }
+            }
+          }
         })
       }
     }

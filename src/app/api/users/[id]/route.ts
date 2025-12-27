@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const p = await params
     const user = await db.user.findUnique({
-      where: { id: params.id },
+      where: { id: p.id },
       select: {
         id: true,
         email: true,
@@ -25,8 +26,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const p = await params
     const data = await request.json()
     
     const updateData: any = {
@@ -50,7 +52,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       }
 
       const existingUser = await db.user.findUnique({
-        where: { id: params.id },
+        where: { id: p.id },
         include: { teacherProfile: true }
       })
 
@@ -68,7 +70,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         // Create new teacher profile
         const newTeacher = await db.teacher.create({
           data: {
-            userId: params.id,
+            userId: p.id,
             name: data.name || '',
             email: data.email || '',
             gender: 'MALE',
@@ -119,7 +121,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
     // Now update the user
     const user = await db.user.update({
-      where: { id: params.id },
+      where: { id: p.id },
       data: updateData,
       select: {
         id: true,
@@ -139,9 +141,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await db.user.delete({ where: { id: params.id } })
+    const p = await params
+    await db.user.delete({ where: { id: p.id } })
     return NextResponse.json({ message: 'User berhasil dihapus' })
   } catch (error) {
     return NextResponse.json({ error: 'Terjadi kesalahan server' }, { status: 500 })

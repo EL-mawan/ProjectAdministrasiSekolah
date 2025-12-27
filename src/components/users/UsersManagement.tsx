@@ -76,11 +76,13 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
 
   const [classes, setClasses] = useState<any[]>([])
   const [subjects, setSubjects] = useState<any[]>([])
+  const [teachers, setTeachers] = useState<any[]>([])
 
   useEffect(() => {
     fetchUsers()
     fetchClasses()
     fetchSubjects()
+    fetchTeachers()
   }, [])
 
   const fetchClasses = async () => {
@@ -96,6 +98,14 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
       const res = await fetch('/api/subjects')
       const data = await res.json()
       if (res.ok) setSubjects(data.subjects)
+    } catch (error) { console.error(error) }
+  }
+
+  const fetchTeachers = async () => {
+    try {
+      const res = await fetch('/api/teachers?limit=200')
+      const data = await res.json()
+      if (res.ok) setTeachers(data.teachers)
     } catch (error) { console.error(error) }
   }
 
@@ -230,7 +240,65 @@ export default function UsersManagement({ activeMenu }: UsersManagementProps) {
             <div className="grid gap-6 py-6 font-medium">
               <div className="grid gap-2">
                 <Label className="text-gray-700 font-bold">Nama Lengkap</Label>
-                <Input className="rounded-xl border-gray-100 py-6 px-4" placeholder="Contoh: Ahmad Subarjo" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                <div className="relative">
+                  <Input 
+                    className="rounded-xl border-gray-100 py-6 px-4" 
+                    placeholder="Contoh: Ahmad Subarjo" 
+                    value={formData.name} 
+                    onChange={e => {
+                      const val = e.target.value;
+                      setFormData({...formData, name: val});
+                      
+                      // Auto-lookup logic
+                      const teacher = teachers.find(t => t.name.toLowerCase() === val.toLowerCase());
+                      if (teacher) {
+                        if (formData.role === 'TEACHER' && teacher.subjects?.length > 0) {
+                          setFormData(prev => ({...prev, subjectId: teacher.subjects[0].id}));
+                          toast({ title: "Mapel Terdeteksi", description: `Menghubungkan ke: ${teacher.subjects[0].name}` });
+                        }
+                        if (formData.role === 'HOMEROOM' && teacher.classes?.length > 0) {
+                          setFormData(prev => ({...prev, classId: teacher.classes[0].id}));
+                          toast({ title: "Kelas Terdeteksi", description: `Menghubungkan ke: ${teacher.classes[0].name}` });
+                        }
+                        // Also auto-fill email if available
+                        if (teacher.email && !formData.email) {
+                          setFormData(prev => ({...prev, email: teacher.email}));
+                        }
+                      }
+                    }} 
+                  />
+                  {/* Suggestions list simple implementation */}
+                  {formData.name.length > 2 && teachers.some(t => t.name.toLowerCase().includes(formData.name.toLowerCase()) && t.name !== formData.name) && (
+                    <div className="absolute z-50 top-full left-0 w-full mt-1 bg-white border border-gray-100 rounded-xl shadow-xl max-h-48 overflow-y-auto">
+                      {teachers
+                        .filter(t => t.name.toLowerCase().includes(formData.name.toLowerCase()) && t.name !== formData.name)
+                        .map(t => (
+                          <div 
+                            key={t.id} 
+                            className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm font-medium border-b border-gray-50 last:border-none"
+                            onClick={() => {
+                              setFormData(prev => {
+                                const newData = { ...prev, name: t.name, email: t.email || prev.email };
+                                if (prev.role === 'TEACHER' && t.subjects?.length > 0) {
+                                  newData.subjectId = t.subjects[0].id;
+                                }
+                                if (prev.role === 'HOMEROOM' && t.classes?.length > 0) {
+                                  newData.classId = t.classes[0].id;
+                                }
+                                return newData;
+                              });
+                            }}
+                          >
+                            <div className="flex justify-between items-center">
+                              <span>{t.name}</span>
+                              <Badge variant="secondary" className="text-[10px]">Pilih</Badge>
+                            </div>
+                            {t.subjects?.length > 0 && <p className="text-[10px] text-indigo-500">Mapel: {t.subjects[0].name}</p>}
+                          </div>
+                        ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="grid gap-2">
                 <Label className="text-gray-700 font-bold">Alamat Email</Label>

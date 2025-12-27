@@ -512,140 +512,189 @@ async function main() {
   // 11. Create CP & TP (Kurikulum Merdeka 2024 Reference)
   console.log('📚 Seeding Kurikulum Merdeka CP & TP...')
   
-  const cpData = [
-    // PENDIDIKAN AGAMA DAN BUDI PEKERTI (PABP)
+  const cpTpData = [
     {
-      subjectCode: 'PABP', phase: 'A', element: 'Al-Qur’an dan Hadis',
-      description: 'Peserta didik mampu mengenal huruf hijaiyah dan harakatnya, huruf hijaiyah bersambung, dan mampu membaca surah-surah pendek Al-Qur’an dengan baik.'
+      subjectCode: 'MAT',
+      fases: [
+        {
+          phase: 'A',
+          elements: [
+            {
+              element: 'Bilangan',
+              cp: 'Peserta didik menunjukkan pemahaman dan memiliki intuisi bilangan (number sense) pada bilangan cacah sampai 100, mereka dapat membaca, menulis, menentukan nilai tempat, membandingkan, mengurutkan, serta melakukan komposisi (menyusun) dan dekomposisi (mengurai) bilangan.',
+              tps: [
+                { grade: '1', term: '1', desc: 'Mengenal bilangan cacah sampai dengan 20' },
+                { grade: '1', term: '1', desc: 'Membaca dan menulis lambang bilangan cacah sampai dengan 20' },
+                { grade: '1', term: '2', desc: 'Membandingkan dan mengurutkan bilangan cacah sampai dengan 50' },
+                { grade: '2', term: '1', desc: 'Menentukan nilai tempat bilangan cacah sampai with 100' },
+                { grade: '2', term: '2', desc: 'Melakukan komposisi dan dekomposisi bilangan cacah sampai with 100' }
+              ]
+            },
+            {
+              element: 'Aljabar',
+              cp: 'Peserta didik dapat menunjukkan pemahaman makna simbol matematika "=" dalam kalimat matematika yang terkait dengan penjumlahan dan pengurangan bilangan cacah sampai 20 menggunakan gambar.',
+              tps: [
+                { grade: '1', term: '2', desc: 'Mengenal simbol sama dengan (=) dalam penjumlahan sederhana' },
+                { grade: '2', term: '1', desc: 'Menyelesaikan kalimat matematika penjumlahan sampai 20 menggunakan gambar' }
+              ]
+            }
+          ]
+        },
+        {
+          phase: 'B',
+          elements: [
+            {
+              element: 'Bilangan',
+              cp: 'Peserta didik menunjukkan pemahaman dan intuisi bilangan (number sense) pada bilangan cacah sampai 10.000. Mereka dapat membaca, menulis, menentukan nilai tempat, membandingkan, mengurutkan, menggunakan nilai tempat, melakukan komposisi dan dekomposisi bilangan tersebut.',
+              tps: [
+                { grade: '3', term: '1', desc: 'Mengenal bilangan cacah sampai dengan 1.000' },
+                { grade: '4', term: '1', desc: 'Membaca dan menulis bilangan cacah sampai 10.000' },
+                { grade: '4', term: '2', desc: 'Melakukan operasi perkalian dan pembagian bilangan cacah sampai 100' }
+              ]
+            }
+          ]
+        },
+        {
+          phase: 'C',
+          elements: [
+            {
+              element: 'Bilangan',
+              cp: 'Peserta didik menunjukkan pemahaman dan intuisi bilangan (number sense) pada bilangan cacah sampai 1.000.000. Mereka dapat membaca, menulis, menentukan nilai tempat, membandingkan, mengurutkan, melakukan komposisi dan dekomposisi bilangan tersebut.',
+              tps: [
+                { grade: '5', term: '1', desc: 'Membaca dan menulis bilangan cacah sampai 100.000' },
+                { grade: '6', term: '1', desc: 'Memahami konsep bilangan desimal dan persen' },
+                { grade: '6', term: '2', desc: 'Menyelesaikan masalah terkait KPK dan FPB' }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      subjectCode: 'PABP', phase: 'A', element: 'Aqidah',
-      description: 'Peserta didik mengenal rukun iman kepada Allah melalui nama-nama-Nya yang agung (Asmaulhusna) dan mengenal para malaikat serta tugas yang diembannya.'
+      subjectCode: 'BIN',
+      fases: [
+        {
+          phase: 'A',
+          elements: [
+            {
+              element: 'Menyimak',
+              cp: 'Peserta didik mampu bersikap menjadi pendengar yang penuh perhatian. Peserta didik menunjukkan minat pada tuturan yang didengar serta mampu memahami pesan lisan dan informasi dari media audio.',
+              tps: [
+                { grade: '1', term: '1', desc: 'Menyimak instruksi guru dengan penuh perhatian' },
+                { grade: '2', term: '1', desc: 'Memahami pesan lisan dari cerita pendek yang dibacakan' }
+              ]
+            },
+            {
+              element: 'Membaca dan Memirsa',
+              cp: 'Peserta didik mampu bersikap menjadi pembaca dan pemirsa yang menunjukkan minat terhadap teks yang dibaca atau dipirsa. Peserta didik mampu membaca kata-kata yang dikenal sehari-hari dengan fasih.',
+              tps: [
+                { grade: '1', term: '1', desc: 'Membaca suku kata dan kata sederhana' },
+                { grade: '2', term: '2', desc: 'Membaca teks naratif pendek dengan intonasi yang benar' }
+              ]
+            }
+          ]
+        },
+        {
+          phase: 'B',
+          elements: [
+            {
+              element: 'Menulis',
+              cp: 'Peserta didik mampu menulis teks narasi, teks deskripsi, teks rekon, teks prosedur, dan teks eksposisi dengan rangkaian kalimat yang beragam, informasi yang rinci dan akurat dengan struktur yang berpola.',
+              tps: [
+                { grade: '3', term: '1', desc: 'Menulis teks deskripsi sederhana tentang lingkungan' },
+                { grade: '4', term: '2', desc: 'Menyusun teks prosedur melakukan sesuatu' }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      subjectCode: 'PABP', phase: 'B', element: 'Fiqih',
-      description: 'Peserta didik mampu melaksanakan puasa, salat jumat dan salat sunah dengan baik, memahami ketentuan baligh dan tanggung jawab yang menyertainya.'
+      subjectCode: 'IPAS',
+      fases: [
+        {
+          phase: 'B',
+          elements: [
+            {
+              element: 'Pemahaman IPAS',
+              cp: 'Peserta didik menganalisis hubungan antara bentuk serta fungsi bagian tubuh pada manusia (pancaindra). Peserta didik dapat membuat simulasi siklus hidup makhluk hidup.',
+              tps: [
+                { grade: '3', term: '1', desc: 'Mengidentifikasi panca indra manusia dan fungsinya' },
+                { grade: '4', term: '1', desc: 'Menganalisis siklus hidup hewan di lingkungan sekitar' }
+              ]
+            }
+          ]
+        },
+        {
+          phase: 'C',
+          elements: [
+            {
+              element: 'Pemahaman IPAS',
+              cp: 'Peserta didik melakukan simulasi dengan menggunakan gambar/bagan/alat/media sederhana tentang sistem organ tubuh manusia (sistem pernafasan/pencernaan/peredaran darah) yang dikaitkan dengan cara menjaga kesehatan organ tubuhnya.',
+              tps: [
+                { grade: '5', term: '1', desc: 'Menjelaskan sistem pernapasan pada manusia' },
+                { grade: '6', term: '1', desc: 'Memahami sistem peredaran darah manusia' }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
-      subjectCode: 'PABP', phase: 'C', element: 'Akhlak',
-      description: 'Peserta didik menghormati dan berbakti kepada orang tua dan guru, serta menyampaikan ungkapan-ungkapan positif (kalimah ṭayyibah) dalam keseharian.'
-    },
-
-    // BAHASA INDONESIA
-    {
-      subjectCode: 'BIN', phase: 'A', element: 'Menyimak',
-      description: 'Peserta didik mampu bersikap menjadi pendengar yang penuh perhatian. Peserta didik menunjukkan minat pada tuturan yang didengar serta mampu memahami pesan lisan.'
-    },
-    {
-      subjectCode: 'BIN', phase: 'A', element: 'Membaca dan Memirsa',
-      description: 'Peserta didik mampu bersikap menjadi pembaca dan pemirsa yang menunjukkan minat terhadap teks yang dibaca atau dipirsa. Peserta didik mampu membaca kata-kata yang dikenal sehari-hari.'
-    },
-    {
-      subjectCode: 'BIN', phase: 'B', element: 'Menulis',
-      description: 'Peserta didik mampu menulis teks narasi, teks deskripsi, teks rekon, teks prosedur, dan teks eksposisi dengan rangkaian kalimat yang beragam dan informasi yang rinci.'
-    },
-    {
-      subjectCode: 'BIN', phase: 'C', element: 'Berbicara dan Mempresentasikan',
-      description: 'Peserta didik mampu menyampaikan gagasan, pikiran, pandangan, arahan atau pesan untuk tujuan pengajuan usul, pemecahan masalah, dan pemberian solusi secara lisan.'
-    },
-    
-    // MATEMATIKA
-    {
-      subjectCode: 'MAT', phase: 'A', element: 'Bilangan',
-      description: 'Peserta didik menunjukkan pemahaman dan memiliki intuisi bilangan (number sense) pada bilangan cacah sampai 100, mereka dapat membaca, menulis, menentukan nilai tempat.'
-    },
-    {
-      subjectCode: 'MAT', phase: 'B', element: 'Pengukuran',
-      description: 'Peserta didik dapat mengukur panjang dan berat benda menggunakan satuan baku. Mereka dapat menentukan hubungan antar-satuan baku panjang (cm, m).'
-    },
-    {
-      subjectCode: 'MAT', phase: 'C', element: 'Data dan Peluang',
-      description: 'Peserta didik dapat mengurutkan, membandingkan, menyajikan, dan menganalisis data banyak benda dan data hasil pengukuran dalam bentuk gambar, piktogram, diagram batang, dan diagram garis.'
-    },
-
-    // PJOK
-    {
-      subjectCode: 'PJOK', phase: 'A', element: 'Keterampilan Gerak',
-      description: 'Peserta didik mampu menirukan aktivitas pola gerak dasar, aktivitas senam, aktivitas gerak berirama, dan aktivitas permainan dan olahraga air (kondisional).'
-    },
-    {
-      subjectCode: 'PJOK', phase: 'B', element: 'Pemanfaatan Gerak',
-      description: 'Peserta didik mampu menerapkan prosedur latihan pengembangan kebugaran jasmani sederhana dan pola perilaku hidup sehat.'
-    },
-    {
-      subjectCode: 'PJOK', phase: 'C', element: 'Pengembangan Karakter',
-      description: 'Peserta didik secara konsisten menerapkan nilai-nilai sportivitas, kerjasama, dan tanggung jawab dalam berbagai aktivitas jasmani.'
-    },
-
-    // IPAS
-    {
-      subjectCode: 'IPAS', phase: 'B', element: 'Pemahaman IPAS',
-      description: 'Peserta didik menganalisis hubungan antara bentuk serta fungsi bagian tubuh pada manusia (pancaindra). Peserta didik dapat membuat simulasi siklus hidup makhluk hidup.'
-    },
-    {
-      subjectCode: 'IPAS', phase: 'C', element: 'Pemahaman IPAS',
-      description: 'Peserta didik melakukan simulasi dengan menggunakan gambar/bagan/alat/media sederhana tentang sistem organ tubuh manusia (sistem pernafasan/pencernaan/peredaran darah).'
-    },
-
-    // PANCASILA
-    {
-      subjectCode: 'PP', phase: 'A', element: 'Pancasila',
-      description: 'Peserta didik mampu mengenal dan menceritakan simbol dan sila-sila Pancasila dalam lambang negara Garuda Pancasila.'
-    },
-    {
-      subjectCode: 'PP', phase: 'B', element: 'Undang-Undang Dasar Negara Republik Indonesia Tahun 1945',
-      description: 'Peserta didik mampu mengidentifikasi aturan di keluarga, sekolah, dan lingkungan sekitar tempat tinggal.'
+      subjectCode: 'PP',
+      fases: [
+        {
+          phase: 'A',
+          elements: [
+            {
+              element: 'Pancasila',
+              cp: 'Peserta didik mampu mengenal dan menceritakan simbol dan sila-sila Pancasila dalam lambang negara Garuda Pancasila.',
+              tps: [
+                { grade: '1', term: '1', desc: 'Menghafal sila-sila Pancasila' },
+                { grade: '2', term: '1', desc: 'Mengenal simbol sila Pancasila' }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 
-  for (const cp of cpData) {
-     const subject = await prisma.subject.findFirst({ where: { code: cp.subjectCode } })
-     if (subject) {
-        const createdCP = await prisma.capaianPembelajaran.create({
-            data: {
-                subjectId: subject.id,
-                element: cp.element,
-                phase: cp.phase,
-                description: cp.description,
-            }
+  const subjectMap = new Map(createdSubjects.map(s => [s.code, s.id]))
+
+  for (const item of cpTpData) {
+    const subjectId = subjectMap.get(item.subjectCode)
+    if (!subjectId) continue
+
+    for (const fase of item.fases) {
+      for (const el of fase.elements) {
+        const cp = await prisma.capaianPembelajaran.create({
+          data: {
+            subjectId,
+            phase: fase.phase,
+            element: el.element,
+            description: el.cp,
+            code: `${item.subjectCode}-CP-${fase.phase}-${el.element.substring(0, 3).toUpperCase()}`
+          }
         })
 
-        // Auto-generate some TPs based on CP for relevant grades
-        let targetGrades: string[] = []
-        if (cp.phase === 'A') targetGrades = ['1', '2']
-        if (cp.phase === 'B') targetGrades = ['3', '4']
-        if (cp.phase === 'C') targetGrades = ['5', '6']
-
-        for (const grade of targetGrades) {
-            // Find a teacher for this subject (random pick) needs to be available
-            const teacher = teachers[0] // Just pick first teacher as owner for now
-            
-            await prisma.learningObjective.create({
-                data: {
-                    subjectId: subject.id,
-                    teacherId: teacher.id, // In real app, this should be specific teacher
-                    cpId: createdCP.id,
-                    code: `TP.${cp.subjectCode}.${grade}.${randomInt(1,5)}`,
-                    grade: grade,
-                    semester: '1',
-                    schoolYear: '2024/2025',
-                    description: `Peserta didik mampu ${cp.description.split('mampu')[1]?.split('.')[0] || 'memahami materi tersebut'}.`,
-                }
-            })
-             await prisma.learningObjective.create({
-                data: {
-                    subjectId: subject.id,
-                    teacherId: teacher.id,
-                    cpId: createdCP.id,
-                    code: `TP.${cp.subjectCode}.${grade}.${randomInt(6,9)}`,
-                    grade: grade,
-                    semester: '2',
-                    schoolYear: '2024/2025',
-                    description: `Peserta didik dapat mempraktikkan ${cp.element} dalam konteks kehidupan sehari-hari.`,
-                }
-            })
+        for (const tp of el.tps) {
+          const teacher = randomItem(teachers)
+          await prisma.learningObjective.create({
+            data: {
+              subjectId,
+              teacherId: teacher.id,
+              cpId: cp.id,
+              code: `${cp.code}-TP-${tp.grade}-${tp.term}`,
+              description: tp.desc,
+              grade: tp.grade,
+              semester: tp.term === '1' ? 'GANJIL' : 'GENAP',
+              schoolYear: '2024/2025'
+            }
+          })
         }
-     }
+      }
+    }
   }
 
   console.log('🎉 Seed completed successfully!')

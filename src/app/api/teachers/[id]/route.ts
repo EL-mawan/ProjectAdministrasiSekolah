@@ -4,11 +4,12 @@ import { db } from '@/lib/db'
 // GET - Get single teacher
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const p = await params
     const teacher = await db.teacher.findUnique({
-      where: { id: params.id },
+      where: { id: p.id },
       include: {
         user: {
           select: {
@@ -45,13 +46,14 @@ export async function GET(
 // PUT - Update teacher
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const p = await params
     const data = await request.json()
 
     const teacher = await db.teacher.update({
-      where: { id: params.id },
+      where: { id: p.id },
       data: {
         ...(data.nip && { nip: data.nip }),
         ...(data.nuptk && { nuptk: data.nuptk }),
@@ -99,11 +101,12 @@ export async function PUT(
 // DELETE - Delete teacher
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const p = await params
     const teacher = await db.teacher.findUnique({
-      where: { id: params.id },
+      where: { id: p.id },
       select: { userId: true }
     })
 
@@ -116,7 +119,7 @@ export async function DELETE(
 
     // Delete teacher first
     await db.teacher.delete({
-      where: { id: params.id }
+      where: { id: p.id }
     })
 
     // Then delete user
