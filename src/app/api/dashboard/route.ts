@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
+export const revalidate = 60 // Revalidate dashboard every 60 seconds
+
 export async function GET(request: NextRequest) {
   try {
     // Get total counts

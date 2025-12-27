@@ -2,6 +2,15 @@
 
 # Configuration
 COMMIT_MSG=${1:-"auto-sync: $(date '+%Y-%m-%d %H:%M:%S')"}
+SKIP_DEPLOY=false
+
+# Check for skip flag
+for arg in "$@"; do
+    if [ "$arg" == "--no-deploy" ] || [ "$arg" == "--skip" ]; then
+        SKIP_DEPLOY=true
+        COMMIT_MSG="$COMMIT_MSG [skip ci]"
+    fi
+done
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -11,6 +20,9 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}🚀 Starting synchronization...${NC}"
+if [ "$SKIP_DEPLOY" = true ]; then
+    echo -e "${YELLOW}⚠️  Vercel deployment will be skipped ([skip ci])${NC}"
+fi
 
 # 1. Sync with GitHub
 echo -e "${YELLOW}📦 Staging changes...${NC}"
@@ -37,12 +49,18 @@ else
 fi
 
 # 2. Sync with Supabase (Prisma)
-echo -e "${YELLOW}🗄️ Syncing database schema to Supabase...${NC}"
-if npx prisma db push --accept-data-loss; then
-    echo -e "${GREEN}✅ Database schema synced successfully!${NC}"
+# Optimization: Only push if schema changed
+if git diff --name-only HEAD~1 HEAD | grep -q "prisma/schema.prisma"; then
+    echo -e "${YELLOW}🗄️ Schema change detected! Syncing to Supabase...${NC}"
+    if npx prisma db push --accept-data-loss; then
+        echo -e "${GREEN}✅ Database schema synced successfully!${NC}"
+    else
+        echo -e "${RED}❌ Failed to sync database schema.${NC}"
+        exit 1
+    fi
 else
-    echo -e "${RED}❌ Failed to sync database schema.${NC}"
-    exit 1
+    echo -e "${GREEN}✅ No schema changes detected. Skipping db push.${NC}"
 fi
 
 echo -e "${BLUE}✨ All systems synchronized!${NC}"
+

@@ -14,8 +14,8 @@ while true; do
         # Add a small delay to allow multiple file saves to complete
         sleep 2
         
-        # Run the sync script
-        bash sync.sh "auto-sync: $(date '+%Y-%m-%d %H:%M:%S')"
+        # Run the sync script with skip deploy flag to save Vercel quota
+        bash sync.sh "auto-sync: $(date '+%H:%M:%S')" --no-deploy
         
         echo "😴 Waiting for next changes..."
     fi

@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole, Gender, StudentStatus, TeacherStatus } from '@prisma/client'
+import { PrismaClient, UserRole, Gender, StudentStatus, TeacherStatus, Day, GradeType } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
@@ -292,15 +292,19 @@ async function main() {
 
   // 6b. Subjects (Kurikulum Merdeka)
   const subjectsData = [
-    { code: 'PABP', name: 'Pendidikan Agama dan Budi Pekerti', desc: 'Membentuk akhlak mulia' },
-    { code: 'PP', name: 'Pendidikan Pancasila', desc: 'Membentuk profil pelajar Pancasila' },
-    { code: 'BIN', name: 'Bahasa Indonesia', desc: 'Literasi dan komunikasi' },
-    { code: 'MAT', name: 'Matematika', desc: 'Numerasi dan logika' },
-    { code: 'IPAS', name: 'Ilmu Pengetahuan Alam dan Sosial', desc: 'Sains dan sosial (Fase B & C)' },
-    { code: 'PJOK', name: 'PJOK', desc: 'Kesehatan dan kebugaran' },
-    { code: 'SENI', name: 'Seni dan Budaya', desc: 'Kreativitas dan ekspresi' },
-    { code: 'BIG', name: 'Bahasa Inggris', desc: 'Bahasa asing pilihan' },
-    { code: 'MULOK', name: 'Muatan Lokal', desc: 'Kearifan daerah' }
+    { code: 'PABP', name: 'Pendidikan Agama dan Budi Pekerti', desc: 'Membentuk karakter religius dan akhlak mulia', category: 'WAJIB' },
+    { code: 'PP', name: 'Pendidikan Pancasila', desc: 'Membentuk profil pelajar Pancasila', category: 'WAJIB' },
+    { code: 'BIN', name: 'Bahasa Indonesia', desc: 'Kemampuan literasi dan berkomunikasi', category: 'WAJIB' },
+    { code: 'MAT', name: 'Matematika', desc: 'Kemampuan numerasi dan berpikir logis', category: 'WAJIB' },
+    { code: 'IPAS', name: 'Ilmu Pengetahuan Alam dan Sosial', desc: 'Memahami alam dan sosial (Fase B & C)', category: 'WAJIB' },
+    { code: 'PJOK', name: 'Pendidikan Jasmani, Olahraga, dan Kesehatan', desc: 'Kebugaran dan kesehatan', category: 'WAJIB' },
+    { code: 'SRUPA', name: 'Seni Rupa', desc: 'Seni Rupa (Pilihan Seni)', category: 'SENI' },
+    { code: 'SMUSIK', name: 'Seni Musik', desc: 'Seni Musik (Pilihan Seni)', category: 'SENI' },
+    { code: 'STARI', name: 'Seni Tari', desc: 'Seni Tari (Pilihan Seni)', category: 'SENI' },
+    { code: 'STEATER', name: 'Seni Teater', desc: 'Seni Teater (Pilihan Seni)', category: 'SENI' },
+    { code: 'BIG', name: 'Bahasa Inggris', desc: 'Bahasa Asing Pilihan', category: 'PILIHAN' },
+    { code: 'MULOK1', name: 'Muatan Lokal: Bahasa Daerah', desc: 'Bahasa Daerah setempat', category: 'MULOK' },
+    { code: 'MULOK2', name: 'Muatan Lokal: PLBJ', desc: 'Pendidikan Lingkungan dan Budaya Jakarta', category: 'MULOK' }
   ]
 
   const createdSubjects: any[] = []
@@ -322,6 +326,94 @@ async function main() {
       createdSubjects.push(subject)
   }
   console.log(`📚 Created ${createdSubjects.length} subjects (Kurikulum Merdeka)`)
+
+  // 6c. Schedules (Jadwal Pelajaran)
+  console.log('📅 Generating Class Schedules...')
+  const days: Day[] = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY']
+  const timeSlots = ['07:00-08:00', '08:00-09:00', '09:30-10:30', '10:30-11:30', '12:30-13:30']
+
+  for (const cls of classes) {
+    const gradeNum = parseInt(cls.grade)
+    
+    // Filter subjects suitable for the grade
+    // IPAS start from Grade 3
+    const classSubjects = createdSubjects.filter(s => {
+      if (s.code === 'IPAS' && gradeNum < 3) return false
+      return true
+    })
+
+    // Create ~15 schedule slots per class
+    for (let day of days) {
+        // 3 slots per day
+        for (let i=0; i<3; i++) {
+            const subject = randomItem(classSubjects)
+            const teacher = randomItem(teachers)
+
+            await prisma.schedule.create({
+                data: {
+                    classId: cls.id,
+                    subjectId: subject.id,
+                    teacherId: teacher.id,
+                    day: day,
+                    startTime: timeSlots[i].split('-')[0],
+                    endTime: timeSlots[i].split('-')[1],
+                    semester: 'GANJIL',
+                    schoolYear: '2024/2025'
+                }
+            })
+        }
+    }
+  }
+  console.log('📅 Schedules created for all classes')
+
+  // 6d. Grades (Nilai) - Optimized with batch insert
+  console.log('📝 Generating Random Grades...')
+  const gradeTypes: GradeType[] = ['FORMATIVE', 'SUMMATIVE']
+  const gradesToCreate: any[] = []
+  
+  for (const cls of classes) {
+      // Find students in this class
+      const classStudents = students.filter(s => s.classId === cls.id)
+      const gradeNum = parseInt(cls.grade)
+      
+       // Filter subjects again for grade logic
+      const classSubjects = createdSubjects.filter(s => {
+        if (s.code === 'IPAS' && gradeNum < 3) return false
+        return true
+      })
+
+      for (const student of classStudents) {
+          // Generate grades for 3 random subjects (reduced for speed)
+          const selectedSubjects = classSubjects.sort(() => 0.5 - Math.random()).slice(0, 3)
+          
+          for (const subj of selectedSubjects) {
+              for (const type of gradeTypes) {
+                  // 50% chance to have a grade
+                  if (Math.random() > 0.5) {
+                      gradesToCreate.push({
+                          studentId: student.id,
+                          subjectId: subj.id,
+                          type: type,
+                          score: randomInt(75, 98),
+                          maxScore: 100,
+                          semester: 'GANJIL',
+                          schoolYear: '2024/2025',
+                          notes: `Nilai ${type} ${subj.name}`
+                      })
+                  }
+              }
+          }
+      }
+  }
+  
+  // Batch insert all grades at once (MUCH faster)
+  if (gradesToCreate.length > 0) {
+      await prisma.grade.createMany({
+          data: gradesToCreate,
+          skipDuplicates: true
+      })
+  }
+  console.log(`📝 Grades generated (${gradesToCreate.length} records)`)
 
   // 7. P5 Projects and Targets (Fase A, B, C)
   // Fase A (Kelas 1-2), Fase B (Kelas 3-4), Fase C (Kelas 5-6)
