@@ -3,11 +3,23 @@ import { db } from '@/lib/db'
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const subject = await db.subject.findUnique({
+    const subjectRaw = await db.subject.findUnique({
       where: { id: params.id },
-      include: { teacher: true, school: true, schedules: true, grades: true }
+      include: { 
+        teachers: true, 
+        school: true, 
+        schedules: true, 
+        grades: true 
+      }
     })
-    if (!subject) return NextResponse.json({ error: 'Mata pelajaran tidak ditemukan' }, { status: 404 })
+    
+    if (!subjectRaw) return NextResponse.json({ error: 'Mata pelajaran tidak ditemukan' }, { status: 404 })
+
+    const subject = {
+      ...subjectRaw,
+      teacher: subjectRaw.teachers[0] || null
+    }
+
     return NextResponse.json({ subject })
   } catch (error) {
     return NextResponse.json({ error: 'Terjadi kesalahan server' }, { status: 500 })
@@ -25,7 +37,11 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         ...(data.description !== undefined && { description: data.description }),
         ...(data.credits && { credits: data.credits }),
         ...(data.curriculum && { curriculum: data.curriculum }),
-        ...(data.teacherId !== undefined && { teacherId: data.teacherId })
+        ...(data.teacherId !== undefined && { 
+          teachers: {
+            set: data.teacherId ? [{ id: data.teacherId }] : []
+          } 
+        })
       }
     })
     return NextResponse.json({ message: 'Mata pelajaran berhasil diperbarui', subject })

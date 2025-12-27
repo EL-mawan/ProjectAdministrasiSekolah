@@ -16,17 +16,23 @@ export async function GET(request: NextRequest) {
     }
 
     if (teacherId) {
-      where.teacherId = teacherId
+      where.teachers = { some: { id: teacherId } }
     }
 
-    const subjects = await db.subject.findMany({
+    const subjectsRaw = await db.subject.findMany({
       where,
       include: {
-        teacher: { select: { id: true, name: true } },
+        teachers: { select: { id: true, name: true }, take: 1 },
         _count: { select: { schedules: true, grades: true } }
       },
       orderBy: { createdAt: 'asc' }
     })
+
+    // Map to singular teacher for frontend compatibility
+    const subjects = subjectsRaw.map(s => ({
+      ...s,
+      teacher: s.teachers[0] || null
+    }))
 
     return NextResponse.json({ subjects })
   } catch (error) {
@@ -45,7 +51,11 @@ export async function POST(request: NextRequest) {
         credits: data.credits || 1,
         curriculum: data.curriculum,
         schoolId: data.schoolId,
-        teacherId: data.teacherId || null
+        ...(data.teacherId && {
+          teachers: {
+            connect: { id: data.teacherId }
+          }
+        })
       }
     })
     return NextResponse.json({ message: 'Mata pelajaran berhasil ditambahkan', subject }, { status: 201 })
