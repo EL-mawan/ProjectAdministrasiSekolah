@@ -20,7 +20,10 @@ import {
   MapPin,
   Phone,
   Mail,
-  Loader2
+  Loader2,
+  User,
+  BookOpen,
+  Target
 } from 'lucide-react'
 import { 
   Select,
@@ -108,6 +111,36 @@ export default function Dashboard({ activeMenu, onMenuChange, user }: DashboardP
     <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
       {/* Kolom Kiri - Statistik Utama */}
       <div className="xl:col-span-3 space-y-8">
+        {/* Fitur Akses Cepat (Mobile Friendly) */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 md:gap-6">
+          {[
+            ...(user.role === 'ADMIN' ? [
+              { id: 'school', icon: Building, label: 'Sekolah', color: 'bg-blue-50 text-blue-600' },
+              { id: 'teachers', icon: GraduationCap, label: 'Guru', color: 'bg-indigo-50 text-indigo-600' },
+              { id: 'users', icon: User, label: 'Admin', color: 'bg-purple-50 text-purple-600' },
+            ] : []),
+            ...(user.role === 'HOMEROOM' ? [
+              { id: 'attendance', icon: UserCheck, label: 'Presensi', color: 'bg-emerald-50 text-emerald-600' },
+              { id: 'homeroom-notes', icon: FileText, label: 'Catatan', color: 'bg-orange-50 text-orange-600' },
+            ] : []),
+            { id: 'academic', icon: BookOpen, label: 'Mapel', color: 'bg-sky-50 text-sky-600' },
+            { id: 'extracurricular', icon: MapPin, label: 'Ekskul', color: 'bg-rose-50 text-rose-600' },
+            { id: 'p5', icon: Target, label: 'P5', color: 'bg-amber-50 text-amber-600' },
+            { id: 'reports', icon: FileText, label: 'Rapor', color: 'bg-teal-50 text-teal-600' },
+            { id: 'profile', icon: User, label: 'Profil', color: 'bg-gray-50 text-gray-600' },
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => onMenuChange(item.id)}
+              className="flex flex-col items-center p-4 rounded-3xl bg-white shadow-sm hover:shadow-md transition-all group border border-white/50"
+            >
+              <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${item.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                <item.icon className="w-6 h-6 md:w-7 md:h-7" />
+              </div>
+              <span className="text-[10px] md:text-xs font-black text-gray-600 text-center line-clamp-1">{item.label}</span>
+            </button>
+          ))}
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Kartu 1: Siswa Aktif */}
           <Card className="rounded-[2.5rem] border-none shadow-xl overflow-hidden hover:scale-[1.02] transition-transform duration-300">
@@ -225,7 +258,7 @@ export default function Dashboard({ activeMenu, onMenuChange, user }: DashboardP
         </Card>
 
         {/* Seksi Tugas */}
-        <Card className="rounded-[1.5rem] md:rounded-[3rem] border-none shadow-xl p-6 md:p-8 bg-white">
+        <Card className="rounded-3xl md:rounded-[3rem] border-none shadow-xl p-6 md:p-8 bg-white">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
              <h3 className="font-bold text-lg md:text-xl text-brand-deep flex items-center">
                <FileText className="w-5 h-5 md:w-6 md:h-6 mr-3 text-brand-purple" />

@@ -436,43 +436,101 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
         </aside>
       </div>
 
-      {/* Mobile Header & Sidebar */}
-      <div className="md:hidden flex items-center justify-between p-4 sticky top-0 bg-[#f1f3f9]/80 backdrop-blur-md z-40">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-brand-deep rounded-xl flex items-center justify-center shadow-lg">
-            <GraduationCap className="text-white w-5 h-5" />
+      {/* Mobile Header */}
+      <div className="md:hidden flex items-center justify-between p-5 sticky top-0 bg-[#f1f3f9]/80 backdrop-blur-md z-40 border-b border-white/20">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-brand-deep rounded-2xl flex items-center justify-center shadow-lg shadow-brand-deep/20">
+            <GraduationCap className="text-white w-6 h-6" />
           </div>
-          <span className="text-lg font-black tracking-tight text-brand-deep">Smart School</span>
+          <div>
+            <h1 className="text-lg font-black tracking-tight text-brand-deep leading-tight">Smart School</h1>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{user.role}</p>
+          </div>
         </div>
-        
-        <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-xl bg-white shadow-sm">
-              <Menu className="w-6 h-6 text-brand-deep" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="p-0 border-none w-80 bg-white">
-            <SidebarContent 
-              isOpen={true}
-              onToggle={() => {}}
-              activeMenu={activeMenu}
-              onMenuChange={onMenuChange}
-              user={user}
-              isMobile={true}
-              onClose={() => setMobileMenuOpen(false)}
-            />
-          </SheetContent>
-        </Sheet>
+        <div className="flex items-center space-x-3">
+          <button className="relative p-2 bg-white rounded-xl shadow-sm border border-gray-100">
+             <Bell className="w-5 h-5 text-gray-500" />
+             <span className="absolute top-2 right-2 w-2 h-2 bg-brand-pink rounded-full border-2 border-white"></span>
+          </button>
+          <div className="w-10 h-10 rounded-full bg-brand-deep border-2 border-white shadow-sm flex items-center justify-center text-white font-bold text-xs" onClick={() => onMenuChange('profile')}>
+             {user.name.substring(0, 2).toUpperCase()}
+          </div>
+        </div>
       </div>
       
-      <main className={`transition-all duration-300 min-h-screen px-4 md:px-6 py-4 md:py-6 ${sidebarOpen ? 'md:pl-[340px]' : 'md:pl-[120px]'}`}>
+      <main className={`transition-all duration-300 min-h-screen px-4 md:px-6 py-4 md:py-6 ${sidebarOpen ? 'md:pl-[340px]' : 'md:pl-[120px]'} pb-32 md:pb-6`}>
         <div className="max-w-[1400px] mx-auto">
-          <Header userName={user.name} user={user} onMenuChange={onMenuChange} />
-          <div className="min-h-[600px] pb-10">
+          <div className="hidden md:block">
+            <Header userName={user.name} user={user} onMenuChange={onMenuChange} />
+          </div>
+          <div className="min-h-[600px]">
             {children}
           </div>
         </div>
       </main>
+
+      {/* Bottom Navigation for Mobile */}
+      <div className="md:hidden fixed bottom-6 left-4 right-4 z-100">
+        <nav className="bg-white/80 backdrop-blur-2xl border border-white/40 rounded-[2.5rem] shadow-2xl p-2 flex items-center justify-between relative overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-tr from-brand-deep/5 via-transparent to-brand-purple/5 pointer-events-none"></div>
+          
+          <button 
+            onClick={() => onMenuChange('dashboard')}
+            className={`flex-1 flex flex-col items-center justify-center py-3 rounded-3xl transition-all duration-300 relative z-10 ${activeMenu === 'dashboard' ? 'bg-brand-deep text-white shadow-lg' : 'text-gray-400 hover:text-brand-deep'}`}
+          >
+            <Home className={`w-6 h-6 ${activeMenu === 'dashboard' ? 'text-white' : ''}`} />
+            <span className="text-[10px] font-bold mt-1">Beranda</span>
+          </button>
+
+          <button 
+            onClick={() => onMenuChange(user.role === 'ADMIN' ? 'students' : (user.role === 'HOMEROOM' ? 'classes' : 'tp'))}
+            className={`flex-1 flex flex-col items-center justify-center py-3 rounded-3xl transition-all duration-300 relative z-10 ${['students', 'classes', 'tp'].includes(activeMenu) ? 'bg-brand-deep text-white shadow-lg' : 'text-gray-400 hover:text-brand-deep'}`}
+          >
+            {user.role === 'ADMIN' ? <Users className="w-6 h-6" /> : (user.role === 'HOMEROOM' ? <Building className="w-6 h-6" /> : <Target className="w-6 h-6" />)}
+            <span className="text-[10px] font-bold mt-1">{user.role === 'ADMIN' ? 'Siswa' : (user.role === 'HOMEROOM' ? 'Kelas' : 'CP/TP')}</span>
+          </button>
+
+          <div className="flex-1 flex justify-center -mt-12 relative z-20">
+            <button 
+              onClick={() => onMenuChange('smart-features')}
+              className={`w-16 h-16 rounded-3xl border-4 border-[#f1f3f9] shadow-xl flex items-center justify-center transition-all duration-500 scale-110 ${activeMenu === 'smart-features' ? 'bg-brand-purple text-white rotate-360' : 'bg-brand-deep text-white shadow-brand-deep/30'}`}
+            >
+              <Sparkles className="w-8 h-8" />
+            </button>
+          </div>
+
+          <button 
+            onClick={() => onMenuChange(user.role === 'ADMIN' ? 'academic' : 'grades')}
+            className={`flex-1 flex flex-col items-center justify-center py-3 rounded-3xl transition-all duration-300 relative z-10 ${['academic', 'grades', 'formative-grades', 'summative-grades'].includes(activeMenu) ? 'bg-brand-deep text-white shadow-lg' : 'text-gray-400 hover:text-brand-deep'}`}
+          >
+            <BookOpen className="w-6 h-6" />
+            <span className="text-[10px] font-bold mt-1">{user.role === 'ADMIN' ? 'Akademik' : 'Nilai'}</span>
+          </button>
+
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <button 
+                className="flex-1 flex flex-col items-center justify-center py-3 rounded-3xl text-gray-400 hover:text-brand-deep transition-all duration-300 relative z-10"
+              >
+                <Menu className="w-6 h-6" />
+                <span className="text-[10px] font-bold mt-1">Menu</span>
+              </button>
+            </SheetTrigger>
+            <SheetContent side="bottom" className="p-0 border-none rounded-t-[3rem] h-[85vh] bg-white">
+              <div className="w-16 h-1.5 bg-gray-100 rounded-full mx-auto my-4"></div>
+              <SidebarContent 
+                isOpen={true}
+                onToggle={() => {}}
+                activeMenu={activeMenu}
+                onMenuChange={onMenuChange}
+                user={user}
+                isMobile={true}
+                onClose={() => setMobileMenuOpen(false)}
+              />
+            </SheetContent>
+          </Sheet>
+        </nav>
+      </div>
     </div>
   )
 }
