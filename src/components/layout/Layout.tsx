@@ -127,8 +127,8 @@ const SidebarContent = ({ activeMenu, onMenuChange, user, isOpen, onToggle, isMo
     <div className="flex flex-col h-full bg-white md:bg-transparent">
       <div className="p-8 flex items-center justify-between">
         <div className={`flex items-center space-x-3 transition-opacity duration-300 ${(isOpen || isMobile) ? 'opacity-100' : 'opacity-0 invisible'}`}>
-          <div className="w-10 h-10 bg-brand-deep rounded-2xl flex items-center justify-center shadow-lg shadow-brand-deep/20">
-            <GraduationCap className="text-white w-6 h-6" />
+          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-brand-deep/10 border border-gray-100 overflow-hidden">
+            <img src="/logo-ar.png" alt="Smart School Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-2xl font-black tracking-tight text-brand-deep">Smart School</span>
         </div>
@@ -439,8 +439,8 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between p-5 sticky top-0 bg-[#f1f3f9]/80 backdrop-blur-md z-40 border-b border-white/20">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-brand-deep rounded-2xl flex items-center justify-center shadow-lg shadow-brand-deep/20">
-            <GraduationCap className="text-white w-6 h-6" />
+          <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-brand-deep/10 border border-gray-100 overflow-hidden">
+            <img src="/logo-ar.png" alt="Smart School Logo" className="w-full h-full object-cover" />
           </div>
           <div>
             <h1 className="text-lg font-black tracking-tight text-brand-deep leading-tight">Smart School</h1>
@@ -508,7 +508,7 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
             </span>
           </button>
 
-          <div className="flex-1 flex justify-center -mt-10 relative z-20">
+          <div className="flex-1 flex justify-center relative z-20">
             <button 
               onClick={() => onMenuChange('smart-features')}
               className={`w-14 h-14 rounded-[1.75rem] border-4 border-[#f1f3f9] shadow-2xl flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 ${
