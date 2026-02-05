@@ -111,8 +111,8 @@ export default function Dashboard({ activeMenu, onMenuChange, user }: DashboardP
     <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
       {/* Kolom Kiri - Statistik Utama */}
       <div className="xl:col-span-3 space-y-8">
-        {/* Fitur Akses Cepat (Mobile Friendly) */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 md:gap-6">
+        {/* Fitur Akses Cepat (Mobile Only - Hidden on Desktop) */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:hidden gap-4">
           {[
             ...(user.role === 'ADMIN' ? [
               { id: 'school', icon: Building, label: 'Sekolah', color: 'bg-blue-50 text-blue-600' },

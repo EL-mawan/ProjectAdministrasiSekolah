@@ -470,65 +470,101 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
       </main>
 
       {/* Bottom Navigation for Mobile */}
-      <div className="md:hidden fixed bottom-6 left-4 right-4 z-100">
-        <nav className="bg-white/80 backdrop-blur-2xl border border-white/40 rounded-[2.5rem] shadow-2xl p-2 flex items-center justify-between relative overflow-hidden">
-          <div className="absolute inset-0 bg-linear-to-tr from-brand-deep/5 via-transparent to-brand-purple/5 pointer-events-none"></div>
+      <div className="md:hidden fixed bottom-6 left-6 right-6 z-50">
+        <nav className="bg-white/95 backdrop-blur-2xl border border-white/50 rounded-[2.5rem] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] px-2 py-2 flex items-center justify-between relative">
+          <div className="absolute inset-0 bg-linear-to-tr from-brand-deep/5 via-transparent to-brand-purple/5 rounded-[2.5rem] pointer-events-none"></div>
           
           <button 
             onClick={() => onMenuChange('dashboard')}
-            className={`flex-1 flex flex-col items-center justify-center py-3 rounded-3xl transition-all duration-300 relative z-10 ${activeMenu === 'dashboard' ? 'bg-brand-deep text-white shadow-lg' : 'text-gray-400 hover:text-brand-deep'}`}
+            className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-3xl transition-all duration-300 relative z-10 group ${
+              activeMenu === 'dashboard' 
+                ? 'bg-brand-deep text-white shadow-lg shadow-brand-deep/20 scale-105' 
+                : 'text-gray-400 hover:text-brand-deep'
+            }`}
           >
-            <Home className={`w-6 h-6 ${activeMenu === 'dashboard' ? 'text-white' : ''}`} />
-            <span className="text-[10px] font-bold mt-1">Beranda</span>
+            <Home className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'dashboard' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+            <span className={`text-[10px] font-bold mt-1 transition-all duration-300 ${activeMenu === 'dashboard' ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
+              Beranda
+            </span>
           </button>
 
           <button 
             onClick={() => onMenuChange(user.role === 'ADMIN' ? 'students' : (user.role === 'HOMEROOM' ? 'classes' : 'tp'))}
-            className={`flex-1 flex flex-col items-center justify-center py-3 rounded-3xl transition-all duration-300 relative z-10 ${['students', 'classes', 'tp'].includes(activeMenu) ? 'bg-brand-deep text-white shadow-lg' : 'text-gray-400 hover:text-brand-deep'}`}
+            className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-3xl transition-all duration-300 relative z-10 group ${
+              ['students', 'classes', 'tp'].includes(activeMenu) 
+                ? 'bg-brand-deep text-white shadow-lg shadow-brand-deep/20 scale-105' 
+                : 'text-gray-400 hover:text-brand-deep'
+            }`}
           >
-            {user.role === 'ADMIN' ? <Users className="w-6 h-6" /> : (user.role === 'HOMEROOM' ? <Building className="w-6 h-6" /> : <Target className="w-6 h-6" />)}
-            <span className="text-[10px] font-bold mt-1">{user.role === 'ADMIN' ? 'Siswa' : (user.role === 'HOMEROOM' ? 'Kelas' : 'CP/TP')}</span>
+            {user.role === 'ADMIN' ? (
+              <Users className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'students' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+            ) : (user.role === 'HOMEROOM' ? (
+              <Building className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'classes' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+            ) : (
+              <Target className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'tp' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+            ))}
+            <span className={`text-[10px] font-bold mt-1 transition-all duration-300 ${['students', 'classes', 'tp'].includes(activeMenu) ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
+              {user.role === 'ADMIN' ? 'Siswa' : (user.role === 'HOMEROOM' ? 'Kelas' : 'CP/TP')}
+            </span>
           </button>
 
-          <div className="flex-1 flex justify-center -mt-12 relative z-20">
+          <div className="flex-1 flex justify-center -mt-10 relative z-20">
             <button 
               onClick={() => onMenuChange('smart-features')}
-              className={`w-16 h-16 rounded-3xl border-4 border-[#f1f3f9] shadow-xl flex items-center justify-center transition-all duration-500 scale-110 ${activeMenu === 'smart-features' ? 'bg-brand-purple text-white rotate-360' : 'bg-brand-deep text-white shadow-brand-deep/30'}`}
+              className={`w-14 h-14 rounded-[1.75rem] border-4 border-[#f1f3f9] shadow-2xl flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 ${
+                activeMenu === 'smart-features' 
+                  ? 'bg-brand-purple text-white rotate-[360deg] shadow-brand-purple/40 ring-4 ring-brand-purple/20' 
+                  : 'bg-brand-deep text-white shadow-brand-deep/30'
+              }`}
             >
-              <Sparkles className="w-8 h-8" />
+              <Sparkles className={`w-7 h-7 ${activeMenu === 'smart-features' ? 'animate-pulse' : ''}`} />
             </button>
           </div>
 
           <button 
             onClick={() => onMenuChange(user.role === 'ADMIN' ? 'academic' : 'grades')}
-            className={`flex-1 flex flex-col items-center justify-center py-3 rounded-3xl transition-all duration-300 relative z-10 ${['academic', 'grades', 'formative-grades', 'summative-grades'].includes(activeMenu) ? 'bg-brand-deep text-white shadow-lg' : 'text-gray-400 hover:text-brand-deep'}`}
+            className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-3xl transition-all duration-300 relative z-10 group ${
+              ['academic', 'grades', 'formative-grades', 'summative-grades'].includes(activeMenu) 
+                ? 'bg-brand-deep text-white shadow-lg shadow-brand-deep/20 scale-105' 
+                : 'text-gray-400 hover:text-brand-deep'
+            }`}
           >
-            <BookOpen className="w-6 h-6" />
-            <span className="text-[10px] font-bold mt-1">{user.role === 'ADMIN' ? 'Akademik' : 'Nilai'}</span>
+            <BookOpen className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'academic' || activeMenu === 'grades' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+            <span className={`text-[10px] font-bold mt-1 transition-all duration-300 ${['academic', 'grades'].includes(activeMenu) ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
+              {user.role === 'ADMIN' ? 'Akademik' : 'Nilai'}
+            </span>
           </button>
 
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-            <SheetTrigger asChild>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
               <button 
-                className="flex-1 flex flex-col items-center justify-center py-3 rounded-3xl text-gray-400 hover:text-brand-deep transition-all duration-300 relative z-10"
+                className="flex-1 flex flex-col items-center justify-center py-2.5 rounded-3xl text-gray-400 hover:text-red-500 transition-all duration-300 relative z-10 group active:scale-90"
               >
-                <Menu className="w-6 h-6" />
-                <span className="text-[10px] font-bold mt-1">Menu</span>
+                <LogOut className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                <span className="text-[10px] font-bold mt-1 opacity-70 group-hover:opacity-100 uppercase tracking-tighter">Logout</span>
               </button>
-            </SheetTrigger>
-            <SheetContent side="bottom" className="p-0 border-none rounded-t-[3rem] h-[85vh] bg-white">
-              <div className="w-16 h-1.5 bg-gray-100 rounded-full mx-auto my-4"></div>
-              <SidebarContent 
-                isOpen={true}
-                onToggle={() => {}}
-                activeMenu={activeMenu}
-                onMenuChange={onMenuChange}
-                user={user}
-                isMobile={true}
-                onClose={() => setMobileMenuOpen(false)}
-              />
-            </SheetContent>
-          </Sheet>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="rounded-3xl p-8">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="text-xl font-black text-brand-deep">Konfirmasi Keluar</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Apakah Anda yakin ingin keluar? Sesi Anda akan berakhir dan Anda harus masuk kembali.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="rounded-xl font-bold">Batal</AlertDialogCancel>
+                <AlertDialogAction 
+                  onClick={() => {
+                    localStorage.removeItem('user')
+                    window.location.href = '/login'
+                  }}
+                  className="bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold"
+                >
+                  Ya, Keluar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </nav>
       </div>
     </div>
