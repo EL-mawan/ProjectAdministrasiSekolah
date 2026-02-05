@@ -476,34 +476,34 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
           
           <button 
             onClick={() => onMenuChange('dashboard')}
-            className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-3xl transition-all duration-300 relative z-10 group ${
+            className={`flex-1 flex flex-col items-center justify-center py-2 rounded-3xl transition-all duration-300 relative z-10 group ${
               activeMenu === 'dashboard' 
                 ? 'bg-brand-deep text-white shadow-lg shadow-brand-deep/20 scale-105' 
                 : 'text-gray-400 hover:text-brand-deep'
             }`}
           >
-            <Home className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'dashboard' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
-            <span className={`text-[10px] font-bold mt-1 transition-all duration-300 ${activeMenu === 'dashboard' ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
+            <Home className={`w-[18px] h-[18px] transition-transform duration-300 ${activeMenu === 'dashboard' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+            <span className={`text-[9px] font-bold mt-1 transition-all duration-300 ${activeMenu === 'dashboard' ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
               Beranda
             </span>
           </button>
 
           <button 
             onClick={() => onMenuChange(user.role === 'ADMIN' ? 'students' : (user.role === 'HOMEROOM' ? 'classes' : 'tp'))}
-            className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-3xl transition-all duration-300 relative z-10 group ${
+            className={`flex-1 flex flex-col items-center justify-center py-2 rounded-3xl transition-all duration-300 relative z-10 group ${
               ['students', 'classes', 'tp'].includes(activeMenu) 
                 ? 'bg-brand-deep text-white shadow-lg shadow-brand-deep/20 scale-105' 
                 : 'text-gray-400 hover:text-brand-deep'
             }`}
           >
             {user.role === 'ADMIN' ? (
-              <Users className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'students' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+              <Users className={`w-[18px] h-[18px] transition-transform duration-300 ${activeMenu === 'students' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
             ) : (user.role === 'HOMEROOM' ? (
-              <Building className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'classes' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+              <Building className={`w-[18px] h-[18px] transition-transform duration-300 ${activeMenu === 'classes' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
             ) : (
-              <Target className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'tp' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+              <Target className={`w-[18px] h-[18px] transition-transform duration-300 ${activeMenu === 'tp' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
             ))}
-            <span className={`text-[10px] font-bold mt-1 transition-all duration-300 ${['students', 'classes', 'tp'].includes(activeMenu) ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
+            <span className={`text-[9px] font-bold mt-1 transition-all duration-300 ${['students', 'classes', 'tp'].includes(activeMenu) ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
               {user.role === 'ADMIN' ? 'Siswa' : (user.role === 'HOMEROOM' ? 'Kelas' : 'CP/TP')}
             </span>
           </button>
@@ -511,26 +511,26 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
           <div className="flex-1 flex justify-center relative z-20">
             <button 
               onClick={() => onMenuChange('smart-features')}
-              className={`w-14 h-14 rounded-[1.75rem] border-4 border-[#f1f3f9] shadow-2xl flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 ${
+              className={`w-12 h-12 rounded-2xl border-4 border-[#f1f3f9] shadow-2xl flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 ${
                 activeMenu === 'smart-features' 
                   ? 'bg-brand-purple text-white rotate-[360deg] shadow-brand-purple/40 ring-4 ring-brand-purple/20' 
                   : 'bg-brand-deep text-white shadow-brand-deep/30'
               }`}
             >
-              <Sparkles className={`w-7 h-7 ${activeMenu === 'smart-features' ? 'animate-pulse' : ''}`} />
+              <Sparkles className={`w-6 h-6 ${activeMenu === 'smart-features' ? 'animate-pulse' : ''}`} />
             </button>
           </div>
 
           <button 
             onClick={() => onMenuChange(user.role === 'ADMIN' ? 'academic' : 'grades')}
-            className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-3xl transition-all duration-300 relative z-10 group ${
+            className={`flex-1 flex flex-col items-center justify-center py-2 rounded-3xl transition-all duration-300 relative z-10 group ${
               ['academic', 'grades', 'formative-grades', 'summative-grades'].includes(activeMenu) 
                 ? 'bg-brand-deep text-white shadow-lg shadow-brand-deep/20 scale-105' 
                 : 'text-gray-400 hover:text-brand-deep'
             }`}
           >
-            <BookOpen className={`w-5 h-5 transition-transform duration-300 ${activeMenu === 'academic' || activeMenu === 'grades' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
-            <span className={`text-[10px] font-bold mt-1 transition-all duration-300 ${['academic', 'grades'].includes(activeMenu) ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
+            <BookOpen className={`w-[18px] h-[18px] transition-transform duration-300 ${activeMenu === 'academic' || activeMenu === 'grades' ? 'text-white scale-110' : 'group-active:scale-90'}`} />
+            <span className={`text-[9px] font-bold mt-1 transition-all duration-300 ${['academic', 'grades'].includes(activeMenu) ? 'opacity-100' : 'opacity-70 group-hover:opacity-100 uppercase tracking-tighter'}`}>
               {user.role === 'ADMIN' ? 'Akademik' : 'Nilai'}
             </span>
           </button>
@@ -538,10 +538,10 @@ export default function Layout({ children, activeMenu, onMenuChange, user }: Lay
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <button 
-                className="flex-1 flex flex-col items-center justify-center py-2.5 rounded-3xl text-gray-400 hover:text-red-500 transition-all duration-300 relative z-10 group active:scale-90"
+                className="flex-1 flex flex-col items-center justify-center py-2 rounded-3xl text-gray-400 hover:text-red-500 transition-all duration-300 relative z-10 group active:scale-90"
               >
-                <LogOut className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                <span className="text-[10px] font-bold mt-1 opacity-70 group-hover:opacity-100 uppercase tracking-tighter">Logout</span>
+                <LogOut className="w-[18px] h-[18px] transition-transform duration-300 group-hover:scale-110" />
+                <span className="text-[9px] font-bold mt-1 opacity-70 group-hover:opacity-100 uppercase tracking-tighter">Logout</span>
               </button>
             </AlertDialogTrigger>
             <AlertDialogContent className="rounded-3xl p-8">
