@@ -20,7 +20,8 @@ import {
   MapPin,
   Target,
   Layers,
-  ChevronRight
+  ChevronRight,
+  Sparkles
 } from 'lucide-react'
 import {
   AlertDialog,
@@ -79,6 +80,7 @@ const getMenuItems = (role: string) => {
     { id: 'extracurricular', icon: MapPin, label: 'Ekstrakurikuler' },
     { id: 'p5', icon: GraduationCap, label: 'Target P5' },
     { id: 'reports', icon: FileText, label: 'Leger & Rapor' },
+    { id: 'smart-features', icon: Sparkles, label: 'Smart Features' },
   ]
 
   const homeroomMenus = [
@@ -246,8 +248,8 @@ const Header = ({ userName, user, onMenuChange }: { userName: string, user: any,
   const unreadCount = notifications.filter(n => !n.read).length
 
   return (
-    <div className="dark-gradient rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 mb-6 md:mb-8 text-white relative shadow-2xl z-20">
-      <div className="absolute inset-0 overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] pointer-events-none">
+    <div className="dark-gradient rounded-3xl md:rounded-[2.5rem] p-6 md:p-8 mb-6 md:mb-8 text-white relative shadow-2xl z-20">
+      <div className="absolute inset-0 overflow-hidden rounded-3xl md:rounded-[2.5rem] pointer-events-none">
         <div className="absolute top-[-50%] right-[-10%] w-[300px] h-[300px] bg-brand-purple/20 rounded-full blur-[100px]"></div>
         <div className="absolute bottom-[-20%] left-[20%] w-[200px] h-[200px] bg-brand-pink/10 rounded-full blur-[80px]"></div>
       </div>
@@ -274,7 +276,7 @@ const Header = ({ userName, user, onMenuChange }: { userName: string, user: any,
             />
             
             {showResults && searchQuery && (
-              <div className="absolute top-[calc(100%+12px)] left-0 w-full md:w-80 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-[100] border border-gray-100">
+              <div className="absolute top-[calc(100%+12px)] left-0 w-full md:w-80 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-100 border border-gray-100">
                 <div className="p-3 bg-gray-50/50 border-b border-gray-50">
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2">Hasil Pencarian Menu</p>
                 </div>
@@ -342,7 +344,7 @@ const Header = ({ userName, user, onMenuChange }: { userName: string, user: any,
             </button>
 
             {showNotifications && (
-              <div className="absolute top-[calc(100%+12px)] right-0 w-80 md:w-96 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-[100] border border-gray-100">
+              <div className="absolute top-[calc(100%+12px)] right-0 w-80 md:w-96 bg-white rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 z-100 border border-gray-100">
                 <div className="p-4 bg-gray-50/50 border-b border-gray-100 flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-black text-brand-deep">Pemberitahuan</span>

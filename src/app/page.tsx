@@ -27,6 +27,7 @@ import TPManagement from '@/components/teachers/TPManagement'
 import SchoolManagement from '@/components/school/SchoolManagement'
 import FormativeGradesManagement from '@/components/grades/FormativeGradesManagement'
 import SummativeGradesManagement from '@/components/grades/SummativeGradesManagement'
+import SmartFeatures from '@/components/smart-features/SmartFeatures'
 
 export default function Home() {
   const router = useRouter()
@@ -102,6 +103,8 @@ export default function Home() {
         return <FormativeGradesManagement user={user} onNavigate={setActiveMenu} />
       case 'summative-grades':
         return <SummativeGradesManagement user={user} onNavigate={setActiveMenu} />
+      case 'smart-features':
+        return <SmartFeatures />
         
       default:
         return <Dashboard activeMenu={activeMenu} onMenuChange={setActiveMenu} user={user} />
